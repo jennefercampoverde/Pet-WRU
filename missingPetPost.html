@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Missing Pets</title>
-    <link rel="stylesheet" href="missingPetPost.css">
+    <link rel="stylesheet" href="missingPetPostStyle.css">
     <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -13,16 +13,16 @@
     <!--each icon on navigation bar should take you to respectable page-->
     <div class="navbar">
         <!-- Logo -->
-        <img src="logo.png" alt="Logo" title="Logo of Application" height="100px">
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
         
         <!-- Navigation Links -->
         <!--each link references another html page-->
         <div class="nav-links">
-            <a href="main.php"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Missing pets</a> <!--icon insert here-->
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <a href="missingPetPost.html"><i class="fa fa-fw fa-user"></i> Missing pets</a> <!--icon insert here-->
             <a href="profile.php"><i class="fa fa-fw fa-user"></i> Reunited pets</a> <!--icon insert here-->
             <a href="profile.php"><i class="fa fa-fw fa-user"></i> Donations</a> <!--icon insert here-->
-            <a href="signout.php" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
+            <a href="signout.php" class="signout"><i class="fa fa-fw fa-user"></i> Account </a> <!--icon insert here-->
             <!--<a href="watchlist.php"><i class="fa-solid fa-bookmark"></i> WatchList </a> -->
         </div>
     </div>
@@ -71,9 +71,16 @@
             </select>
         </div>
         <div class="filter-group">
+            <label for="sort-by-time">Sort by Date</label>
+            <select id="sort-by-time">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+            </select>
+        </div>
+        <div class="filter-group">
             <label for="zip-code">Zip Code</label>
             <input type="number" name="zipcode" id="zip-code" placeholder="Enter Zip Code" 
-                pattern="\d{5}" maxlength="5"  required>
+                pattern="\d{5}" maxlength="5">
         </div>
         <div class="filter-buttons">
             <button type="submit" class="filter-apply-btn">Apply Filters</button>
@@ -98,6 +105,8 @@
             const speciesSelect = document.getElementById("species");
             const yearSelect = document.getElementById("release-year");
             const currentYear = new Date().getFullYear();
+            const sortByTime = document.getElementById("sort-by-time");
+            const postContainer = document.getElementById("post-container");
 
             species.forEach(species => {
                 const option = document.createElement("option");
@@ -105,14 +114,27 @@
                 option.textContent = species;
                 speciesSelect.appendChild(option);
             });
-            // //for loop that populates the year filter starting from 1940 up to present year 
-            //for (let year = currentYear; year >= 1940; year--) {
-                //const option = document.createElement("option");
-                //option.value = year;
-               // option.textContent = year;
-               // yearSelect.appendChild(option);
-            //}
         }
+        document.addEventListener("DOMContentLoaded", function () {
+            const sortByTime = document.getElementById("sort-by-time");
+            const postContainer = document.getElementById("post-container");
+
+            sortByTime.addEventListener("change", function () {
+                let posts = Array.from(document.querySelectorAll(".post"));
+
+                posts.sort((a, b) => {
+                    let dateA = new Date(a.getAttribute("data-time"));
+                    let dateB = new Date(b.getAttribute("data-time"));
+
+                    return sortByTime.value === "newest" ? dateB - dateA : dateA - dateB;
+                });
+
+                // Append sorted posts back to the container
+                postContainer.innerHTML = "";
+                posts.forEach(post => postContainer.appendChild(post));
+            });
+        });
+
         // functions to open and close the navigation bar
         function openNav() {
             document.getElementById("mySidenav").style.height = "calc(100% - 110px)";
@@ -131,6 +153,7 @@
             document.getElementById("zip-code").value = "";
             document.getElementById("gender").value = "";
             document.getElementById("size").value = "";
+            document.getElementById("sort-by-time").value = "";
             document.forms[0].submit(); // Automatically submit the cleared form
         }
 
@@ -152,76 +175,45 @@
 
     <!-- Movie grid section: to display the movies in rows of 4 -->
     <div>
-    <div class="movie-grid">
-        <!-- if anything is found using the filters applied, then the movies are displayed -->
-        <?php if (!empty($movies)): ?>
-            <?php foreach ($movies as $movie): ?>
-                <div class="movie-card">
-                    <!-- each movie's url has its own unique movie detail page when clicked -->
-                    <a href="SelectedPage.php?id=<?= urlencode($movie['movieID']) ?>">
-                        <img src="<?= htmlspecialchars($movie['imageURL']) ?>" alt="<?= htmlspecialchars($movie['mName']) ?>">
-                    </a>
-                    <!-- movie info -->
-                    <div class="movie-info">
-                        <h3><?= htmlspecialchars($movie['mName']) ?></h3>
-                        <p><?= htmlspecialchars($movie['mReleaseYear']) ?></p>
-                    </div>
-                    <!-- Watchlist Icon -->
-                     <!-- data-movie-id is used to pass the movieID and toggle the icons state (+ or -) -->
-                    <button class="watchlist-btn" data-movie-id="<?= $movie['movieID'] ?>">
-                        <!-- fa-plus-circle / fa-minus-circle: Toggles between add/remove states based on whether the movie is already in the watchlist ($movie['in_watchlist']). -->
-                        <i class="fa <?= $movie['in_watchlist'] ? 'fa-minus-circle' : 'fa-plus-circle' ?>"></i>
-                    </button>
-                </div>
-            <?php endforeach; ?>
-            <!-- if nothing is found, then a message is displayed -->
-        <?php else: ?>
-            <div style="color: white;">No movies found matching your criteria.</div>
-        <?php endif; ?>
-    </div>
-    </div>
+           <!-- Post Container (Where posts are displayed) -->
+    <div id="post-container">
+        <div class="post" data-time="2025-01-30T12:00:00">
+            <img src="projectImages/Ferret.png" alt="Ferret">
+            <div class="post-info">
+                <h3>Rocky</h3>
+                <p> Date missing: 1/30/2025</p>
+                <small>Posted on: Jan 30, 2025</small>
+            </div>
+        </div>
 
-    <script>
-        // Source: HTML DOM Document addEventListener()
-            //Author: W3 Schools
-            //URL: https://www.w3schools.com/jsref/met_document_addeventlistener.asp
-            //Date accessed: 11/30/2024 
-        //handles the watchlist functionality
-        document.addEventListener('DOMContentLoaded', (event) => {
-        // Selects all elements with the class 'watchlist-btn' and loops through each one
-        document.querySelectorAll('.watchlist-btn').forEach(button => {
-            // Adds a click event listener to each button
-            button.addEventListener('click', () => {
-                // Retrieves the movie ID from the 'data-movie-id' attribute of the clicked button
-                const movieId = button.getAttribute('data-movie-id');
-                // Determines the action ('add' or 'remove') based on the icon's class
-                const action = button.querySelector('i').classList.contains('fa-plus-circle') ? 'add' : 'remove';
+        <div class="post" data-time="20s25-01-25T08:30:00">
+            <img src="projectImages/Golden ret.jpeg" alt="Dog">
+            <div class="post-info">
+                <h3>Sunny</h3>
+                <p> Date missing: 1/03/2025</p>
+                <small>Posted on: Jan 03, 2025</small>
+            </div>
+        </div>
 
-                // Sends an asynchronous HTTP POST request to 'mainpage_logic.php' to update the watchlist
-                fetch('mainpage_logic.php', {
-                    method: 'POST', // HTTP method
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, // Content type
-                    // Sends the action ('add' or 'remove') and the movie ID as the request body
-                    body: new URLSearchParams({ action, movieID: movieId })
-                })
-                    // Parses the response as JSON
-                    .then(response => response.json())
-                    .then(data => {
-                        // Updates the icon based on the response status
-                        if (data.status === 'added') {
-                            // Changes the icon to a minus if the movie was added to the watchlist
-                            button.querySelector('i').classList.replace('fa-plus-circle', 'fa-minus-circle');
-                        } else if (data.status === 'removed') {
-                            // Changes the icon to a plus if the movie was removed from the watchlist
-                            button.querySelector('i').classList.replace('fa-minus-circle', 'fa-plus-circle');
-                        }
-                    })
-                    // Logs any errors encountered during the fetch request
-                    .catch(err => console.error('Error:', err));
-                    });
-                });
-            });
-    </script>
+        <div class="post" data-time="2025-01-27T15:45:00">
+            <img src="projectImages/lizard.jpg" alt="lizard">
+            <div class="post-info">
+                <h3>Greeny</h3>
+                <p> Date missing: 12/01/2024</p>
+                <small>Posted on: Dec 4, 2024</small>
+            </div>
+        </div>
+        <div class="post" data-time="2025-01-27T15:45:00">
+            <img src="projectImages/orange cat.jpg" alt="cat">
+            <div class="post-info">
+                <h3>Blaze</h3>
+                <p> Date missing: 03/28/2024</p>
+                <small>Posted on: Mar 29, 2024</small>
+            </div>
+        </div>
+    </div>
+    
+    </div>
 
 </body>
 </html>
