@@ -19,7 +19,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Serve static files (CSS, JS, images)
+// Serve static files 
 app.use(express.static(path.join(__dirname)));
 
 // Serve the main HTML page
