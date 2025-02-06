@@ -15,20 +15,19 @@ CREATE TABLE usersInfo(
     PRIMARY KEY (ID)
 );
 
-
-CREATE TABLE donations(
+/*CREATE TABLE donations(
     donationID int NOT NULL AUTOINCREMENT,
     userID int NOT NULL,
     Zipcode varchar(5) NOT NULL, 
     status varchar(255) NOT NULL, 
     itemName varchar(255) NOT NULL,
+    quantity int NOT NULL,
     condition varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
-    quantity int NOT NULL,
+    item_image_path varcahr(255), 
     PRIMARY KEY (donationID),
     FOREIGN KEY(userID) REFERENCES usersInfo (userID)
-
-);
+);*/
 
 CREATE TABLE lostPets(
     lostID  int NOT NULL AUTOINCREMENT,
