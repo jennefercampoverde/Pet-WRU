@@ -6,7 +6,6 @@ const PORT = process.env.PORT || 3000;
 
 //const Routes = require("Routes");
 
-
 // Middleware for parsing URL-encoded and JSON data
 app.use(express.json());
 app.use(express.static(__dirname));
