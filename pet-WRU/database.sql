@@ -1,6 +1,6 @@
 CREATE DATABASE websiteDatabase;
 
-GRANT ALL PRIVILEGES ON inventory_system.* TO 'testuser'@'localhost' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON websiteDatabase.* TO 'testuser'@'localhost' IDENTIFIED BY '1234';
 FLUSH PRIVILEGES;
 
 USE websiteDatabase;
