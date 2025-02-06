@@ -20,16 +20,15 @@
         <div class="nav-links">
             <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
             <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i>Missing pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa-solid fa-paw"></i>Reunited pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="signout.php" class="signout"><i class="fa fa-fw fa-user"></i> Account </a> <!--icon insert here-->
-            <!--<a href="watchlist.php"><i class="fa-solid fa-bookmark"></i> WatchList </a> -->
+            <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i>Reunited pets</a> <!--icon insert here-->
+            <a href="#"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+            <a href="#" class="signout"><i class="fa fa-fw fa-user"></i> Account </a> <!--icon insert here-->
         </div>
     </div>
     
     <!-- Search Container -->
     <div class="search-container">
-        <form method="GET" action="main.php">
+        <form method="GET" action="#">
             <input type="text" id="search" name = "search" placeholder="Search PetID">
             <button type="submit">
                 <i class="fa fa-search"></i>
@@ -39,12 +38,12 @@
 
     <!-- Side Navigation -->
     <!--this will display type of filters
-    genre, release year, MPAA, and rating-->
+    species, gender, size, time, and location-->
     <!--format: label, types of filters, value-->
     <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
-    <form method="GET" action="main.php" class="filters-form">
+    <form method="GET" action="#" class="filters-form">
         <div class="filter-group">
             <label for="species">Species</label>
             <select name="species" id="species">
@@ -173,7 +172,7 @@
         window.onload = populateFilters;
     </script>
 
-    <!-- Movie grid section: to display the movies in rows of 4 -->
+    <!-- Post grid section: to display the posts in rows of 3 -->
     <div>
            <!-- Post Container (Where posts are displayed) -->
     <div id="post-container">
@@ -187,7 +186,10 @@
         </div>
 
         <div class="post" data-time="20s25-01-25T08:30:00">
-            <img src="projectImages/Golden ret.jpeg" alt="Dog">
+            <a href="selectedPost.html">
+                <img src="projectImages/Golden ret.jpeg" alt="Dog">
+            </a>
+            <!--<img src="projectImages/Golden ret.jpeg" alt="Dog">-->
             <div class="post-info">
                 <h3>Sunny</h3>
                 <p> Date missing: 1/03/2025</p>
