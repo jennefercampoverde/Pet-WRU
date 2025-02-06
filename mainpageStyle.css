@@ -145,28 +145,6 @@ h2 {
 }
 
 
-/* Add Item Form Styling */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 300px;
-    margin: 0 auto;
-    margin-top: 20px;
-}
-
-form input {
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 1em;
-}
-
-form input:focus {
-    border-color: #0d6efd;
-    outline: none;
-    box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
-}
 
 /* Button Styling */
 button {
@@ -179,6 +157,7 @@ button {
     transition: background-color 0.3s ease;
     font-size: 1em;
     width: auto; /* Ensures the button only takes up necessary space */
+    margin-left: 185px;
     }
 
 button:hover {
