@@ -41,7 +41,7 @@ CREATE TABLE lostPets(
     animalSize varchar(255) NOT NULL,
     animalColor varchar(255) NOT NULL,
     animalGender varchar(1) NOT NULL,
-    animal_image_path varcahr(255),  
+    animal_image_path varchar(255),  
     description varchar(255),
     status varchar(255) NOT NULL, 
     PRIMARY KEY (lostID),
