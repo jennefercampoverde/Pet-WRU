@@ -3,7 +3,7 @@ CREATE DATABASE websiteDatabase;
 USE websiteDatabase;
 
 CREATE TABLE usersInfo(
-    userID int NOT NULL AUTOINCREMENT,
+    userID int NOT NULL AUTO_INCREMENT,
     UserName varchar(255) NOT NULL,
     FirstName varchar(255) NOT NULL,
     LastName varchar(255) NOT NULL,
@@ -12,11 +12,11 @@ CREATE TABLE usersInfo(
     userPassword varchar(255) NOT NULL,
     Zipcode varchar(5) NOT NULL,
     City varchar(255) NOT NULL,
-    PRIMARY KEY (ID)
+    PRIMARY KEY (userID)
 );
 
 /*CREATE TABLE donations(
-    donationID int NOT NULL AUTOINCREMENT,
+    donationID int NOT NULL AUTO_INCREMENT,
     userID int NOT NULL,
     Zipcode varchar(5) NOT NULL, 
     status varchar(255) NOT NULL, 
@@ -30,8 +30,8 @@ CREATE TABLE usersInfo(
 );*/
 
 CREATE TABLE lostPets(
-    lostID  int NOT NULL AUTOINCREMENT,
-    userID int NOT NULL, 
+    lostID  int NOT NULL AUTO_INCREMENT,
+    userID int NOT NULL,
     dateCreated Date NOT NULL,
     dateLost Date NOT NULL,
     lastZipcode varchar(5) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE lostPets(
 );
 
 CREATE TABLE foundPets(
-    foundID int NOT NULL AUTOINCREMENT,
+    foundID int NOT NULL AUTO_INCREMENT,
     lostID int NOT NULL,
     dateFound date NOT NULL,
     status varchar(255) NOT NULL,
