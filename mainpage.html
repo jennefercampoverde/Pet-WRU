@@ -19,10 +19,9 @@
         <div class="nav-links">
             <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
             <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="signout.php" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
-            <!--<a href="watchlist.php"><i class="fa-solid fa-bookmark"></i> WatchList </a> -->
+            <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->
+            <a href="#"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+            <a href="#" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
         </div>
     </div>
 
@@ -53,5 +52,22 @@
                 
         </div>
     </div>
+
+    <script>
+         // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
+       //source: HTML DOM querySelectorAll() method
+       //Author: GeeksforGeeks
+       //URL: https://www.geeksforgeeks.org/html-dom-queryselectorall-method/
+       //Date accessed: 11/30/2024
+        document.querySelectorAll('.navbar a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        window.onload = populateFilters;
+    </script>
 </body>
 </html>
