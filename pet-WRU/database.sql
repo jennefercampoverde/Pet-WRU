@@ -1,5 +1,8 @@
 CREATE DATABASE websiteDatabase;
 
+GRANT ALL PRIVILEGES ON inventory_system.* TO 'testuser'@'localhost' IDENTIFIED BY '1234';
+FLUSH PRIVILEGES;
+
 USE websiteDatabase;
 
 CREATE TABLE usersInfo(
