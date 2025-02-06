@@ -1,6 +1,6 @@
 CREATE DATABASE websiteDatabase;
 
-use websiteStorage;
+USE websiteDatabase;
 
 CREATE TABLE usersInfo(
     userID int NOT NULL AUTOINCREMENT,
