@@ -217,9 +217,8 @@ span:active {
     color: white;
 }
 
-/*movie grid*/
-        /* Container for the movie grid */
-        /* Container for the movie grid */
+/*Post grid*/
+        /* Container for the post grid */
 #post-container {
     display: flex;
     flex-wrap: wrap; /* Allow wrapping of rows */
@@ -229,7 +228,7 @@ span:active {
     margin-left: 20px;
 }
 
-/* Individual movie card */
+/* Individual post card */
 .post {
     position: relative; /* Ensures child elements can be absolutely positioned */
     flex: 0 1 calc(33.33% - 15px); /* Adjust to fit 3 per row */
