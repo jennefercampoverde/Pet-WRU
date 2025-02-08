@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>	</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<section>
+	<div id="topnav">
+		<a href="index.html"> Home </a>
+	</div>
+</section>
+<h1 id="UserHeading"> Welcome to your page! </h1>
+<body>
+	<section>
+		<h3> Account Information </h3>
+
+		<form action="userpage.html" method="POST">
+			<label for="Username">Username: </label><br>
+			<input type="text" id="Username"></label> <input type="Submit" value="Edit" name="Edit">
+		</form>
+
+        <form action="userpage.html" method="POST">
+			<label for="Email">Email Address: </label><br>
+			<input type="text" id="Email"></label> <input type="Submit" value="Edit" name="Edit">
+		</form>
+
+        <form action="userpage.html" method="POST">
+			<label for="Zip">Zip Code: </label><br>
+			<input type="text" id="Zip"></label> <input type="Submit" value="Edit" name="Edit">
+		</form>
+
+        <form action="userpage.html" method="POST">
+			<label for="Address">Address: </label><br>
+			<input type="text" id="Address"></label> <input type="Submit" value="Edit" name="Edit">
+		</form>
+        <form action="userpage.html" method="POST"></form>
+            <label for="Description">Description:</label><br>
+			<textarea name ="Notes" id="Description"></textarea><br> <input type="Submit" value="Edit" name="Edit">
+        </form>
+	</section>
+    <section>
+		<h3> Related Posts: </h3>
+        <!--Add section to pull posts based on the userID associated with current account-->
+        <div id="post-container">
+            <div class="post" data-time="2025-01-30T12:00:00">
+                <img src="projectImages/Ferret.png" alt="Ferret">
+                <div class="post-info">
+                    <h3>Rocky</h3>
+                    <p> Date missing: 1/30/2025</p>
+                    <small>Posted on: Jan 30, 2025</small>
+                </div>
+            </div>
+    
+            <div class="post" data-time="20s25-01-25T08:30:00">
+                <img src="projectImages/Golden ret.jpeg" alt="Dog">
+                <div class="post-info">
+                    <h3>Sunny</h3>
+                    <p> Date missing: 1/03/2025</p>
+                    <small>Posted on: Jan 03, 2025</small>
+                </div>
+            </div>
+	</section>
+</body>
+</html>
