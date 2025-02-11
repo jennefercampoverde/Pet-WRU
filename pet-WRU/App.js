@@ -4,7 +4,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-//const Routes = require("Routes");
+const Routes = require("./Routes");
+
 
 // Middleware for parsing URL-encoded and JSON data
 app.use(express.json());
@@ -14,7 +15,7 @@ app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname)));
 
 // Use routes
-//app.use(Routes);
+app.use(Routes);
 
 // Serve the main HTML page
 app.get('/', (req, res) => {
