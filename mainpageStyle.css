@@ -1,12 +1,13 @@
 html,body {
     height: 100%;
+    max-width: 100%;
     margin: 0;
-    padding: 0;
     font-family: Arial, sans-serif;
     background: rgb(248, 224, 180);
     line-height: 1.6;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .navbar {
@@ -16,15 +17,12 @@ html,body {
     align-items: center;
     background-color: rgb(94, 199, 231);
     padding: 10px 20px;
-    width: 100vw; /* Stretch across the entire viewport width */
-    /*position: fixed;
+    /*width: 100vw;  Stretch across the entire viewport width */
     width: 100%;
-    top: 0;
-    z-index: 1000;*/
+    position: relative;
     color: white;
-    /*border-radius: 8px;*/
     font-weight: bold;
-    margin-bottom: 100px;
+    /*margin-bottom: 150px;*/
     border-bottom: 4px solid #ffffff; /* Adjust thickness and color */
     border-radius: 0; /* Ensure no rounded corners */
 }
@@ -65,7 +63,10 @@ html,body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     position: relative; /* Needed to position the child element (image) inside this container */
-    
+    margin-top: 150px;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+    text-align: center; /* Ensures text is also centered */
 }
 
 /* for image */
@@ -80,9 +81,17 @@ html,body {
     height: auto; /* Maintain aspect ratio */
 }
 
+
 /* Header Styling */
+.website-name h1{
+    color: #000000;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 50px;
+}
+
 h1 {
-    color: #0d6efd;
+    color: #000000;
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 10px;
@@ -90,10 +99,10 @@ h1 {
 
 h2 {
     color: #333;
-    font-size: 1.8em;
+    font-size: 1.5em;
     margin-bottom: 10px;
     border-bottom: 2px solid #0d6efd;
-    padding-bottom: 100px;
+    padding-bottom: 40px;
     text-align: center;
 }
 
@@ -101,7 +110,7 @@ h2 {
 .footer-container {
     background-color:  #ffffff;;
     /*padding-bottom: 2rem 0 4rem 0;*/
-    width: 100vw; /* Stretch across the entire viewport width */
+    width: 100%; /* Stretch across the entire viewport width */
     margin: 0; /* Remove default margin to align with the page */
     padding: 2rem 0; /* Add padding for spacing */
     margin-top: 70px;
@@ -147,6 +156,13 @@ h2 {
 
 
 /* Button Styling */
+.container a {
+    display: flex;
+    justify-content: center;
+    text-decoration: none; /* Removes underline */
+    color: white; /* Makes the text white */
+}
+
 button {
     padding: 20px 10px;
     background-color: #0d6efd;
@@ -155,9 +171,9 @@ button {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 1em;
-    width: auto; /* Ensures the button only takes up necessary space */
-    margin-left: 185px;
+    font-size: 1.2em;
+    width: 200px;
+    height: 90px;
     }
 
 button:hover {

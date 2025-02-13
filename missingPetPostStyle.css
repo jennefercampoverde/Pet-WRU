@@ -7,6 +7,7 @@ html,body {
     line-height: 1.6;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .navbar {
@@ -139,12 +140,12 @@ span:active {
     width: 300px; 
     height: 0;
     overflow-y: auto;
-    background-color: #222; 
+    background-color: #95fcc0ec; 
     transition: 0.5s;
     z-index: 1000;
     padding: 10px; 
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); 
-    border-right: 2px solid goldenrod;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.822); 
+    border-right: 2px solid rgb(255, 255, 255);
 }
 
 .sidenav h2 {
@@ -226,6 +227,7 @@ span:active {
     justify-content: center; /* Center the rows */
     margin-top: 20px;
     margin-left: 20px;
+    margin-bottom: 50px;
 }
 
 /* Individual post card */
