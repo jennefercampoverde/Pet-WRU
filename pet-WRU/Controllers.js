@@ -1,27 +1,27 @@
 const pool = require("./Database"); // Import the database connection
 const bcrypt = require('bcryptjs');
 
-// Login route to check credentials
+//Route to check credentials at login
 exports.login = async (req, res) => {
-    const { username, password } = req.body;
-    
+    const { UserName, userPassword } = req.body;
+
     try {
         const conn = await pool.getConnection();
-        const rows = await conn.query("SELECT * FROM users WHERE username = ?", [username]);
+        const result = await conn.query("SELECT * FROM usersInfo WHERE username = ?", [UserName]);
 
-        if (rows.length > 0) {
-            const user = rows[0];
-            const passwordMatch = await bcrypt.compare(password, user.password);
+        if (result.length > 0) {
+            const usersInfo = result[0];
+            const passwordMatch = await bcrypt.compare(userPassword, usersInfo.userPassword);
 
             if (passwordMatch) {
-                console.log(`User logged in: ${username}, Role: ${user.role}`);
-                res.json({ role: user.role, success: true });
+                console.log(`User logged in: ${usersInfo.FirstName} ${usersInfo.LastName}`);
+                res.json({ success: true });
             } else {
-                console.log(`Failed login attempt: ${username} (Invalid password)`);
+                console.log(`Failed login attempt: ${UserName} (Invalid password)`);
                 res.status(401).json({ message: 'Invalid password' });
             }
         } else {
-            console.log(`Failed login attempt: ${username} (User not found)`);
+            console.log(`Failed login attempt: ${UserName} (User not found)`);
             res.status(404).json({ message: 'User not found' });
         }
 
@@ -32,23 +32,30 @@ exports.login = async (req, res) => {
     }
 };
 
-exports.registration = async (req, res) => {
-    const { Username, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City } = req.body;
+//Route to register an account with a hashed password
+exports.register = async (req, res) => {
+    const { UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City } = req.body;
+
+    let hash;
+    try {
+        hash = await bcrypt.hash(userPassword, 10);
+    } catch (err) {
+        console.error("Error hashing password:", err);
+        return res.status(500).json({ error: 'Error hashing password' });
+    }
 
     try {
         const conn = await pool.getConnection();
-        const rows = await conn.query("INSERT INTO usersInfo (Username, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-             [Username, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City]);
+        const result = await conn.query("INSERT INTO usersInfo (Username, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [UserName, FirstName, LastName, DOB, emailAddress, hash, Zipcode, City]);
 
-        console.log(`Account registered: ${FirstName, LastName}`);
+        console.log(`Account registered: ${FirstName} ${LastName}`);
         res.json({ message: 'Account created successfully!' });
-
         conn.release();
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Database error when creating an account' });
     }
-
 }
 
 
@@ -80,13 +87,13 @@ exports.addItem = async (req, res) => {
 
     try {
         const conn = await pool.getConnection();
-        
+
         // Insert the new item into the inventory table
         const result = await conn.query(
-            "INSERT INTO inventory (item_name, item_price, quantity) VALUES (?, ?, ?)", 
+            "INSERT INTO inventory (item_name, item_price, quantity) VALUES (?, ?, ?)",
             [item_name, item_price, quantity]
         );
-        
+
         console.log(`Item added: ${item_name}, Price: ${item_price}, Quantity: ${quantity}`);
         res.json({ message: 'Item added successfully!' });
 
@@ -125,7 +132,7 @@ exports.deleteItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     const { id } = req.params;
     const { quantity } = req.body;
-    
+
     console.log(`Received UPDATE request to update item with ID: ${id}`); // Added log to confirm route is hit
 
     try {
@@ -167,7 +174,7 @@ exports.addUser = async (req, res) => {
 
     try {
         const conn = await pool.getConnection();
-        
+
         // Hash the user's password
         let hash;
         try {
@@ -179,10 +186,10 @@ exports.addUser = async (req, res) => {
 
         // Insert the new user into the inventory table
         const result = await conn.query(
-            "INSERT INTO users (username, password, firstName, lastName, role) VALUES (?, ?, ?, ?, ?)", 
+            "INSERT INTO users (username, password, firstName, lastName, role) VALUES (?, ?, ?, ?, ?)",
             [username, hash, firstName, lastName, role]
         );
-        
+
         console.log(`User added: ${firstName} ${lastName}, Role: ${role}`);
         res.json({ message: 'User added successfully!' });
 
@@ -221,7 +228,7 @@ exports.deleteUser = async (req, res) => {
 exports.updateRole = async (req, res) => {
     const { id } = req.params;
     const { role } = req.body;
-    
+
     console.log(`Received UPDATE request to update user role with ID: ${id}`); // Added log to confirm route is hit
 
     try {
