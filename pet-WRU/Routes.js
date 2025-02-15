@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Controller = require("./Controllers");
 
-// Route for adding a user
+// API Routes
 router.post("/login", Controller.login);
-router.post("/registration", Controller.registration )
+router.post("/register", Controller.register )
 
 
 /*
