@@ -26,43 +26,116 @@
 	<h1 id="PageHeading"> Please log in or create and account. </h1>
 	<section>
 		<h3> Log in </h3>
-		<form action="Homepage.">
-			<label for="Username">Username: </label><br>
-			<input type="text" id="Username"></label><br><br>
-
-			<label for="Password">Password: </label><br>
-			<input type="text" id="Password"></label><br><br>
-
-			<br> <input type="Submit" value="Login" name="Diff">
+			<form id="loginForm">
+                <label for="loginUsername">Username: </label><br>
+                <input type="text" id="loginUsername"><br><br>
+    
+                <label for="loginPassword">Password: </label><br>
+                <input type="password" id="loginPassword"><br><br>
+    
+                <button type="submit">Login</button>
+            </form>        
 		</form>
 	</section>
     <section>
 		<h3> Sign Up </h3>
-		<form action="Homepage." method="POST">
+		<form id="signupForm">
+            <label for="signupUsername">Username: </label><br>
+            <input type="text" id="signupUsername"><br><br>
+            
+            <label for="firstName">First Name: </label><br>
+            <input type="text" id="firstName"><br><br>
 
-			<label for="FirstName">FirstName: </label><br>
-            <input type="text" id="FirstName"></label><br><br>
+            <label for="lastName">Last Name: </label><br>
+            <input type="text" id="lastName"><br><br>
 
-            <label for="LastName">LastName: </label><br>
-            <input type="text" id="LastPassword"></label><br><br>
+            <label for="DOB">Date of Birth: </label><br>
+            <input type="date" id="DOB"><br><br>
 
-			<label for="Email">Email Address: </label><br>
-            <input type="text" id="Email"></label><br><br>
+            <label for="emailAddress">Email Address: </label><br>
+            <input type="email" id="emailAddress"><br><br>
 
-            <label for="Username">Username: </label><br>
-            <input type="text" id="Username"></label><br><br>
+            <label for="signupPassword">Password: </label><br>
+            <input type="password" id="signupPassword"><br><br>
 
-            <label for="Password">Password: </label><br>
-            <input type="text" id="Password"></label><br><br>
+            <label for="ZipCode">Zip Code: </label><br>
+            <input type="text" id="ZipCode"><br><br>
 
-			<label for="ZipCode">Zip Code: </label><br>
-            <input type="text" id="ZipCode"></label><br><br>
+            <label for="city">City: </label><br>
+            <input type="text" id="city"><br><br>
 
-            <label for="Address">Address: </label><br>
-            <input type="text" id="Address"></label><br><br>
-			
-			<button input type="Signup" name="Signup"> Create Account </button>
-		</form>
+            <button type="submit">Create Account</button>
+        </form>
 	</section>
+    <script>
+    // Login Form Submission
+    document.getElementById("loginForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Prevent page reload
+
+        try {
+            // Capture input values
+            const UserName = document.getElementById("loginUsername").value.trim();
+            const userPassword = document.getElementById("loginPassword").value.trim();
+
+            // Send a POST request to the backend login route
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ UserName, userPassword }) 
+            });
+
+            // Parse the JSON response from the server
+            const result = await response.json();
+
+            // Check if login was successful and redirect
+            if (result.success) {
+                window.location.href = 'mainpage.html';
+            } else {
+                alert(result.message || 'Login failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        }
+    });
+
+    // Signup Form Submission
+    document.getElementById("signupForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Prevent page reload
+
+        try {
+            // Capture input values
+            const UserName = document.getElementById("signupUsername").value.trim();
+            const FirstName = document.getElementById("firstName").value.trim();
+            const LastName = document.getElementById("lastName").value.trim();
+            const DOB = document.getElementById("DOB").value;
+            const emailAddress = document.getElementById("emailAddress").value.trim();
+            const userPassword = document.getElementById("signupPassword").value.trim();
+            const Zipcode = document.getElementById("ZipCode").value.trim();
+            const City = document.getElementById("city").value.trim();
+
+            // Send a POST request to the backend registration route
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City }) 
+            });
+
+            // Parse the JSON response from the server
+            const result = await response.json();
+
+            // Check if signup was successful and redirect
+            if (result.success) {
+                alert("Account created successfully! Redirecting to login...");
+                window.location.href = 'mainpage.html';
+            } else {
+                alert(result.message || 'Account Registration failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        }
+    });
+    </script>
 </body>
 </html>
