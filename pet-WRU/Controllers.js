@@ -14,7 +14,9 @@ exports.login = async (req, res) => {
             const passwordMatch = await bcrypt.compare(userPassword, usersInfo.userPassword);
 
             if (passwordMatch) {
-                console.log(`User logged in: ${usersInfo.FirstName} ${usersInfo.LastName}`);
+                // Store user ID in the session
+                req.session.userID = usersInfo.userID;
+                console.log(`User logged in: ${usersInfo.FirstName} ${usersInfo.LastName}, ID: ${req.session.userID}`);
                 res.json({ success: true });
             } else {
                 console.log(`Failed login attempt: ${UserName} (Invalid password)`);
@@ -31,6 +33,16 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: 'Database error when logging in' });
     }
 };
+
+
+//Route to log out of the session
+exports.logout = async (req, res) => {
+    req.session.destroy(err => {
+        if (err) return res.status(500).json({ error: 'Failed to logout' });
+        res.json({ message: 'Logout successful' });
+    });
+};
+
 
 //Route to register an account with a hashed password
 exports.register = async (req, res) => {
@@ -56,9 +68,33 @@ exports.register = async (req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Database error when creating an account' });
     }
-}
+};
 
 
+//Route to create a flyer
+exports.createFlyer = async (req, res) => {
+    const {/*userID,*/ dateCreated, dateLost, lastZipcode, lastCityID, 
+        petName, animalType, animalSize, animalColor, animalGender, 
+        animal_image_path, description, /*status*/ } = req.body;
+        
+        //userID is from the session token 
+        const userID = req.session.userID;
+        //status is set as "lost" by default
+        const status = "lost";
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query("INSERT INTO usersInfo (userID, dateCreated, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [userID, dateCreated, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status]);
+
+        console.log(`Flyer created`);
+        res.json({ message: 'Flyer created successfully!' });
+        conn.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error when creating a flyer' });
+    }
+};
 
 
 
