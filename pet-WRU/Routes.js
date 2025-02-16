@@ -4,8 +4,9 @@ const Controller = require("./Controllers");
 
 // API Routes
 router.post("/login", Controller.login);
-router.post("/register", Controller.register )
-
+router.post("/logout", Controller.logout);
+router.post("/register", Controller.register );
+router.post("/createFlyer", Controller.createFlyer);
 
 /*
 router.get("/inventory", Controller.inventory);
