@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing Pets</title>
+    <link rel="stylesheet" href="selectedPostStyle.css">
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <!--each icon on navigation bar should take you to respectable page-->
+    <div class="navbar">
+        <!-- Logo -->
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
+        
+        <!-- Navigation Links -->
+        <!--each link references another html page-->
+        <div class="nav-links">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i>Missing pets</a> <!--icon insert here-->
+            <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i>Reunited pets</a> <!--icon insert here-->
+            <a href="#"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+            <a href="#" class="signout"><i class="fa fa-fw fa-user"></i> Account </a> <!--icon insert here-->
+        </div>
+    </div>
+    <div class="post-container">
+        <header class="post-header">
+            <h1>Sunny</h1>
+        </header>
+
+        <section class="post-details">
+            <div class="post-image">
+                <img src="projectImages/Golden ret.jpeg" alt="dog">
+                <div class="post-actions">
+                    <h2>Created by username</h2>
+                </div>
+            </div>
+            <div class="post-info">
+                <div class="post-info-row description">
+                    <strong>Description</strong>
+                    <p>blah blah blah blah blah</p>
+                </div>
+                <div class="post-info-row species">
+                    <strong>Type of Animal</strong>
+                    <div class="species">
+                        <p >Dog</p>
+                    </div>
+                </div>
+                <div class="post-info-row">
+                    <strong>Color</strong>
+                    <p>Golden/yellow</p>
+                </div>
+                <div class="post-info-row">
+                    <strong>Size</strong>
+                    <p>Large</p>
+                </div>
+                <div class="post-info-row">
+                    <strong>Gender</strong>
+                    <p>Female</p>
+                </div>
+                <div class="post-info-row">
+                    <strong>Last Known Location</strong>
+                    <p>Oak Street, Hempstead</p>
+                </div>
+                <div class="post-info-row">
+                    <strong>Date Went Missing</strong>
+                    <p>2/01/2025</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="post-feedback">
+            <h2>Comments</h2>
+            <form id="feedback-form" action="#" method="POST">
+                <textarea name="comment" id="comment-text" rows="5" placeholder="Write your comment here..." required></textarea>
+                <button type="submit" class="submit_button"> Post</button>
+            </form>
+        </section>
+
+        
+</body>
+</html>

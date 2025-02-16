@@ -3,51 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="mainpageStyle.css">
+    <title>Create Missing Pet Flier</title>
+    <link rel="stylesheet" href="createFlierStyle.css">
     <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Top Navigation Bar -->
-    <!--each icon on navigation bar should take you to respectable page-->
     <div class="navbar">
-        <!-- Logo -->
         <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
-        
-        <!-- Navigation Links -->
-        <!--each link references another html page-->
         <div class="nav-links">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
-            <a href="missingPetPost.html"><i class="fa fa-fw fa-user"></i> Missing pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Reunited pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Donations</a> <!--icon insert here-->
-            <a href="signout.php" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
-            <!--<a href="watchlist.php"><i class="fa-solid fa-bookmark"></i> WatchList </a> -->
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+            <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a>
+            <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>
+            <a href="#"><i class="fa-solid fa-box"></i> Donations</a>
+            <a href="#" class="signout"><i class="fa-solid fa-right-from-bracket"></i> Login </a>
         </div>
     </div>
-
+    
     <h1>Create a Missing Pet Flier</h1>
-
+    
     <div class="container">
+        <div class="flier-header">
+            <div class="image-upload">
+                <label>Upload Pet <br>Image</label>
+                <input type="file" accept="image/*" class ="upload-button" required>
+            </div>
+            <div class="flier-title">
+                <h2>Missing Pet</h2>
+                <p>Created by: <span id="username">Current User</span></p>
+            </div>
+        </div>
         
-        <!-- Add request to report missing pet Form -->
-        <h2>Need help finding a missing pet? <br>
-            Create a flier and post it on our website <br>
-            by clicking the "report" button below</h2>
-     
-        <!-- Image in the bottom-right corner -->
-        <img src="projectImages/cat.png" alt="Decorative Image" class="bottom-right">
-  
-    </div>
-    <div class = "footer-container">
-        <div class="footer">
-                <div class="footer-heading footer1">
-                    <h2> :P </h2>
-                    <a href="#">About us</a>
-                    <a href="#">Resources</a>
-                    <a href="#">GitHub</a>
+        <form class="flier-details">
+            <div class="details-grid">
+                <div>
+                    <label>Pet Name:</label>
+                    <input type="text" required>
                 </div>
-                
+                <div>
+                    <label>Sex:</label>
+                    <select required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Type of Animal:</label>
+                    <select required>
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Bird">Bird</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Color:</label>
+                    <input type="text" required>
+                </div>
+                <div>
+                    <label>Size:</label>
+                    <select required>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Last Seen Location:</label>
+                    <input type="text" required>
+                </div>
+            </div>
+            <div class="description-container">
+                <label>Description:</label>
+                <textarea required></textarea>
+            </div>
+        </form>
+    </div>
+    
+    <button class="post-button" type="submit">Post</button>
+    
+    <div class="footer-container">
+        <div class="footer">
+            <div class="footer-heading footer1">
+                <h2> :P </h2>
+                <a href="#">About us</a>
+                <a href="#">Resources</a>
+                <a href="#">GitHub</a>
+            </div>
         </div>
     </div>
 </body>
