@@ -17,7 +17,7 @@ exports.login = async (req, res) => {
                 // Store user ID in the session
                 req.session.userID = usersInfo.userID;
                 console.log(`User logged in: ${usersInfo.FirstName} ${usersInfo.LastName}, ID: ${req.session.userID}`);
-                res.json({ success: true });
+                res.json({ ID: usersInfo.userID, success: true });
             } else {
                 console.log(`Failed login attempt: ${UserName} (Invalid password)`);
                 res.status(401).json({ message: 'Invalid password' });
