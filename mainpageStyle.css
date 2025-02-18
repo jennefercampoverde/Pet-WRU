@@ -81,6 +81,7 @@ html,body {
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    top: 88px;
 }
   
 .dropdown-content a {
@@ -111,19 +112,55 @@ html,body {
         display: none;
         flex-direction: column;
         width: 100%;
-        background-color: rgb(94, 199, 231);
+        background-color: rgb(160, 219, 236);
         position: absolute;
-        top: 80px; /* Adjust based on logo height */
+        top: 124px; /* Adjust based on logo height */
         left: 0;
-        text-align: left;
+        align-items: center; /* Centers everything */
+        text-align: center;
+        z-index: 1000; /* Ensure it's above other content */
     }
 
     .navbar .icon {
         display: block;
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 30px;
     }
 
     .nav-links.responsive {
-        display: flex;
+        display: block;
+    }
+    
+    /* When menu is toggled */
+    .nav-links.responsive {
+        display: flex; /* Show when active */
+    }
+
+    /* Ensure links are block-level for vertical stacking */
+    .nav-links a {
+        display: block;
+        padding: 15px;
+
+        margin-top: 10px;
+    }
+
+    /* Dropdown inside mobile menu */
+    .nav-links .dropdown {
+        display: block;
+    }
+    
+    .nav-links .dropdown-content {
+        position: relative; /* Make dropdown content inline */
+        display: none; /* Hide initially */
+        width: 100%;
+        background: #f9f9f9;
+        z-index: 1001; /* Ensure it's above everything */
+        top: 8px;
+    }
+
+    .nav-links .dropdown:hover .dropdown-content {
+        display: block; /* Show dropdown content */
     }
 }
 

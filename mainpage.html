@@ -10,7 +10,7 @@
 <body>
     <!-- Top Navigation Bar -->
     <!--each icon on navigation bar should take you to respectable page-->
-    <div class="navbar" >
+    <div class="navbar" id="myNavbar" >
         <!-- Logo -->
         <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
         
@@ -29,8 +29,9 @@
               </div> 
             <a href="#"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
             <a href="#" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+            
         </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 
     <!--<div class = "website-name">
@@ -58,21 +59,31 @@
                 <div class="footer-heading footer1">
                     <h2> :P </h2>
                     <a href="#">About us</a>
-                    <a href="#">Resources</a>
-                    <a href="#">GitHub</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
                 </div>
                 
         </div>
     </div>
 
     <script>
+
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
          // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
        //source: HTML DOM querySelectorAll() method
        //Author: GeeksforGeeks
        //URL: https://www.geeksforgeeks.org/html-dom-queryselectorall-method/
        //Date accessed: 11/30/2024
         document.querySelectorAll('.navbar a').forEach(link => {
-            if (link.href === window.location.href) {
+            if ((link.href === window.location.href) ) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
@@ -81,14 +92,6 @@
 
         window.onload = populateFilters;
 
-        function myFunction() {
-        var x = document.getElementById("navLinks");
-        if (x.classList.contains("responsive")) {
-            x.classList.remove("responsive");
-        } else {
-            x.classList.add("responsive");
-        }
-    }
 
     </script>
 </body>
