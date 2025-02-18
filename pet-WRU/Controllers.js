@@ -62,7 +62,7 @@ exports.register = async (req, res) => {
             [UserName, FirstName, LastName, DOB, emailAddress, hash, Zipcode, City]);
 
         console.log(`Account registered: ${FirstName} ${LastName}`);
-        res.json({ message: 'Account created successfully!' });
+        res.json({ message: 'Account created successfully!', success: true });
         conn.release();
     } catch (err) {
         console.error(err);
