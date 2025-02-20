@@ -64,7 +64,7 @@ CREATE TABLE donations(
     dateCreated DateTime DEFAULT NOW(),
     zipcode varchar(5) NOT NULL, 
     itemStatus ENUM('Available','Pending','Claimed') NOT NULL, 
-    itemCategory ENUM('Bedding','Clothing','Grooming Supplies','Leashes & Collars','Litter & Waste Supplies' 'Medical Supplies','Toys','Transport Supplies') NOT NULL,
+    itemCategory ENUM('Bedding','Clothing','Grooming Supplies','Leashes & Collars','Litter & Waste Supplies', 'Medical Supplies','Toys','Transport Supplies') NOT NULL,
     itemName varchar(255) NOT NULL,
     quantity int NOT NULL,
     itemCondition ENUM('New','Like New', 'Gently Used', 'Used', 'Worn') NOT NULL,
