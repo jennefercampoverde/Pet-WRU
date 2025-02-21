@@ -17,56 +17,72 @@
         <!--each link references another html page-->
         <div class="nav-links">
             <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
-            <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
-            <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
+                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
+                </div>
+              </div> 
             <a href="#"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="#" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
+            <a href="login&signup.html"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
         </div>
     </div>
 	<h1 id="PageHeading"> Please log in or create and account. </h1>
-	<section>
-		<h3> Log in </h3>
-			<form id="loginForm">
-                <label for="loginUsername">Username: </label><br>
-                <input type="text" id="loginUsername"><br><br>
+	    <section>
+		    <h4> Log in </h4>
+            <div class="login">
+			    <form id="loginForm">
+                    <label for="loginUsername">Username: </label><br>
+                    <input type="text" id="loginUsername"><br><br>
     
-                <label for="loginPassword">Password: </label><br>
-                <input type="password" id="loginPassword"><br><br>
+                    <label for="loginPassword">Password: </label><br>
+                    <input type="password" id="loginPassword"><br><br>
     
-                <button type="submit">Login</button>
-            </form>        
-		</form>
-	</section>
-    <section>
-		<h3> Sign Up </h3>
-		<form id="signupForm">
-            <label for="signupUsername">Username: </label><br>
-            <input type="text" id="signupUsername"><br><br>
+                    <button type="submit">Login</button>
+                </form>        
+            </div>    
+	    </section>
+        <section>
+		    <h5> Sign Up </h5>
+		    <form id="signupForm">
+                <div class='parent'>
+                    <div class ='child' Signup1>
+                        <label for="signupUsername">Username: </label><br>
+                        <input type="text" id="signupUsername"><br><br>
             
-            <label for="firstName">First Name: </label><br>
-            <input type="text" id="firstName"><br><br>
+                        <label for="firstName">First Name: </label><br>
+                        <input type="text" id="firstName"><br><br>
 
-            <label for="lastName">Last Name: </label><br>
-            <input type="text" id="lastName"><br><br>
+                        <label for="lastName">Last Name: </label><br>
+                        <input type="text" id="lastName"><br><br>
 
-            <label for="DOB">Date of Birth: </label><br>
-            <input type="date" id="DOB"><br><br>
+                        <label for="DOB">Date of Birth: </label><br>
+                        <input type="date" id="DOB"><br><br>
 
-            <label for="emailAddress">Email Address: </label><br>
-            <input type="email" id="emailAddress"><br><br>
+                    </div>
 
-            <label for="signupPassword">Password: </label><br>
-            <input type="password" id="signupPassword"><br><br>
+                    <div class ='child' Signup2>
+                        <label for="emailAddress">Email Address: </label><br>
+                        <input type="email" id="emailAddress"><br><br>
 
-            <label for="ZipCode">Zip Code: </label><br>
-            <input type="text" id="ZipCode"><br><br>
+                        <label for="signupPassword">Password: </label><br>
+                        <input type="password" id="signupPassword"><br><br>
 
-            <label for="city">City: </label><br>
-            <input type="text" id="city"><br><br>
+                        <label for="ZipCode">Zip Code: </label><br>
+                        <input type="text" id="ZipCode"><br><br>
 
-            <button type="submit">Create Account</button>
-        </form>
-	</section>
+                        <label for="city">City: </label><br>
+                        <input type="text" id="city"><br><br>
+                    </div>
+                </div>
+                <div class="signupSubmit">
+                    <button type="submit">Create Account</button>
+                </div>
+            </form>
+        </section>   
     <script>
     // Login Form Submission
     document.getElementById("loginForm").addEventListener("submit", async function(event) {

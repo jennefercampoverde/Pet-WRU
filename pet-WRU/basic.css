@@ -80,7 +80,6 @@ html,body {
     height: auto; /* Maintain aspect ratio */
 }
 
-/* Header Styling */
 h1 {
     color: #0d6efd;
     text-align: center;
@@ -88,14 +87,99 @@ h1 {
     margin-bottom: 10px;
 }
 
-h2 {
-    color: #333;
-    font-size: 1.8em;
+/* About us page */
+/* Paragraph Style */
+.Description {
+    color: #000000;
+    text-align: center;
+    font-size: 1.5em;
     margin-bottom: 10px;
-    border-bottom: 2px solid #0d6efd;
-    padding-bottom: 100px;
+}
+
+.WhyCreated {
+    color: #000000;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.Features {
+    color: #000000;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #0d6efd;
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+/* End About us Page */
+
+/* Login Page */
+/* login header */
+h4 {
+    color: #0d6efd;
+    /*margin-left: 50px;
+    text-align: left;
+    */
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+
+/* Signup header */
+h5 {
+    color: #0d6efd;
+    /*margin-right: 50px;
+    text-align: right;
+    */
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.login {
+    color: #000000;
+    /*margin-right: 50px;
+    text-align: right;
+    */
+    text-align: center;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.SignUpForm {
+    color: #000000;
+    /*margin-right: 50px;
+    text-align: right;
+    */
+    text-align: center;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.parent {
+    color: #000000;
+    text-align: center;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.child {
+    display: inline-block;
+    vertical-align: middle;
     text-align: center;
 }
+
+.signupSubmit {
+    text-align: center;
+}
+
+
 
 /* footer */
 .footer-container {
@@ -157,7 +241,6 @@ button {
     transition: background-color 0.3s ease;
     font-size: 1em;
     width: auto; /* Ensures the button only takes up necessary space */
-    margin-left: 185px;
     }
 
 button:hover {
