@@ -33,7 +33,8 @@
         <div class="flier-header">
             <div class="image-upload">
                 <label>Upload Pet <br>Image</label>
-                <input type="file" accept="image/*" class ="upload-button" required>
+                <input type="file" name="animal_image_path" accept="image/*" class="upload-button" required>
+
             </div>
             <div class="flier-title">
                 <h2>Missing Pet</h2>
@@ -41,29 +42,29 @@
             </div>
         </div>
         
-        <form class="flier-details">
+        <form class="flier-details" id="flierForm" enctype="multipart/form-data">            
             <div class="details-grid">
                 <div>
-                    <label>Pet Name:</label>
-                    <input type="text" required>
+                    <label for="petName">Pet Name:</label>
+                    <input type="text" id="petName" required>
                 </div>
                 <div>
-                    <label>Sex:</label>
-                    <select required>
+                    <label for="animalGender">Sex:</label>
+                    <select id="animalGender" required>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
                 </div>
                 <div>
-                    <label>Type of Animal:</label>
-                    <select required>
+                    <label for="animalType">Type of Animal:</label>
+                    <select id="animalType" required>
                         <option value="Bird">Bird</option>
                         <option value="Cat">Cat</option>
                         <option value="Chickens">Chickens</option>
                         <option value="Dog">Dog</option>
                         <option value="Ferrets">Ferrets</option>
                         <option value="Gerbils">Gerbils</option>
-                        <option value="Guniea Pigs">Guniea Pigs</option>
+                        <option value="Guinea Pigs">Guinea Pigs</option>
                         <option value="Hamster">Hamster</option>
                         <option value="Mice">Mice</option>
                         <option value="Turtles">Turtles</option>
@@ -71,42 +72,53 @@
                     </select>
                 </div>
                 <div>
-                    <label>Color:</label>
-                    <select required>
+                    <label for="animalColor">Color:</label>
+                    <select id="animalColor" required>
                         <option value="Black">Black</option>
                         <option value="Blue">Blue</option>
                         <option value="Brown">Brown</option>
-                        <option value="Gray">Brown</option>
-                        <option value="Green">Brown</option>
-                        <option value="Orange">Brown</option>
-                        <option value="Red">Brown</option>
-                        <option value="Silver">Brown</option>
-                        <option value="Tan">Brown</option>
-                        <option value="White">Brown</option>
-                        <option value="Yellow">Brown</option>
+                        <option value="Gray">Gray</option>
+                        <option value="Green">Green</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Red">Red</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Tan">Tan</option>
+                        <option value="White">White</option>
+                        <option value="Yellow">Yellow</option>
                     </select>
                 </div>
                 <div>
-                    <label>Size:</label>
-                    <select required>
-                        <option value="Small">Small</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Large">Large</option>
+                    <label for="animalSize">Size:</label>
+                    <select id="animalSize" required>
+                        <option value="XS">Extra Small</option>
+                        <option value="S">Small</option>
+                        <option value="M">Medium</option>
+                        <option value="L">Large</option>
+                        <option value="XL">Extra Large</option>
+                        <option value="XXL">Extra Extra Large</option>
+
                     </select>
                 </div>
                 <div>
-                    <label>Last Seen Location:</label>
-                    <input type="text" required>
+                    <label for="lastCityID">Last Seen Location:</label>
+                    <input type="text" id="lastCityID" required>
+                </div>
+                <div>
+                    <label for="lastZipcode">Area Zipcode:</label>
+                    <input type="text" id="lastZipcode" required>
+                </div>
+                <div>
+                    <label for="dateLost">Date Lost:</label>
+                    <input type="date" id="dateLost" required>
                 </div>
             </div>
             <div class="description-container">
-                <label>Description:</label>
-                <textarea required></textarea>
+                <label for="description">Description:</label>
+                <textarea id="description" required></textarea>
             </div>
+            <button class="post-button" type="submit">Post</button>
         </form>
     </div>
-    
-    <button class="post-button" type="submit">Post</button>
     
     <div class="footer-container">
         <div class="footer">
@@ -118,5 +130,54 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Create Flyer form submission
+        document.querySelector(".flier-details").addEventListener("submit", async function(event) { 
+            event.preventDefault(); // Prevent page reload
+    
+            try {
+                // Use FormData for file (img) uploads
+                const formData = new FormData();
+
+                // Append form fields to FormData
+                formData.append("dateCreated", new Date().toISOString().split("T")[0]);
+                formData.append("dateLost", document.getElementById("dateLost").value);
+                formData.append("lastZipcode", document.getElementById("lastZipcode").value);
+                formData.append("lastCityID", document.getElementById("lastCityID").value);
+                formData.append("petName", document.getElementById("petName").value);
+                formData.append("animalType", document.getElementById("animalType").value);
+                formData.append("animalSize", document.getElementById("animalSize").value);
+                formData.append("animalColor", document.getElementById("animalColor").value);
+                formData.append("animalGender", document.getElementById("animalGender").value);
+                formData.append("description", document.getElementById("description").value);
+                // Get the file input
+                const fileInput = document.querySelector('input[type="file"]').files[0];
+                if (fileInput) {
+                    formData.append("animal_image_path", fileInput);
+                }
+
+                // Send a POST request to the backend registration route
+                const response = await fetch("/createFlyer", {
+                    method: "POST",
+                    body: formData 
+                });
+    
+                // Parse the JSON response from the server
+                const result = await response.json();
+    
+                // Check if signup was successful and redirect
+                if (result.success) {
+                    alert("Flyer created successfully");
+                    //window.location.href = '';
+                } else {
+                    alert(result.message || 'Failed to create flyer');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            }
+        });
+        </script>
 </body>
 </html>

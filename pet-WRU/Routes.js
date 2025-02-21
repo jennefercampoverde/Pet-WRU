@@ -1,12 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const Controller = require("./Controllers");
+const multer = require("multer");
+
+// Configure Multer Storage
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "projectImages/"); // Folder where images are stored
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + "-" + file.originalname); // Unique filename
+    }
+});
+
+const upload = multer({ storage: storage });
 
 // API Routes
 router.post("/login", Controller.login);
 router.post("/logout", Controller.logout);
 router.post("/register", Controller.register );
-router.post("/createFlyer", Controller.createFlyer);
+router.post("/createFlyer", upload.single("animal_image_path"), Controller.createFlyer);
+
 
 /*
 router.get("/inventory", Controller.inventory);

@@ -71,28 +71,43 @@ exports.register = async (req, res) => {
 };
 
 
+
+
+
+
+
 //Route to create a flyer
 exports.createFlyer = async (req, res) => {
-    const {/*userID,*/ dateCreated, dateLost, lastZipcode, lastCityID, 
-        petName, animalType, animalSize, animalColor, animalGender, 
-        animal_image_path, description, /*status*/ } = req.body;
+    try {
+        const { dateCreated, dateLost, lastZipcode, lastCityID, 
+                petName, animalType, animalSize, animalColor, animalGender, 
+                description } = req.body;
         
-        //userID is from the session token 
+        // Get user ID from session
         const userID = req.session.userID;
-        //status is set as "lost" by default
+        if (!userID) {
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Get file path if an image is uploaded
+        const fileInput = req.file ? req.file.filename : null;
+
+        // Default status
         const status = "lost";
 
-    try {
+        // Insert into database
         const conn = await pool.getConnection();
-        const result = await conn.query("INSERT INTO usersInfo (userID, dateCreated, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [userID, dateCreated, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status]);
+        await conn.query(`INSERT INTO lostPets (userID, dateCreated, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                                                [userID, dateCreated, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, fileInput, description, status]);
 
-        console.log(`Flyer created`);
-        res.json({ message: 'Flyer created successfully!' });
         conn.release();
+
+        console.log(`Flyer created successfully`);
+        res.json({ message: "Flyer created successfully!" });
+
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Database error when creating a flyer' });
+        res.status(500).json({ error: "Database error when creating a flyer" });
     }
 };
 
