@@ -7,7 +7,7 @@ exports.login = async (req, res) => {
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query("SELECT * FROM usersInfo WHERE username = ?", [UserName]);
+        const result = await conn.query("SELECT * FROM usersInfo WHERE userName = ?", [UserName]);
 
         if (result.length > 0) {
             const usersInfo = result[0];
@@ -16,7 +16,7 @@ exports.login = async (req, res) => {
             if (passwordMatch) {
                 // Store user ID in the session
                 req.session.userID = usersInfo.userID;
-                console.log(`User logged in: ${usersInfo.FirstName} ${usersInfo.LastName}, ID: ${req.session.userID}`);
+                console.log(`User logged in: ${usersInfo.firstName} ${usersInfo.lastName}, ID: ${req.session.userID}`);
                 res.json({ ID: usersInfo.userID, success: true });
             } else {
                 console.log(`Failed login attempt: ${UserName} (Invalid password)`);
@@ -58,7 +58,7 @@ exports.register = async (req, res) => {
 
     try {
         const conn = await pool.getConnection();
-        const result = await conn.query("INSERT INTO usersInfo (Username, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        const result = await conn.query("INSERT INTO usersInfo (userName, firstName, lastName, dob, emailAddress, userPassword, zipcode, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [UserName, FirstName, LastName, DOB, emailAddress, hash, Zipcode, City]);
 
         console.log(`Account registered: ${FirstName} ${LastName}`);
