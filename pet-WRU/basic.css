@@ -178,8 +178,20 @@ h5 {
 .signupSubmit {
     text-align: center;
 }
+/* End of Login page */
 
+/* Start of userpage */
 
+.UserInformation {
+    text-align: center;
+}
+
+.relatedPosts {
+    color: #000000;
+    text-align: center;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
 
 /* footer */
 .footer-container {
