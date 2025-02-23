@@ -97,8 +97,8 @@ exports.createFlyer = async (req, res) => {
 
         // Insert into database
         const conn = await pool.getConnection();
-        await conn.query(`INSERT INTO lostPets (userID, dateCreated, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                                                [userID, dateCreated, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, fileInput, description, status]);
+        await conn.query(`INSERT INTO lostPets (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                                                [userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, fileInput, description, status]);
 
         conn.release();
 

@@ -22,7 +22,7 @@ CREATE TABLE usersInfo(
 CREATE TABLE lostPets(
     lostID  int NOT NULL AUTO_INCREMENT,
     userID int NOT NULL,
-    dateCreated DateTime DEFAULT NOW(),
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     dateLost Date NOT NULL,
     lastZipcode varchar(5) NOT NULL,
     lastCityID varchar(255) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE foundPets(
 CREATE TABLE postComments(
     commentID int NOT NULL AUTO_INCREMENT,
     lostID int NOT NULL,
-    dateCreated DateTime DEFAULT NOW() NOT NULL,
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     commentText varchar(255) NOT NULL,
     userID int NOT NULL, 
     PRIMARY KEY (commentID),
