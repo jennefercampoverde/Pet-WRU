@@ -61,7 +61,8 @@ html,body {
     overflow: hidden;
     display: flex;
   }
-  
+
+
 .dropdown .dropbtn {  
     border: none;
     outline: none;
@@ -70,8 +71,8 @@ html,body {
     background-color: inherit;
     font-family: inherit;
     margin: -16px;
+    font-size: 18px;
     font-weight: bold;
-    
 }
   
 .dropdown-content {
@@ -147,6 +148,7 @@ html,body {
     /* Dropdown inside mobile menu */
     .nav-links .dropdown {
         display: block;
+        
     }
     
     .nav-links .dropdown-content {
@@ -171,7 +173,7 @@ html,body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin-top: -10px;
+    margin-top: 70px;
 }
 
 .post-header {

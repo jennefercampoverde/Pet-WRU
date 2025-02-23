@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource </title>
+    <link rel="stylesheet" href="resourceStyle.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
+    <script>
+        $( function() {
+          $( "#tabs" ).tabs();
+        } );
+    </script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <!--each icon on navigation bar should take you to respectable page-->
+    <div class="navbar" id="myNavbar" >
+        <!-- Logo -->
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
+        
+        <!-- Navigation Links -->
+        <!--each link references another html page-->
+        <div class="nav-links" id="navLinks">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
+                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
+                </div>
+              </div> 
+            <a href="#"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+            <a href="#" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
+            
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    </div>
+
+    <h1>Find Missing Pets - Resource Links</h1>
+
+        <div id="tabs">
+            <ul>
+              <li><a href="#tabs-1">Animal Shelters</a></li>
+              <li><a href="#tabs-2">Missing Pet Tips</a></li>
+              <li><a href="#tabs-3">Pet Care Tips</a></li>
+            </ul>
+            <div id="tabs-1">
+                <div class="search-result">
+                    <div class="owner">Petfinder</div>
+                    <a href="https://www.petfinder.com/animal-shelters-and-rescues/search/" target="_blank">
+                        Search for Animal Shelters or Rescues
+                    </a>
+                    <div class="description">Find your local animal shelter.</div>
+                </div>
+            </div>
+            <div id="tabs-2">
+                <div class="search-result">
+                    <div class="owner">The Humane Society</div>
+                    <a href="https://www.humanesociety.org/resources/what-do-if-you-lose-your-pet" target="_blank">
+                        What to Do If You Lose Your Pet
+                    </a>
+                    <div class="description">Step-by-step guide on finding lost pets.</div>
+                </div>
+                <div class="search-result">
+                    <div class="owner">Best Friends Animal Society</div>
+                    <a href="https://bestfriends.org/pet-care-resources/how-find-lost-dog-cat-or-other-pet" target="_blank">
+                        How to Find a Lost Dog, Cat, or Other Pet</a>
+                    <div class="description">Tips to find a lost pet · Ask everyone whether they've seen your lost pet: <br>neighbors, children, mail carriers, passersby. <br> · Create a flyer with your pet's photo,
+                    </div>
+                </div>
+            </div>
+            <div id="tabs-3">
+                <div class="search-result">
+                    <div class="owner">ASPCA</div>
+                    <a href="https://www.aspca.org/pet-care" target="_blank">
+                        Pet Care Tips and Advice
+                    </a>
+                    <div class="description">Learn about pet care, training, and health tips.</div>
+                </div>
+            </div>
+          </div>
+        
+
+
+    <div class = "footer-container">
+        <div class="footer">
+                <div class="footer-heading footer1">
+                    <h2> :P </h2>
+                    <a href="#">About us</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+                </div>
+                
+        </div>
+    </div>
+
+    <script>
+
+         // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
+       //source: HTML DOM querySelectorAll() method
+       //Author: GeeksforGeeks
+       //URL: https://www.geeksforgeeks.org/html-dom-queryselectorall-method/
+       //Date accessed: 11/30/2024
+        document.querySelectorAll('.navbar a').forEach(link => {
+            if ((link.href === window.location.href) ) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+    </script>
+</body>
+</html>

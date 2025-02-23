@@ -1,14 +1,14 @@
 html,body {
     height: 100%;
+    max-width: 100%;
     margin: 0;
-    padding: 0;
     font-family: Arial, sans-serif;
     background: rgb(248, 224, 180);
     line-height: 1.6;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
-
 
 .navbar {
     display: flex;
@@ -61,8 +61,7 @@ html,body {
     overflow: hidden;
     display: flex;
   }
-
-
+  
 .dropdown .dropbtn {  
     border: none;
     outline: none;
@@ -71,8 +70,8 @@ html,body {
     background-color: inherit;
     font-family: inherit;
     margin: -16px;
-    font-size: 18px;
     font-weight: bold;
+    
 }
   
 .dropdown-content {
@@ -142,13 +141,13 @@ html,body {
     .nav-links a {
         display: block;
         padding: 15px;
+
         margin-top: 10px;
     }
 
     /* Dropdown inside mobile menu */
     .nav-links .dropdown {
         display: block;
-        
     }
     
     .nav-links .dropdown-content {
@@ -158,7 +157,6 @@ html,body {
         background: #f9f9f9;
         z-index: 1001; /* Ensure it's above everything */
         top: 8px;
-
     }
 
     .nav-links .dropdown:hover .dropdown-content {
@@ -166,127 +164,59 @@ html,body {
     }
 }
 
-.container {
+
+h1 {
+    color: #000000;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+#tabs {
+    /*margin: 25px ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px !important;
+    position: relative !important; */
+    margin: 25px ;
+    flex-grow: 1;  /* Allows tabs to take up remaining space */
+    min-height: 300px; /* Adjust this value to keep tabs above footer */
+    margin-bottom: auto; /* Prevents it from collapsing */
+}
+.search-result {
     background: white;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 100px 130px 40px;
+    padding: 15px;
+    margin-bottom: 15px;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
-.flier-header {
-    display: flex;
-    align-items: center;
-    gap: 80px;
-    margin-bottom: 10px;
+.search-result a {
+    text-decoration: none;
+    color: #1a0dab !important; 
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.image-upload {
-    width: 160px;
-    height: 160px;
-    border: 2px dashed #ccc;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.search-result a:hover {
+    text-decoration: underline;
+}
+
+.owner {
     font-size: 14px;
-    color: #666;
-    margin-left: -15px;
+    color: #555;
 }
 
-.image-upload label {
-    font-weight: bold;
-    margin-top: 105px;
-    color: #000000;
-    font-size: 19px;
-}
-
-.upload-button {
-    margin-top: 55px;
-    padding-bottom: 10px;
-    margin-left: 95px;
-}
-
-.flier-title {
-    flex-grow: 1;
-    text-align: center;
-}
-
-.flier-title h2 {
-    margin: 0;
-    font-size: 30px;
-    color: #000000;
-}
-
-.details-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 35px;
-    margin-bottom: 30px;
-    margin-top: 70px;
-    margin-left: -15px;
-}
-
-.details-grid div {
-    display: flex;
-    flex-direction: column;
-}
-
-
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    
-}
-
-input, select, textarea {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Ensure only the 'Description' label is centered vertically */
-.description-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Space between label and textarea */
-}
-
-.description-container label {
-    white-space: nowrap; /* Prevents label from wrapping */
-    
-}
-
-textarea {
-    resize: none;
-    height: 100px;
-    width: 350px;
-}
-
-.post-button {
-    display: block;
-    width: 110px;
-    margin: 10px auto;
-    padding: 10px 20px;
-    background: #ff6600;
-    color: white;
-    font-size: 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.post-button:hover {
-    background: #e65c00;
+.description {
+    color: #444;
+    margin-top: 5px;
 }
 
 /* footer */
 .footer-container {
     background-color:  #ffffff;;
     /*padding-bottom: 2rem 0 4rem 0;*/
-    width: 100vw; /* Stretch across the entire viewport width */
+    width: 100%; /* Stretch across the entire viewport width */
     margin: 0; /* Remove default margin to align with the page */
     padding: 2rem 0; /* Add padding for spacing */
     margin-top: 70px;
@@ -329,10 +259,5 @@ textarea {
     transition: 0.3s ease-out;
 }
 
-h1 {
-    color: #0a79e0;
-    text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 10px;
-}
+
 
