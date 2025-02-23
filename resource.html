@@ -93,7 +93,7 @@
                 <div class="footer-heading footer1">
                     <h2> :P </h2>
                     <a href="#">About us</a>
-                    <a href="resources.html">Resources</a>
+                    <a href="resource.html">Resources</a>
                     <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
                 </div>
                 
@@ -102,6 +102,15 @@
 
     <script>
 
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+        
          // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
        //source: HTML DOM querySelectorAll() method
        //Author: GeeksforGeeks
