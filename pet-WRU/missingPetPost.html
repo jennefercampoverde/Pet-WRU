@@ -97,8 +97,6 @@
         </div>
     </form>
 </div>
-
-
     <!-- Open Side Navigation Button -->
      <!--Source: "Learn HTML in 1 hour"
         Author: Bro Code
@@ -190,52 +188,128 @@
         });
 
         window.onload = populateFilters;
-    </script>
+    </script>    
+
 
     <!-- Post grid section: to display the posts in rows of 3 -->
     <div>
            <!-- Post Container (Where posts are displayed) -->
     <div id="post-container">
-        <div class="post" data-time="2025-01-30T12:00:00">
-            <img src="projectImages/Ferret.png" alt="Ferret">
-            <div class="post-info">
-                <h3>Rocky</h3>
-                <p> Date missing: 1/30/2025</p>
-                <small>Posted on: Jan 30, 2025</small>
-            </div>
-        </div>
+        
 
-        <div class="post" data-time="20s25-01-25T08:30:00">
-            <a href="selectedPost.html">
-                <img src="projectImages/Golden ret.jpeg" alt="Dog">
-            </a>
-            <!--<img src="projectImages/Golden ret.jpeg" alt="Dog">-->
-            <div class="post-info">
-                <h3>Sunny</h3>
-                <p> Date missing: 1/03/2025</p>
-                <small>Posted on: Jan 03, 2025</small>
-            </div>
-        </div>
-
-        <div class="post" data-time="2025-01-27T15:45:00">
-            <img src="projectImages/lizard.jpg" alt="lizard">
-            <div class="post-info">
-                <h3>Greeny</h3>
-                <p> Date missing: 12/01/2024</p>
-                <small>Posted on: Dec 4, 2024</small>
-            </div>
-        </div>
-        <div class="post" data-time="2025-01-27T15:45:00">
-            <img src="projectImages/orange cat.jpg" alt="cat">
-            <div class="post-info">
-                <h3>Blaze</h3>
-                <p> Date missing: 03/28/2024</p>
-                <small>Posted on: Mar 29, 2024</small>
-            </div>
-        </div>
     </div>
+</div>
+
+<script>
+
+    //CALLING MISSING PETS LIST FUNCTION
+    if (document.getElementById('post-container')) {
+        console.log("Missing pet list element found. Calling loadMissingPetsEntries()...");
+        missingPosts(); // Load users when the page is ready
+    } else {
+        console.error("Missing pet list element not found in the DOM."); // Log if the missing pets list is missing
+    }
+     
+    // LOAD MISSING PETS LIST FUNCTION
+    async function missingPosts() {
+        console.log("Loading missing Pets..."); // Start log
+        try {
+            const response = await fetch('http://localhost:3000/missingPosts');
+            
+            console.log("Received response:", response.status); // Log the response status
+            if (!response.ok) {
+                throw new Error('Failed to fetch all missing pet data');
+            }
     
-    </div>
+            const lostPosts= await response.json();
+            console.log("Missing Pet data:", lostPosts); // Log the missing pet data received
+    
+            //get role from local storage 
+    
+            const lostPostsList = document.getElementById('post-container');
+            if (!lostPostsList) {
+                console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                return;
+            }
+            lostPostsList.innerHTML = ''; // Clear the list before adding new items
+    
+            if (lostPosts.length === 0) {
+                lostPostsList.textContent = 'No missing pet entries.';
+            } else {
+                lostPosts.forEach(post => {
+                    //new div for post 
+                    const postElement = document.createElement('div');
+ 
+                    //new div for post
+                    const innerPostElement = document.createElement('div');
 
+                    const pathFolder="projectImages/"
+                    
+                    //need to do if that column is empty use a default image of animal
+                    const postImg= document.createElement('img');
+                    postImg.src=pathFolder + `${post.animal_image_path}`;
+
+                    if (postImg === null){
+                        postImg.src="projectImages/dogsihouette.png"
+                    }
+                    console.log(postImg)
+                    //creating div to hold a post
+                    const postInfoElement = document.createElement('div');
+                
+                    //creating header element that holds pet name
+                    const postHeader = document.createElement('h3');
+                    postHeader.textContent = `${post.petName}`;
+                    console.log(postHeader);
+                    
+                    //cleaning up date lost data from JSON
+                    const dateLost=new Date(post.dateLost).toLocaleDateString();
+                    console.log(dateLost);
+                    
+                    //creating a paragraph element that holds date of when the pet was lost 
+                    const postParagraph = document.createElement('p');
+                    postParagraph.textContent=`Date Missing: ${dateLost}`;
+                    console.log(postParagraph);
+
+                    //cleaning up date created data from JSON
+                    const dateCreated=new Date(post.dateCreated).toLocaleDateString();
+                    console.log(dateLost);
+
+                    //creating a small element that holds the date when the post was created
+                    const postSmall = document.createElement('small');
+                    postSmall.textContent = `Date Posted: ${dateCreated}`;
+                    console.log(postSmall);
+                    
+                    // Adding all elements to front end by nesting the divs
+
+                    postInfoElement.appendChild(postHeader); //adding header to most inner div
+                    innerPostElement.appendChild(postHeader); //adding header to second bigger div
+
+                    innerPostElement.appendChild(postImg);
+                    
+                    postInfoElement.appendChild(postParagraph);
+                    innerPostElement.appendChild(postParagraph);
+
+                    postInfoElement.appendChild(postSmall);
+                    innerPostElement.appendChild(postSmall);
+
+                    postElement.appendChild(innerPostElement);
+
+                    //have to confirm these css ids/classes
+                    postElement.classList.add('post-container'); 
+                    innerPostElement.classList.add('post');
+                    postInfoElement.classList.add('post-info');
+    
+                    document.getElementById('post-container').appendChild(postElement);
+                    document.getElementById('post-container').appendChild(postInfoElement);
+                    document.getElementById('post-container').appendChild(innerPostElement);
+                    
+
+                });
+            }
+        } catch (error) {
+            console.error('Error loading all missing pet post entries:', error);
+        }
+    } 
+        </script>
 </body>
 </html>
