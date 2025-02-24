@@ -115,21 +115,25 @@ exports.createFlyer = async (req, res) => {
 
 
 
-
-
-
-// LOAD INVENTORY LIST ROUTE
-exports.inventory = async (req, res) => {
+// LOAD MISSING PET POSTS ROUTE 
+exports.missingPosts = async (req, res) => {
     try {
         const conn = await pool.getConnection();
-        const rows = await conn.query("SELECT * FROM inventory");
+        const rows = await conn.query("SELECT * FROM lostPets");
         res.json(rows);
         conn.release();
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Database error' });
+        res.status(500).json({ error: 'Database error. Unable to grab information from lostPets table.' });
     }
 };
+
+
+
+
+
+
+
 
 // ADD ITEM ROUTE 
 exports.addItem = async (req, res) => {
