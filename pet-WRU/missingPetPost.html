@@ -243,17 +243,20 @@
                     //new div for post
                     const innerPostElement = document.createElement('div');
 
+                    const pathFolder="projectImages/"
+                    
                     //need to do if that column is empty use a default image of animal
                     const postImg= document.createElement('img');
-                    postImg.src=`${post.animal_image_path}`;
+                    postImg.src=pathFolder + `${post.animal_image_path}`;
 
                     if (postImg === null){
                         postImg.src="projectImages/dogsihouette.png"
                     }
                     console.log(postImg)
-                    //new div to hold text
+                    //creating div to hold a post
                     const postInfoElement = document.createElement('div');
                 
+                    //creating header 3 element
                     const postHeader = document.createElement('h3');
                     postHeader.textContent = `${post.petName}`;
                     console.log(postHeader);
@@ -262,15 +265,17 @@
                     const dateCreated=new Date(post.dateLost).toLocaleDateString();
                     console.log(dateCreated);
                     
+                    //creating a pargraph element
                     const postParagraph = document.createElement('p');
-                    postParagraph.textContext=`Date Lost:${dateCreated}`;
+                    postParagraph.textContext=`Date Lost:${post.dateLost}`;
                     console.log(postParagraph);
 
+                    //creating a small element
                     const postSmall = document.createElement('small');
                     postSmall.textContext = `Date Posted: ${post.dateCreated}`;
                     console.log(postSmall);
                     
-                    // Adding all elements created to the div
+                    // Adding all elements to front end by nesting
 
         
                     postInfoElement.appendChild(postHeader); //adding header to most inner div
