@@ -202,7 +202,7 @@
 
 <script>
 
-    //LOAD MISSING PETS LIST FUNCTION
+    //CALLING MISSING PETS LIST FUNCTION
     if (document.getElementById('post-container')) {
         console.log("Missing pet list element found. Calling loadMissingPetsEntries()...");
         missingPosts(); // Load users when the page is ready
@@ -210,7 +210,7 @@
         console.error("Missing pet list element not found in the DOM."); // Log if the missing pets list is missing
     }
      
-    // LOAD MISSING PETS TABLE FUNCTION
+    // LOAD MISSING PETS LIST FUNCTION
     async function missingPosts() {
         console.log("Loading missing Pets..."); // Start log
         try {
@@ -237,50 +237,66 @@
                 lostPostsList.textContent = 'No missing pet entries.';
             } else {
                 lostPosts.forEach(post => {
-                    //new div
+                    //new div for post 
                     const postElement = document.createElement('div');
-
-                    //new div
+ 
+                    //new div for post
                     const innerPostElement = document.createElement('div');
 
                     //need to do if that column is empty use a default image of animal
                     const postImg= document.createElement('img');
                     postImg.src=`${post.animal_image_path}`;
 
-                    //new div
+                    if (postImg === null){
+                        postImg.src="projectImages/dogsihouette.png"
+                    }
+                    console.log(postImg)
+                    //new div to hold text
                     const postInfoElement = document.createElement('div');
                 
                     const postHeader = document.createElement('h3');
                     postHeader.textContent = `${post.petName}`;
                     console.log(postHeader);
+                    console.log( typeof postHeader);
 
-                    const dateCreated=new Date(post.dateLost)
+                    const dateCreated=new Date(post.dateLost).toLocaleDateString();
+                    console.log(dateCreated);
                     
                     const postParagraph = document.createElement('p');
                     postParagraph.textContext=`Date Lost:${dateCreated}`;
                     console.log(postParagraph);
-    
-                    const postSmall = document.createElement('small')
+
+                    const postSmall = document.createElement('small');
                     postSmall.textContext = `Date Posted: ${post.dateCreated}`;
                     console.log(postSmall);
                     
                     // Adding all elements created to the div
+
         
-                    postInfoElement.appendChild(postHeader);
-                    postInfoElement.appendChild(postParagraph);
-                    postInfoElement.appendChild(postSmall);
+                    postInfoElement.appendChild(postHeader); //adding header to most inner div
+                    innerPostElement.appendChild(postHeader); //adding header to second bigger div
 
-                    innerPostElement.appendChild(postInfoElement);
                     innerPostElement.appendChild(postImg);
+                    
 
+                    postInfoElement.appendChild(postParagraph);
+                    innerPostElement.appendChild(postParagraph);
+
+                    postInfoElement.appendChild(postSmall);
+                    innerPostElement.appendChild(postSmall);
+
+                    //innerPostElement.appendChild(postInfoElement);
+                    
                     postElement.appendChild(innerPostElement);
 
-                    postElement.classList.add('post-container');
-                    innerPostElement.classList.add('post-info');
-                    postInfoElement.classList.add('post');
+                    postElement.classList.add('post-container'); //have to confirm these css ids
+                    innerPostElement.classList.add('post');
+                    postInfoElement.classList.add('post-info');
     
-                    document.getElementById('post-container').appendChild(postElement)
-                    lostPostsList.appendChild(postElement);
+                    document.getElementById('post-container').appendChild(postElement);
+                    document.getElementById('post-container').appendChild(postInfoElement);
+                    document.getElementById('post-container').appendChild(innerPostElement);
+                    
 
                 });
             }
