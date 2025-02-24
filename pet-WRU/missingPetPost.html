@@ -256,45 +256,46 @@
                     //creating div to hold a post
                     const postInfoElement = document.createElement('div');
                 
-                    //creating header 3 element
+                    //creating header element that holds pet name
                     const postHeader = document.createElement('h3');
                     postHeader.textContent = `${post.petName}`;
                     console.log(postHeader);
-                    console.log( typeof postHeader);
-
-                    const dateCreated=new Date(post.dateLost).toLocaleDateString();
-                    console.log(dateCreated);
                     
-                    //creating a pargraph element
+                    //cleaning up date lost data from JSON
+                    const dateLost=new Date(post.dateLost).toLocaleDateString();
+                    console.log(dateLost);
+                    
+                    //creating a paragraph element that holds date of when the pet was lost 
                     const postParagraph = document.createElement('p');
-                    postParagraph.textContext=`Date Lost:${post.dateLost}`;
+                    postParagraph.textContent=`Date Missing: ${dateLost}`;
                     console.log(postParagraph);
 
-                    //creating a small element
+                    //cleaning up date created data from JSON
+                    const dateCreated=new Date(post.dateCreated).toLocaleDateString();
+                    console.log(dateLost);
+
+                    //creating a small element that holds the date when the post was created
                     const postSmall = document.createElement('small');
-                    postSmall.textContext = `Date Posted: ${post.dateCreated}`;
+                    postSmall.textContent = `Date Posted: ${dateCreated}`;
                     console.log(postSmall);
                     
-                    // Adding all elements to front end by nesting
+                    // Adding all elements to front end by nesting the divs
 
-        
                     postInfoElement.appendChild(postHeader); //adding header to most inner div
                     innerPostElement.appendChild(postHeader); //adding header to second bigger div
 
                     innerPostElement.appendChild(postImg);
                     
-
                     postInfoElement.appendChild(postParagraph);
                     innerPostElement.appendChild(postParagraph);
 
                     postInfoElement.appendChild(postSmall);
                     innerPostElement.appendChild(postSmall);
 
-                    //innerPostElement.appendChild(postInfoElement);
-                    
                     postElement.appendChild(innerPostElement);
 
-                    postElement.classList.add('post-container'); //have to confirm these css ids
+                    //have to confirm these css ids/classes
+                    postElement.classList.add('post-container'); 
                     innerPostElement.classList.add('post');
                     postInfoElement.classList.add('post-info');
     
@@ -306,7 +307,7 @@
                 });
             }
         } catch (error) {
-            console.error('Error loading all missing pets entries:', error);
+            console.error('Error loading all missing pet post entries:', error);
         }
     } 
         </script>
