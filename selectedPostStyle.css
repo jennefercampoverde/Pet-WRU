@@ -327,6 +327,58 @@ html,body {
     transform: scale(0.98);
 }
 
+/* Flex container to align text and button */
+.location-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Adjust spacing between text and button */
+}
+
+/* Adjust button size to match icon */
+.location-btn {
+    cursor: pointer;
+    font-size: 0.5rem; /* Adjust icon size */
+    padding: 5px;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.location-btn i {
+    font-size: 1rem; /* Adjust icon size */
+}
+
+.popup{
+    width: 0 auto;
+    background: whitesmoke;
+    border-radius: 6px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-10%, 13%) ;
+    padding: 10px 30px 30px;
+    text-align: center;
+    display: none;
+    transition: transform 0.4s, top 0.4s;
+}
+
+.open-popup{
+    display: flex;
+}
+
+
+.popup img {
+    width: 400px;
+    margin-top: 30px;
+}
+
+.popup button{
+    margin-bottom: 350px;
+    cursor: pointer;
+}
+
 /*
 .review strong {
     display: inline-block;

@@ -70,7 +70,16 @@
                 </div>
                 <div class="post-info-row">
                     <strong>Last Known Location</strong>
-                    <p>Oak Street, Hempstead</p>
+                    <div class="location-container">
+                        <p>Oak Street, Hempstead</p>
+                        <button type="submit" class="btn location-btn" onclick="openPopup()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="popup" id="popup"> 
+                        <img src = "projectImages/oakst.png">
+                        <button type="button" onclick="closePopup()"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
                 </div>
                 <div class="post-info-row">
                     <strong>Date Went Missing</strong>
@@ -88,6 +97,15 @@
         </section>
 
         <script>
+            let popup = document.getElementById("popup");
+
+            function openPopup(){
+                popup.classList.add("open-popup")
+            }
+
+            function closePopup(){
+                popup.classList.remove("open-popup")
+            }
 
             function myFunction() {
                 var navbar = document.getElementById("navLinks");
