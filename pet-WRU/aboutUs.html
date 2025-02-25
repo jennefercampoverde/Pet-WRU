@@ -5,24 +5,35 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>	</title>
 	<link rel="stylesheet" href="basic.css">
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<!-- Top Navigation Bar -->
     <!--each icon on navigation bar should take you to respectable page-->
-    <div class="navbar">
+    <div class="navbar" id="myNavbar" >
         <!-- Logo -->
         <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
         
         <!-- Navigation Links -->
         <!--each link references another html page-->
-        <div class="nav-links">
+        <div class="nav-links" id="navLinks">
             <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
-            <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
-            <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
+                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
+                </div>
+              </div> 
             <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="#" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
+            <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
+            
         </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
+
 	<h1 id="AbutHeading"> About Us! </h1>
     <div class="Description">
 	<section>
@@ -60,5 +71,19 @@
         </p>
     </section>
     </div>
+    <script>
+
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
+    
+
+    </script>
 </body>
 </html>

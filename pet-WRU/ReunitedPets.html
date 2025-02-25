@@ -29,8 +29,8 @@
                     <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
                 </div>
               </div> 
-            <a href="#"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="login&signup.html"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
+            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+            <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
             
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
@@ -141,6 +141,16 @@
                 link.classList.remove('active');
             }
         });
+
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
 
         window.onload = populateFilters;
     </script>
