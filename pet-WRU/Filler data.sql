@@ -4,9 +4,9 @@ INSERT INTO usersInfo (userName, firstName, lastName, dob, emailAddress, userPas
 
 INSERT INTO usersInfo (userName, firstName, lastName, dob, emailAddress, userPassword, zipcode, city) VALUES ('ashmo21', 'Ashley', 'Mooney', '2001-09-23', 'ashm67@gmail.com', 'mhj12Hum%', '11375', 'Forest Hills');
 
-INSERT INTO lostPets (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (1, '2025-03-01', '11556', 'Uniondale', 'Sunny', 'Dog', 'M', 'Yellow', 'Male', 'projectImages/sunnyUniondale.jpeg', 'My dog Sunny was last seen wearing a green harness in Uniondale and is easily startled. Please reach out if you have any information.', 'Lost');
+INSERT INTO lostPets (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (1, '2025-03-01', '11556', 'Uniondale', 'Sunny', 'Dog', 'M', 'Yellow', 'Male', 'orangeCat.jpg', 'My dog Sunny was last seen wearing a green harness in Uniondale and is easily startled. Please reach out if you have any information.', 'Lost');
 
-INSERT INTO lostPets (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (3, '2025-03-04', '11379', 'Middle Village', 'Dag', 'Cat', 'S', 'Black', 'Male', 'projectImages/dagMiddleVillage.jpeg', 'My cat Dag was last seen wearing an orange leash and is very friendly. Please reach out if you have any information.', 'Lost');
+INSERT INTO lostPets (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (3, '2025-03-04', '11379', 'Middle Village', 'Dag', 'Cat', 'S', 'Black', 'Male', 'GoldenRet.jpeg', 'My cat Dag was last seen wearing an orange leash and is very friendly. Please reach out if you have any information.', 'Lost');
 
 INSERT INTO foundPets (lostID, dateFound, status) VALUES (1, '2025-04-16', 'Found');
 
