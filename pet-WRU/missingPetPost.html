@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Missing Pets</title>
     <link rel="stylesheet" href="missingPetPostStyle.css">
-    <link rel="stylesheet" href="mainpageStyle.css">
+    <!-- <link rel="stylesheet" href="mainpageStyle.css"> -->
     <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -281,26 +281,40 @@
                     
                     // Adding all elements to front end by nesting the divs
 
-                    postInfoElement.appendChild(postHeader); //adding header to most inner div
-                    innerPostElement.appendChild(postHeader); //adding header to second bigger div
+                    innerPostElement.appendChild(postImg); // image goes first and within post
 
-                    innerPostElement.appendChild(postImg);
-                    
-                    postInfoElement.appendChild(postParagraph);
-                    innerPostElement.appendChild(postParagraph);
+                    postInfoElement.appendChild(postHeader); // then header and within post-info
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                    innerPostElement.appendChild(postInfoElement);
 
                     postInfoElement.appendChild(postSmall);
-                    innerPostElement.appendChild(postSmall);
+                    innerPostElement.appendChild(postInfoElement);
 
                     postElement.appendChild(innerPostElement);
+        
+
+                    // postInfoElement.appendChild(postHeader); //adding header to most inner div
+                    // innerPostElement.appendChild(postHeader); //adding header to second bigger div
+
+                    // innerPostElement.appendChild(postImg);
+                    
+                    // postInfoElement.appendChild(postParagraph);
+                    // innerPostElement.appendChild(postParagraph);
+
+                    // postInfoElement.appendChild(postSmall);
+                    // innerPostElement.appendChild(postSmall);
+
+                    // postElement.appendChild(innerPostElement);
 
                     //have to confirm these css ids/classes
                     postElement.classList.add('post-container'); 
                     innerPostElement.classList.add('post');
                     postInfoElement.classList.add('post-info');
     
-                    document.getElementById('post-container').appendChild(postElement);
-                    document.getElementById('post-container').appendChild(postInfoElement);
+                    // document.getElementById('post-container').appendChild(postElement);
+                    // document.getElementById('post-container').appendChild(postInfoElement);
                     document.getElementById('post-container').appendChild(innerPostElement);
                     
 
