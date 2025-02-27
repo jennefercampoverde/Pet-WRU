@@ -1,12 +1,12 @@
 html,body {
-    height: 100%;
     margin: 0;
+    height: 100%;
     max-width: 100%;
     font-family: Arial, sans-serif;
     background: rgb(248, 224, 180);
     line-height: 1.6;
-    display: flex;
-    flex-direction: column;
+   /* display: flex;
+    flex-direction: column;*/
     overflow-x: hidden;
 }
 
@@ -167,7 +167,7 @@ html,body {
 }
 
 .post-container {
-    max-width: 800px;
+    max-width: 700px;
     margin: 20px auto;
     background: #fff;
     border-radius: 8px;
@@ -185,6 +185,7 @@ html,body {
     font-family: TiemposHeadlineWeb-Bold, Georgia, serif;
     font-size: 2rem;
     color: #2c3e50;
+    text-align: center;
 }
 
 .genre {
@@ -194,7 +195,10 @@ html,body {
 
 .post-details {
     display: flex;
+    flex-wrap: wrap; /* Allows content to stack on smaller screens */
     gap: 20px;
+    align-items: flex-start;
+    
 }
 
 /* Style for post image */
@@ -203,6 +207,7 @@ html,body {
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     margin-top: 40px;
+
 }
 
 /* Style for post into container */
@@ -216,12 +221,15 @@ html,body {
     padding: 20px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid #eaeaea;
+    flex: 1; /* Allows it to take available space */
+    min-width: 250px; /* Prevents it from getting too small */
+    max-width: 100%; /* Ensures it doesn't overflow */
 }
 
 .post-info-row {
     display: grid;
     grid-template-columns: 150px 1fr;
-    gap: 100px;
+    gap: 80px;
     border-bottom: 1px solid #eaeaea;
     padding: 10px 0;
     text-align: left;
@@ -238,6 +246,8 @@ html,body {
     display: block;
     margin-right: 10px;
     text-align: left;
+    flex-shrink: 0; /* Prevents label from shrinking too much */
+    width: 150px; /* Ensures labels have consistent width */
 }
 
 .post-info-row p {
@@ -246,6 +256,9 @@ html,body {
     line-height: 1.5;
     display: block;
     text-align: left;
+    flex: 1; /* Allows text to take up remaining space */
+    min-width: 100px; /* Prevents it from disappearing completely */
+    margin-left: 20px;
 }
 
 .post-info-row.description {
@@ -266,6 +279,7 @@ html,body {
 .post-actions {
     text-align: center;
     margin-top: 20px;
+    font-size: 14px;
 }
 
 /* Style for trash icon */
@@ -331,7 +345,7 @@ html,body {
 .location-container {
     display: flex;
     align-items: center;
-    gap: 20px; /* Adjust spacing between text and button */
+    gap: 0px; /* Adjust spacing between text and button */
 }
 
 /* Adjust button size to match icon */
@@ -351,62 +365,64 @@ html,body {
 }
 
 .popup{
-    width: 0 auto;
+    width: 350px;
     background: whitesmoke;
     border-radius: 6px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-10%, 13%) ;
+    position: relative;
     padding: 10px 30px 30px;
     text-align: center;
     display: none;
-    transition: transform 0.4s, top 0.4s;
+    margin-top: -60px;
+    margin-right: 100px;
 }
 
 .open-popup{
     display: flex;
+    
 }
 
 
 .popup img {
-    width: 400px;
+    width: 350px;
     margin-top: 30px;
+
 }
 
 .popup button{
-    margin-bottom: 350px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
 }
 
-/*
-.review strong {
-    display: inline-block;
-    margin-right: -15px; 
-}
+@media (max-width: 720px) { /* Adjust breakpoint as needed */
+    .post-info-row {
+        display: grid; /* Switch from grid to flex for better shrinking */
+        flex-direction: column; /* Stack label and content */
+        gap: 5px; /* Reduce spacing */
+        align-items: flex-start; /* Keep text alignment */
+    }
 
-.review small {
-    display: block; 
-    margin-bottom: 15px; 
-    font-size: 0.9em; 
-    color: #666; 
-}
-*/
+    .post-info-row strong {
+        width: 100%; /* Makes label take full width */
+    }
 
-/* Style for post info row */
-.post-info-row.species {
-    display: flex;
-    padding: 0px 0;
-    align-items: baseline;
-    margin-left: -1px; 
-}
+    .location-container {
+        display: flex;
+        flex-wrap: wrap; /* Allows text and button to stack */
+        gap: 3px;
+    }
 
-.species {
-    display: flex;
-    align-items: center; 
-    margin-left: 17px;
-}
+    .btn.location-btn {
+        
+        flex-shrink: 0; /* Prevents button from shrinking too much */
+    }
+    .post-image {
+        width: 100%; /* Ensures it takes full width */
+        display: grid;
+        justify-content: center; /* Centers the image */
+    }
 
+}
 
 /* Style to comments */
 .comment {
@@ -452,3 +468,31 @@ html,body {
 .delete-button i {
     font-size: 20px; /* Adjust icon size */
 }
+
+/*
+.review strong {
+    display: inline-block;
+    margin-right: -15px; 
+}
+
+.review small {
+    display: block; 
+    margin-bottom: 15px; 
+    font-size: 0.9em; 
+    color: #666; 
+}
+*/
+
+/* Style for post info row 
+.post-info-row.species {
+    display: flex;
+    padding: 0px 0;
+    align-items: baseline;
+    margin-left: -1px; 
+}
+
+.species {
+    display: flex;
+    align-items: center; 
+    margin-left: 17px;
+}*/
