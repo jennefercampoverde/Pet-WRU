@@ -93,7 +93,7 @@ exports.createFlyer = async (req, res) => {
         const fileInput = req.file ? req.file.filename : null;
 
         // Default status
-        const status = "lost";
+        const status = "Lost";
 
         // Insert into database
         const conn = await pool.getConnection();
