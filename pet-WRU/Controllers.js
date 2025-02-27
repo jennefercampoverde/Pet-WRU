@@ -18,6 +18,7 @@ exports.login = async (req, res) => {
                 req.session.userID = usersInfo.userID;
                 console.log(`User logged in: ${usersInfo.firstName} ${usersInfo.lastName}, ID: ${req.session.userID}`);
                 res.json({ ID: usersInfo.userID, success: true });
+
             } else {
                 console.log(`Failed login attempt: ${UserName} (Invalid password)`);
                 res.status(401).json({ message: 'Invalid password' });
@@ -39,8 +40,17 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
     req.session.destroy(err => {
         if (err) return res.status(500).json({ error: 'Failed to logout' });
-        res.json({ message: 'Logout successful' });
-    });
+            res.json({ message: 'Logout successful' });
+        });
+};
+
+//Route to send server side stored ID to client side
+exports.getUserID = async (req, res) => {
+    if (req.session.userID) {
+        return res.json({ userID: req.session.userID });
+    } else {
+        return res.json({ userID: null });
+    }
 };
 
 
@@ -102,7 +112,7 @@ exports.createFlyer = async (req, res) => {
 
         conn.release();
 
-        console.log(`Flyer created successfully`);
+        console.log(`Flyer created successfully.`);
         res.json({ message: "Flyer created successfully!" });
 
     } catch (err) {

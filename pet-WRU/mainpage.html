@@ -45,10 +45,7 @@
             <h2>Create a flyer and post it on our website <br>
             by clicking the "report" button below</h2>
             
-            <a href="createFlier.html">
-                <button type="button">Report Missing Pet</button>
-            </a>
-            
+            <button id="loginButton" type="button">Report Missing Pet</button>            
          
         <!-- Image in the bottom-right corner -->
         <img src="projectImages/cat.png" alt="Decorative Image" class="bottom-right">
@@ -68,6 +65,47 @@
 
     <script>
 
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("JavaScript loaded successfully!"); // Check if script runs
+
+            let loginButton = document.getElementById("loginButton");
+
+            if (loginButton) {
+                console.log("loginButton found! Adding event listener..."); // Button exists
+
+                loginButton.addEventListener("click", async function (event) {
+                    event.preventDefault();
+                    
+                    // Wait for the userID from the server
+                    let userID = await getUserID();
+
+                    if (userID == null) {  
+                        alert("Please log in to report a missing pet.");
+                        window.location.href = "login&signup.html"; // Redirect to login page
+                    } else {
+                        window.location.href = "createFlier.html"; // Allow navigation if logged in
+                    }
+                });
+            } else {
+                console.error("Error: loginButton not found in DOM.");
+            }
+        });
+
+
+        
         function myFunction() {
             var navbar = document.getElementById("navLinks");
             if (navbar.classList.contains("responsive")) {
@@ -91,7 +129,6 @@
         });
 
         window.onload = populateFilters;
-
 
     </script>
 </body>
