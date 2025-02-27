@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missing Pets</title>
+    <title>Selected Pets</title>
     <link rel="stylesheet" href="selectedPostStyle.css">
-    <!-- <link rel="stylesheet" href="mainpageStyle.css"> -->
     <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -34,7 +33,7 @@
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
-    
+
     <div class="post-container">
         <header class="post-header">
             <h1>Sunny</h1>
@@ -42,7 +41,7 @@
 
         <section class="post-details">
             <div class="post-image">
-                <img src="projectImages/Golden ret.jpeg" alt="dog">
+                <img src="projectImages/Goldenret.jpeg" alt="dog">
                 <div class="post-actions">
                     <h2>Created by username</h2>
                 </div>
@@ -72,7 +71,16 @@
                 </div>
                 <div class="post-info-row">
                     <strong>Last Known Location</strong>
-                    <p>Oak Street, Hempstead</p>
+                    <div class="location-container">
+                        <p>Oak Street, Hempstead</p>
+                        <button type="submit" class="btn location-btn" onclick="openPopup()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="popup" id="popup"> 
+                        <img src = "projectImages/oakst.png">
+                        <button type="button" onclick="closePopup()"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
                 </div>
                 <div class="post-info-row">
                     <strong>Date Went Missing</strong>
@@ -90,6 +98,15 @@
         </section>
 
         <script>
+            let popup = document.getElementById("popup");
+
+            function openPopup(){
+                popup.classList.add("open-popup")
+            }
+
+            function closePopup(){
+                popup.classList.remove("open-popup")
+            }
 
             function myFunction() {
                 var navbar = document.getElementById("navLinks");

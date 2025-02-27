@@ -175,6 +175,7 @@ html,body {
     border-radius: 8px;
     position: relative; /* Needed to position the child element (image) inside this container */
     margin-top: 150px;
+    margin-bottom: 150px;
     flex-direction: column;
     align-items: center; /* Centers content horizontally */
     text-align: center; /* Ensures text is also centered */
@@ -294,7 +295,6 @@ button:hover {
 button:active {
     background-color: #084298;
 }
-
 
 
 
