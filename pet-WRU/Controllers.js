@@ -44,15 +44,6 @@ exports.logout = async (req, res) => {
         });
 };
 
-//Route to send server side stored ID to client side
-exports.getUserID = async (req, res) => {
-    if (req.session.userID) {
-        return res.json({ userID: req.session.userID });
-    } else {
-        return res.json({ userID: null });
-    }
-};
-
 
 //Route to register an account with a hashed password
 exports.register = async (req, res) => {
@@ -81,15 +72,267 @@ exports.register = async (req, res) => {
 };
 
 
+//Route to send server side stored ID to client side
+exports.getUserID = async (req, res) => {
+    if (req.session.userID) {
+        return res.json({ userID: req.session.userID });
+    } else {
+        return res.json({ userID: null });
+    }
+};
 
 
+                                        //START OF ROUTES FOR EDITING ACCOUNT INFORMATION
+//Edit username
+exports.editUsername = async (req, res) => {
+    const { userName } = req.body;
 
+    // Ensure the new username is not empty or invalid
+    if (!userName || userName.trim().length === 0) {
+        return res.status(400).json({ error: 'Username cannot be empty' });
+    }
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if user exists
+        const [rows] = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Update the username in the database
+        const result = await conn.query(
+            "UPDATE usersInfo SET userName = ? WHERE userID = ?",
+            [userName, userID]
+        );
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the account" });
+        }
+
+        console.log(`Username updated for userID: ${userID}`);
+        res.json({ message: 'Username updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating account' });
+    }
+};
+
+//Edit password
+exports.editPassword = async (req, res) => {
+    const { userPassword } = req.body;
+
+    // Ensure the new username is not empty or invalid
+    if (!userPassword || userPassword.trim().length === 0) {
+        return res.status(400).json({ error: 'Password cannot be empty' });
+    }
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if user exists
+        const [rows] = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        //hash new password
+        let hash;
+        try {
+            hash = await bcrypt.hash(userPassword, 10);
+        } catch (err) {
+            console.error("Error hashing password:", err);
+            return res.status(500).json({ error: 'Error hashing password' });
+        }
+
+        // Update the password in the database
+        const result = await conn.query(
+            "UPDATE usersInfo SET userPassword = ? WHERE userID = ?",
+            [hash, userID]
+        );
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the account" });
+        }
+
+        console.log(`Password updated for userID: ${userID}`);
+        res.json({ message: 'Password updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating account' });
+    }
+};
+
+//Edit email
+exports.editEmail = async (req, res) => {
+    const { emailAddress } = req.body;
+
+    // Ensure the new username is not empty or invalid
+    if (!emailAddress || emailAddress.trim().length === 0) {
+        return res.status(400).json({ error: 'Email cannot be empty' });
+    }
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if user exists
+        const [rows] = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Update the username in the database
+        const result = await conn.query(
+            "UPDATE usersInfo SET emailAddress = ? WHERE userID = ?",
+            [emailAddress, userID]
+        );
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the account" });
+        }
+
+        console.log(`Email updated for userID: ${userID}`);
+        res.json({ message: 'Email updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating account' });
+    }
+};
+
+//Edit zipcode
+exports.editZip = async (req, res) => {
+    const { zipcode } = req.body;
+
+    // Ensure the new username is not empty or invalid
+    if (!zipcode || zipcode.trim().length === 0) {
+        return res.status(400).json({ error: 'Zipcode cannot be empty' });
+    }
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if user exists
+        const [rows] = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Update the username in the database
+        const result = await conn.query(
+            "UPDATE usersInfo SET zipcode = ? WHERE userID = ?",
+            [zipcode, userID]
+        );
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the account" });
+        }
+
+        console.log(`Zipcode updated for userID: ${userID}`);
+        res.json({ message: 'Zipcode updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating account' });
+    }
+};
+
+//Edit City
+exports.editCity = async (req, res) => {
+    const { city } = req.body;
+
+    // Ensure the new username is not empty or invalid
+    if (!city || city.trim().length === 0) {
+        return res.status(400).json({ error: 'City cannot be empty' });
+    }
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if user exists
+        const [rows] = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Update the username in the database
+        const result = await conn.query(
+            "UPDATE usersInfo SET city = ? WHERE userID = ?",
+            [city, userID]
+        );
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the account" });
+        }
+
+        console.log(`City updated for userID: ${userID}`);
+        res.json({ message: 'City updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating account' });
+    }
+};
+                                        //END OF ROUTES FOR EDITING ACCOUNT INFORMATION
 
 
 //Route to create a flyer
 exports.createFlyer = async (req, res) => {
     try {
-        const { dateCreated, dateLost, lastZipcode, lastCityID, 
+        const { dateLost, lastZipcode, lastCityID, 
                 petName, animalType, animalSize, animalColor, animalGender, 
                 description } = req.body;
         
@@ -122,9 +365,6 @@ exports.createFlyer = async (req, res) => {
 };
 
 
-
-
-
 // LOAD MISSING PET POSTS ROUTE 
 exports.missingPosts = async (req, res) => {
     try {
@@ -137,6 +377,9 @@ exports.missingPosts = async (req, res) => {
         res.status(500).json({ error: 'Database error. Unable to grab information from lostPets table.' });
     }
 };
+
+
+
 
 
 
