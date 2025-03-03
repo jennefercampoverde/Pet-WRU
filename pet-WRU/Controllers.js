@@ -379,7 +379,20 @@ exports.missingPosts = async (req, res) => {
 };
 
 
+// Route to load map for selected page
+exports.selectedPost = async (req, res) => {
+    const {lostPet} = req.body;
 
+    try {
+        const conn = await pool.getConnection();
+        const rows = await conn.query("SELECT lastZipcode, lastCityID FROM lostpets WHERE lostID = ?", [lostPet]);
+        res.json(rows);
+        conn.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error. Unable to grab information from lostPets table.' });
+    }
+};
 
 
 

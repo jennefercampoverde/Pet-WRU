@@ -101,17 +101,10 @@
         </section>
 
         <script>
-
-            document.addEventListener("DOMContentLoaded", function () {
-                const lostPetID = 1; // Replace with actual ID dynamically
-                fetchLocationData(lostPetID);
-            });
-            
             let popup = document.getElementById("popup");
 
             function openPopup(){
                 popup.classList.add("open-popup")
-                // Trigger map resize after popup is opened to ensure correct rendering
                 map.invalidateSize();
             }
 
@@ -128,69 +121,16 @@
                 }
             }
     
+            const map = L.map('map');
+            map.setView([40.700022, -73.579854], 20);
 
-            async function fetchLocationData(lostPetID) {
-                try {
-                    const response = await fetch('http://localhost:3000/selectedPost', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ lostPet: lostPetID }) // Send lostPet ID
-                    });
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright"> OpenStreetMap contributors</a>'
+            }).addTo(map);
 
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch location data');
-                    }
-
-                    const geoInfo = await response.json();
-                    console.log("GeoLoc Pet data:", geoInfo); // Debugging
-
-                    if (geoInfo.length > 0) {
-                        const { lastZipcode, lastCityID } = geoInfo[0]; 
-                        console.log(`Zipcode: ${lastZipcode}, CityID: ${lastCityID}`);
-
-                        // Convert Zipcode and City to Lat/Lng (use an API for geocoding)
-                        getCoordinates(lastZipcode, lastCityID);
-                    }
-                } catch (error) {
-                    console.error('Error fetching location data:', error);
-                }
-            }
-
-
-            async function getCoordinates(zipcode, city) {
-                const query = `${zipcode}, ${city}`;
-                const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
-
-                try {
-                    const response = await fetch(url);
-                    const data = await response.json();
-
-                    if (data.length > 0) {
-                        const { lat, lon } = data[0];
-                        console.log(`Coordinates: ${lat}, ${lon}`);
-
-                        // Update Map
-                        updateMap(lat, lon);
-                    } else {
-                        console.error("Location not found");
-                    }
-                } catch (error) {
-                    console.error("Error fetching coordinates:", error);
-                }
-            }
-
-            function updateMap(lat, lon) {
-                const map = L.map('map').setView([lat, lon], 15);
-
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; OpenStreetMap contributors'
-                }).addTo(map);
-
-                L.marker([lat, lon], { title: "Last Seen Location" }).addTo(map);
-            }
-
+            L.marker([ 40.699896, -73.580187], {
+                title: "St Agnes Rd"
+            }).addTo(map)
 
         </script>
 </body>
