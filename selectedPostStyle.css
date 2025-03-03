@@ -424,6 +424,11 @@ html,body {
 
 }
 
+#map {
+    width: 100%;
+    height: 350px;
+}
+
 /* Style to comments */
 .comment {
     margin-bottom: 20px;
