@@ -385,7 +385,7 @@ exports.missingPosts = async (req, res) => {
 
 // Route to load map for selected page
 exports.selectedPost = async (req, res) => {
-    const {lostPetID} = req.body;
+    const {lostPetID} = req.params;
 
     try {
         const conn = await pool.getConnection();

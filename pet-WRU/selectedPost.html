@@ -131,11 +131,9 @@
 
             async function fetchLocationData(lostPetID) {
                 try {
-                    const response = await fetch('http://localhost:3000/selectedPosts', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ lostPetID }) // Send lostPet ID
+                    const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
                     });
 
                     if (!response.ok) {
@@ -143,19 +141,19 @@
                     }
 
                     const geoInfo = await response.json();
-                    console.log("GeoLoc Pet data:", geoInfo); // Debugging
+                    console.log("GeoLoc Pet data:", geoInfo);
 
                     if (geoInfo.length > 0) {
-                        const { lastZipcode, lastCityID } = geoInfo[0]; 
+                        const { lastZipcode, lastCityID } = geoInfo[0];
                         console.log(`Zipcode: ${lastZipcode}, CityID: ${lastCityID}`);
 
-                        // Convert Zipcode and City to Lat/Lng (use an API for geocoding)
                         getCoordinates(lastZipcode, lastCityID);
                     }
                 } catch (error) {
                     console.error('Error fetching location data:', error);
                 }
             }
+
 
 
             async function getCoordinates(zipcode, city) {
