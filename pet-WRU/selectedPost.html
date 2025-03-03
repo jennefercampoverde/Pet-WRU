@@ -101,25 +101,28 @@
         </section>
 
         <script>
-
             document.addEventListener("DOMContentLoaded", function () {
                 const lostPetID = 1; // Replace with actual ID dynamically
                 fetchLocationData(lostPetID);
             });
-            
+        
             let popup = document.getElementById("popup");
-            let map;
-
-            function openPopup(){
-                popup.classList.add("open-popup")
-                // Trigger map resize after popup is opened to ensure correct rendering
-                map.invalidateSize();
+            let map; // Declare the map globally
+        
+            function openPopup() {
+                popup.classList.add("open-popup");
+                // If the map exists, invalidate its size after the popup is opened
+                if (map) {
+                    setTimeout(() => {
+                        map.invalidateSize();
+                    }, 300); // Allow time for popup to render
+                }
             }
-
-            function closePopup(){
-                popup.classList.remove("open-popup")
+        
+            function closePopup() {
+                popup.classList.remove("open-popup");
             }
-
+        
             function myFunction() {
                 var navbar = document.getElementById("navLinks");
                 if (navbar.classList.contains("responsive")) {
@@ -128,47 +131,44 @@
                     navbar.classList.add("responsive");
                 }
             }
-    
-
+        
             async function fetchLocationData(lostPetID) {
                 try {
                     const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
                         method: 'GET',
                         headers: { 'Content-Type': 'application/json' }
                     });
-
+        
                     if (!response.ok) {
                         throw new Error('Failed to fetch location data');
                     }
-
+        
                     const geoInfo = await response.json();
                     console.log("GeoLoc Pet data:", geoInfo);
-
+        
                     if (geoInfo.length > 0) {
                         const { lastZipcode, lastCityID } = geoInfo[0];
                         console.log(`Zipcode: ${lastZipcode}, CityID: ${lastCityID}`);
-
+        
                         getCoordinates(lastZipcode, lastCityID);
                     }
                 } catch (error) {
                     console.error('Error fetching location data:', error);
                 }
             }
-
-
-
+        
             async function getCoordinates(zipcode, city) {
                 const query = `${zipcode}, ${city}`;
                 const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
-
+        
                 try {
                     const response = await fetch(url);
                     const data = await response.json();
-
+        
                     if (data.length > 0) {
                         const { lat, lon } = data[0];
                         console.log(`Coordinates: ${lat}, ${lon}`);
-
+        
                         // Update Map
                         updateMap(lat, lon);
                     } else {
@@ -178,18 +178,23 @@
                     console.error("Error fetching coordinates:", error);
                 }
             }
-
+        
             function updateMap(lat, lon) {
-                const map = L.map('map').setView([lat, lon], 15);
-
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; OpenStreetMap contributors'
-                }).addTo(map);
-
-                L.marker([lat, lon], { title: "Last Seen Location" }).addTo(map);
+                // Initialize the map only if it's not already initialized
+                if (!map) {
+                    map = L.map('map').setView([lat, lon], 15); // Create map if not created yet
+        
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(map);
+        
+                    L.marker([lat, lon], { title: "Last Seen Location" }).addTo(map);
+                } else {
+                    // If the map exists, just update the view
+                    map.setView([lat, lon], 15);
+                }
             }
-
-
         </script>
+        
 </body>
 </html>
