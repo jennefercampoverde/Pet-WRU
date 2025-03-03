@@ -131,12 +131,11 @@
 
             async function fetchLocationData(lostPetID) {
                 try {
-                    const response = await fetch('http://localhost:3000/selectedPost', {
+                    const response = await fetch('http://localhost:3000/selectedPosts', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
+                        headers: { 'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ lostPet: lostPetID }) // Send lostPet ID
+                        body: JSON.stringify({ lostPetID }) // Send lostPet ID
                     });
 
                     if (!response.ok) {

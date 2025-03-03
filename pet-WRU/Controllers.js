@@ -130,6 +130,7 @@ exports.editUsername = async (req, res) => {
     }
 };
 
+
 //Edit password
 exports.editPassword = async (req, res) => {
     const { userPassword } = req.body;
@@ -186,6 +187,7 @@ exports.editPassword = async (req, res) => {
     }
 };
 
+
 //Edit email
 exports.editEmail = async (req, res) => {
     const { emailAddress } = req.body;
@@ -233,6 +235,7 @@ exports.editEmail = async (req, res) => {
     }
 };
 
+
 //Edit zipcode
 exports.editZip = async (req, res) => {
     const { zipcode } = req.body;
@@ -279,6 +282,7 @@ exports.editZip = async (req, res) => {
         res.status(500).json({ error: 'Database error when updating account' });
     }
 };
+
 
 //Edit City
 exports.editCity = async (req, res) => {
@@ -381,11 +385,11 @@ exports.missingPosts = async (req, res) => {
 
 // Route to load map for selected page
 exports.selectedPost = async (req, res) => {
-    const {lostPet} = req.body;
+    const {lostPetID} = req.body;
 
     try {
         const conn = await pool.getConnection();
-        const rows = await conn.query("SELECT lastZipcode, lastCityID FROM lostpets WHERE lostID = ?", [lostPet]);
+        const rows = await conn.query("SELECT lastZipcode, lastCityID FROM lostpets WHERE lostID = ?", [lostPetID]);
         res.json(rows);
         conn.release();
     } catch (err) {
