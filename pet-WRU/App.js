@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');  // Import CORS middleware
 const path = require('path');
 const session = require('express-session');
 const app = express(); 
@@ -12,6 +13,9 @@ app.use(session({
     saveUninitialized: false,
     cookie: { secure: false, httpOnly: true } 
 }));
+
+//Enable cors
+app.use(cors());
 
 // Middleware for parsing URL-encoded and JSON data
 app.use(express.json());
