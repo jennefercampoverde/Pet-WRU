@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>	</title>
 	<link rel="stylesheet" href="basic.css">
+    <link rel="stylesheet" href="mainpageStyle.css">
 </head>
 <body>
 	<!-- Top Navigation Bar -->
@@ -34,34 +35,43 @@
     </div>
 
 	<h1 id="UserHeading"> Welcome to your page! </h1>
-	<section>
-		<h3> Account Information </h3>
-        <div class ="UserInformation">
-		    <form action="userpage.html" method="POST">
-			    <label for="Username">Username: </label><br>
-			    <input type="text" id="Username"></label> <input type="Submit" value="Edit" name="Edit">
-		    </form>
+    <section>
+        <h3> Account Information </h3>
+        <div class="UserInformation">
 
-            <form action="userpage.html" method="POST">
-			    <label for="Email">Email Address: </label><br>
-			    <input type="text" id="Email"></label> <input type="Submit" value="Edit" name="Edit">
-		    </form>
-
-            <form action="userpage.html" method="POST">
-			    <label for="Zip">Zip Code: </label><br>
-			    <input type="text" id="Zip"></label> <input type="Submit" value="Edit" name="Edit">
-		    </form>
-
-            <form action="userpage.html" method="POST">
-			    <label for="Address">Address: </label><br>
-			    <input type="text" id="Address"></label> <input type="Submit" value="Edit" name="Edit">
-		    </form>
-            <form action="userpage.html" method="POST"></form>
-                <label for="Description">Description:</label><br>
-			    <textarea name ="Notes" id="Description"></textarea><br> <input type="Submit" value="Edit" name="Edit">
+            <form id="editUsername" action="/editUsername" method="POST">
+                <label for="Username">Username:</label>
+                <input type="text" id="Username" name="userName" />
+                <input type="submit" value="Edit" />
             </form>
+            
+            <form id="editPassword" action="/editPassword" method="POST">
+                <label for="Password">Password:</label>
+                <input type="text" id="Password" name="userPassword" />
+                <input type="submit" value="Edit" />
+            </form>
+            
+            <form id="editEmail" action='/editEmail' method="POST">
+                <label for="Email">Email Address:</label>
+                <input type="text" id="Email" name="emailAddress" />
+                <input type="submit" value="Edit" />
+            </form>
+            
+            <form id="editZip" action="/editZip" method="POST">
+                <label for="Zip">Zip Code:</label>
+                <input type="text" id="Zip" name="zipcode" />
+                <input type="submit" value="Edit" />
+            </form>
+            
+            <form id="editCity" action="/editCity" method="POST">
+                <label for="City">City:</label>
+                <input type="text" id="City" name="city" />
+                <input type="submit" value="Edit" />
+            </form>
+            
         </div>
-	</section>
+    </section>
+
     <section>
 		<h3> Related Posts: </h3>
         <!--Add section to pull posts based on the userID associated with current account-->
@@ -90,17 +100,56 @@
 	</section>
     <section>
         <div class="userLinks">
-            <p> Need to make a new lost pet post?</p>
-            <a href="missingPetsPost.html"><i class="fa fa-fw fa-home"></i> </a>
-            <input type="Submit" value="Post Now!" name="Post Now!">
-
-            <p> Need to make a Donation?</p>
-            <a href="donationPostPage.html"><i class="fa fa-fw fa-home"></i></a>
-            <input type="Submit" value="Donate Now!" name="Donate Now!">
+            <p style="font-size: 30px;">Need to make a new lost pet post?</p>
+            <a href="createFlier.html">
+                <button style="font-size: 24px; padding: 15px 20px;">Post Now!</button>
+            </a>
+        
+            <p style="font-size: 30px;">Need to make a Donation?</p>
+            <a href="donationPostPage.html">
+                <button style="font-size: 24px; padding: 15px 20px;">Donate Now!</button>
+            </a>
         </div>
+        
     </section>
 
     <script>
+        // Function to handle form submission for updating fields
+        async function updateAccount(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const submitButton = form.querySelector('input[type="submit"]');
+        submitButton.disabled = true;  // Disable submit button
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        submitButton.disabled = false;  // Re-enable the submit button
+
+        if (result.success) {
+            alert(result.message);  // Or update the DOM with the message
+            form.reset(); 
+        } else {
+            alert(result.message || 'Error updating account.');
+        }
+    }
+
+    document.getElementById("editUsername").addEventListener("submit", updateAccount);
+    document.getElementById("editPassword").addEventListener("submit", updateAccount);
+    document.getElementById("editEmail").addEventListener("submit", updateAccount);
+    document.getElementById("editZip").addEventListener("submit", updateAccount);
+    document.getElementById("editCity").addEventListener("submit", updateAccount);
+
+
 
         function myFunction() {
             var navbar = document.getElementById("navLinks");
@@ -110,6 +159,7 @@
                 navbar.classList.add("responsive");
             }
         }
+
     </script>
     
 </body>

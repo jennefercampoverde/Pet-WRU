@@ -291,7 +291,32 @@ h5 {
 /* Start of userpage */
 
 .UserInformation {
-    text-align: center;
+    text-align: center; /* Center all form elements */
+}
+
+.UserInformation label {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.UserInformation input[type="text"], 
+.UserInformation textarea {
+    font-size: 18px;
+    padding: 5px 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+.UserInformation input[type="submit"] {
+    font-size: 18px;
+    padding: 5px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.UserInformation form {
+    margin-bottom: 15px; /* Add spacing between forms */
 }
 
 .relatedPosts {
@@ -308,6 +333,8 @@ h5 {
     margin-bottom: 10px;
 
 }
+
+
 /* End of userpage */
 
 /* Start of Donation Post */

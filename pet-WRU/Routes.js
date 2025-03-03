@@ -20,6 +20,11 @@ router.post("/login", Controller.login);
 router.post("/logout", Controller.logout);
 router.post("/register", Controller.register);
 router.get("/getUserID", Controller.getUserID);
+router.post("/editUsername", Controller.editUsername);
+router.post("/editPassword", Controller.editPassword);
+router.post("/editEmail", Controller.editEmail);
+router.post("/editZip", Controller.editZip);
+router.post("/editCity", Controller.editCity);
 router.post("/createFlyer", upload.single("animal_image_path"), Controller.createFlyer);
 router.get("/missingPosts", Controller.missingPosts);
 
