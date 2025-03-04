@@ -17,19 +17,19 @@
         <!-- Navigation Links -->
         <!--each link references another html page-->
         <div class="nav-links" id="navLinks">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <!-- <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> 
             <div class="dropdown">
                 <button class="dropbtn">Posts 
                   <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
-                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
+                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> 
+                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>       
                 </div>
               </div> 
-            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="login&signup.html"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
-            
+            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> 
+            <a href="login&signup.html"><i class="fa-solid fa-right-to-bracket"></i> login </a> 
+             -->
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
@@ -75,6 +75,72 @@
             } catch (error) {
                 console.error('Error fetching user ID:', error);
                 return null; // Return null in case of an error
+            }
+        }
+
+        async function loginNavbar(){
+            try{
+                const userID = await getUserID();
+                let navLinks = document.getElementById("navLinks");
+
+                // Remove previous nav content
+                navLinks.innerHTML = '';
+
+                if (userID) {
+                    // User is logged in - Show Account Dropdown
+                    navLinks.innerHTML = `
+                        <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+                        <div class="dropdown">
+                            <button class="dropbtn">Posts 
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                                <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                            </div>
+                        </div>
+                        <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a>
+                        <div class="dropdown">
+                            <button class="dropbtn">Account 
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                                <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                            </div>
+                        </div>`;
+
+                } else {
+                    // User is not logged in - Show Login
+                    navLinks.innerHTML = `
+                        <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+                        <div class="dropdown">
+                            <button class="dropbtn">Posts 
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                                <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                            </div>
+                        </div>
+                        <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a>
+                        <a href="login&signup.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
+                }
+
+                } catch (error) {
+                console.error('Error updating navbar:', error);
+                }
+        }
+        
+        // Call function when the page loads
+        document.addEventListener("DOMContentLoaded", loginNavbar);
+
+        function updateNav() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
             }
         }
 
