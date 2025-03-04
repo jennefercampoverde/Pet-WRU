@@ -39,10 +39,15 @@ exports.login = async (req, res) => {
 //Route to log out of the session
 exports.logout = async (req, res) => {
     req.session.destroy(err => {
-        if (err) return res.status(500).json({ error: 'Failed to logout' });
-            res.json({ message: 'Logout successful' });
-        });
+        if (err) {
+            console.error('Logout error:', err);
+            return res.status(500).json({ error: 'Failed to logout' });
+        }
+        console.log('User logged out successfully.');
+        res.json({ message: 'Logout successful' });
+    });
 };
+
 
 
 //Route to register an account with a hashed password

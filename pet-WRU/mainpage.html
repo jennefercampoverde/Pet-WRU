@@ -45,7 +45,7 @@
             <h2>Create a flyer and post it on our website <br>
             by clicking the "report" button below</h2>
             
-            <button id="loginButton" type="button">Report Missing Pet</button>            
+            <button id="reportButton" type="button">Report Missing Pet</button>            
          
         <!-- Image in the bottom-right corner -->
         <img src="projectImages/cat.png" alt="Decorative Image" class="bottom-right">
@@ -65,134 +65,150 @@
 
     <script>
 
-        async function getUserID() {
-            try {
-                const response = await fetch('/getUserID');
-                const data = await response.json();
+        document.addEventListener("DOMContentLoaded", async function () {
+            console.log("JavaScript loaded successfully!"); // Debugging
 
-                // Return the userID or null if not found
-                return data.userID;
-            } catch (error) {
-                console.error('Error fetching user ID:', error);
-                return null; // Return null in case of an error
-            }
-        }
-
-        async function loginNavbar(){
-            try{
-                const userID = await getUserID();
-                let navLinks = document.getElementById("navLinks");
-
-                // Remove previous nav content
-                navLinks.innerHTML = '';
-
-                if (userID) {
-                    // User is logged in - Show Account Dropdown
-                    navLinks.innerHTML = `
-                        <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
-                        <div class="dropdown">
-                            <button class="dropbtn">Posts 
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="dropdown-content">
-                                <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a>
-                                <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
-                            </div>
-                        </div>
-                        <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a>
-                        <div class="dropdown">
-                            <button class="dropbtn">Account 
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="dropdown-content">
-                                <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
-                                <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
-                            </div>
-                        </div>`;
-
-                } else {
-                    // User is not logged in - Show Login
-                    navLinks.innerHTML = `
-                        <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
-                        <div class="dropdown">
-                            <button class="dropbtn">Posts 
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="dropdown-content">
-                                <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a>
-                                <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
-                            </div>
-                        </div>
-                        <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a>
-                        <a href="login&signup.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
-                }
-
+            async function getUserID() {
+                try {
+                    const response = await fetch('/getUserID');
+                    const data = await response.json();
+                    return data.userID; // Return user ID or null
                 } catch (error) {
-                console.error('Error updating navbar:', error);
+                    console.error('Error fetching user ID:', error);
+                    return null;
                 }
-        }
-        
-        // Call function when the page loads
-        document.addEventListener("DOMContentLoaded", loginNavbar);
-
-        function updateNav() {
-            var navbar = document.getElementById("navLinks");
-            if (navbar.classList.contains("responsive")) {
-                navbar.classList.remove("responsive");
-            } else {
-                navbar.classList.add("responsive");
             }
-        }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            console.log("JavaScript loaded successfully!"); // Check if script runs
+            async function loginNavbar() {
+                try {
+                    const userID = await getUserID();
+                    let navLinks = document.getElementById("navLinks");
 
-            let loginButton = document.getElementById("loginButton");
+                    if (!navLinks) {
+                        console.error("Error: navLinks not found in DOM.");
+                        return;
+                    }
 
-            if (loginButton) {
-                console.log("loginButton found! Adding event listener..."); // Button exists
+                    // Update navbar dynamically based on login status
+                    navLinks.innerHTML = userID
+                        ? `
+                            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+                            <div class="dropdown">
+                                <button class="dropbtn">Posts 
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                                </div>
+                            </div>
+                            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
+                            <div class="dropdown">
+                                <button class="dropbtn">Account 
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                                </div>
+                            </div>`
+                        : `
+                            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+                            <div class="dropdown">
+                                <button class="dropbtn">Posts 
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                                </div>
+                            </div>
+                            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
+                            <a href="login&signup.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
 
-                loginButton.addEventListener("click", async function (event) {
+                    // Now that navbar is updated, attach authentication checks & logout event
+                    applyAuthRedirects();
+                    applyLogoutEvent();
+                } catch (error) {
+                    console.error('Error updating navbar:', error);
+                }
+            }
+
+            function applyAuthRedirects() {
+                async function handleAuthRedirect(event, page) {
                     event.preventDefault();
-                    
-                    // Wait for the userID from the server
                     let userID = await getUserID();
 
-                    if (userID == null) {  
-                        alert("Please log in to report a missing pet.");
-                        window.location.href = "login&signup.html"; // Redirect to login page
+                    if (!userID) {
+                        alert("Please log in to access this page.");
+                        window.location.href = "login&signup.html";
                     } else {
-                        window.location.href = "createFlier.html"; // Allow navigation if logged in
+                        window.location.href = page;
+                    }
+                }
+
+                document.querySelectorAll(".auth-link").forEach(link => {
+                    link.addEventListener("click", function (event) {
+                        handleAuthRedirect(event, link.getAttribute("href"));
+                    });
+                });
+            }
+
+            function applyLogoutEvent() {
+                const signOutButton = document.getElementById("signOut");
+
+                if (signOutButton) {
+                    signOutButton.addEventListener("click", async () => {
+                        try {
+                            await fetch('/logout', { method: 'POST' });
+                            sessionStorage.removeItem("userID"); // Clear cache
+                            window.location.href = 'login&signup.html'; // Redirect to login
+                        } catch (error) {
+                            console.error("Logout failed:", error);
+                        }
+                    });
+                } else {
+                    console.warn("Sign-out button not found in DOM.");
+                }
+            }
+
+            // Call function when page loads
+            await loginNavbar(); // Wait for navbar to be updated before applying event listeners
+
+            // Also apply to the "Report Missing Pet" button
+            let reportButton = document.getElementById("reportButton");
+            if (reportButton) {
+                reportButton.addEventListener("click", async function (event) {
+                    event.preventDefault();
+                    let userID = await getUserID();
+
+                    if (!userID) {
+                        alert("Please log in to report a missing pet.");
+                        window.location.href = "login&signup.html"; 
+                    } else {
+                        window.location.href = "createFlier.html"; 
                     }
                 });
             } else {
-                console.error("Error: loginButton not found in DOM.");
+                console.error("Error: reportButton not found in DOM.");
             }
         });
-        
+
+        // Responsive Navigation Toggle
         function myFunction() {
-            var navbar = document.getElementById("navLinks");
-            if (navbar.classList.contains("responsive")) {
-                navbar.classList.remove("responsive");
-            } else {
-                navbar.classList.add("responsive");
-            }
+            let navbar = document.getElementById("navLinks");
+            navbar.classList.toggle("responsive");
         }
 
-         // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
-       //source: HTML DOM querySelectorAll() method
-       //Author: GeeksforGeeks
-       //URL: https://www.geeksforgeeks.org/html-dom-queryselectorall-method/
-       //Date accessed: 11/30/2024
-        document.querySelectorAll('.navbar a').forEach(link => {
-            if ((link.href === window.location.href) ) {
+        // Dynamic Active Link Highlighting
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            if (link.href === window.location.href) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
             }
         });
 
-        
 
     </script>
 </body>
