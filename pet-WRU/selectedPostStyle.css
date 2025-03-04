@@ -365,7 +365,7 @@ html,body {
 }
 
 .popup{
-    width: 360px;
+    width: 500px;
     background: whitesmoke;
     border-radius: 6px;
     position: relative;
@@ -373,7 +373,7 @@ html,body {
     text-align: center;
     display: none;
     margin-top: -60px;
-    margin-right: 100px;
+    
 }
 
 .open-popup{
