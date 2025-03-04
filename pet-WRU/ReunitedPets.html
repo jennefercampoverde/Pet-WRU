@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,44 +156,116 @@
     <div>
            <!-- Post Container (Where posts are displayed) -->
     <div id="post-container">
-        <div class="post" data-time="2025-01-30T12:00:00">
-            <img src="projectImages/Ferret.png" alt="Ferret">
-            <div class="post-info">
-                <h3>Rocky</h3>
-                <p> Date Found: 2/30/2025</p>
-                <small>Status: Found</small>
-            </div>
-        </div>
-
-        <div class="post" data-time="20s25-01-25T08:30:00">
-            <img src="projectImages/GoldenRet.jpeg" alt="Dog">
-            <!--<img src="projectImages/Golden ret.jpeg" alt="Dog">-->
-            <div class="post-info">
-                <h3>Sunny</h3>
-                <p> Date Found: 2/03/2025</p>
-                <small>Status: Found</small>
-            </div>
-        </div>
-
-        <div class="post" data-time="2025-01-27T15:45:00">
-            <img src="projectImages/lizard.jpg" alt="lizard">
-            <div class="post-info">
-                <h3>Greeny</h3>
-                <p> Date Found: 1/01/2025</p>
-                <small>Status: Found</small>
-            </div>
-        </div>
-        <div class="post" data-time="2025-01-27T15:45:00">
-            <img src="projectImages/orangeCat.jpg" alt="cat">
-            <div class="post-info">
-                <h3>Blaze</h3>
-                <p> Date Found: 04/28/2024</p>
-                <small>Status: Found</small>
-            </div>
-        </div>
+        
     </div>
+
     
     </div>
+    <script>
+
+        //CALLING FOUND PETS LIST FUNCTION
+        if (document.getElementById('post-container')) {
+            console.log("Found pet list element found. Calling showfoundPosts()...");
+            showfoundPosts(); // Load users when the page is ready
+        } 
+        
+        else 
+        {
+            console.error("Found pet list element not found in the DOM."); // Log if the missing pets list is missing
+        }
+         
+        // LOAD FOUND PETS LIST FUNCTION
+        async function showfoundPosts() {
+            console.log("Loading found Pets..."); // Start log
+            try {
+                const response = await fetch('http://localhost:3000/showfoundPosts');
+                
+                console.log("Received response:", response.status); // Log the response status
+                if (!response.ok) {
+                    throw new Error('Failed to fetch all missing pet data');
+                }
+        
+                const foundPosts= await response.json();
+                console.log("Found Pet data:", foundPosts); // Log the found pet data received
+        
+                //get role from local storage 
+        
+                const foundPostsList = document.getElementById('post-container');
+                if (!foundPostsList) {
+                    console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                    return;
+                }
+                foundPostsList.innerHTML = ''; // Clear the list before adding new items
+        
+                if (foundPosts.length === 0) {
+                    foundPostsList.textContent = 'No found pet entries.';
+                } else {
+                    foundPosts.forEach(post => {
+                        //new div for post 
+                        const postElement = document.createElement('div');
+     
+                        //new div for post
+                        const innerPostElement = document.createElement('div');
+
+                        const pathFolder="projectImages/"
+                        
+                        //take in image
+                        const postImg= document.createElement('img');
+                        postImg.src=pathFolder + `${post.animal_image_path}`;
+    
+                        console.log(postImg)
+                        //creating div to hold a post
+                        const postInfoElement = document.createElement('div');
+                    
+                        //creating header element that holds pet name
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = `${post.petName}`;
+                        console.log(postHeader);
+                        
+                        //cleaning up date lost data from JSON
+                        const dateFound=new Date(post.dateFound).toLocaleDateString();
+                        console.log(dateFound);
+                        
+                        //creating a paragraph element that holds date of when the pet was lost 
+                        const postParagraph = document.createElement('p');
+                        postParagraph.textContent=`Date Found: ${dateFound}`;
+                        console.log(postParagraph);
+  
+    
+                        //creating a small element that holds the status when the post was created
+                        const postSmall = document.createElement('small');
+                        postSmall.textContent = `Status: ${post.status}`;
+                        console.log(postSmall);
+                        
+                        // Adding all elements to front end by nesting the divs
+    
+                        innerPostElement.appendChild(postImg); // image goes first and within post
+    
+                        postInfoElement.appendChild(postHeader); // then header and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postInfoElement.appendChild(postSmall);
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postElement.appendChild(innerPostElement);
+            
+                        postElement.classList.add('post-container'); 
+                        innerPostElement.classList.add('post');
+                        postInfoElement.classList.add('post-info');
+        
+                        document.getElementById('post-container').appendChild(innerPostElement);
+                        
+    
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading all found pet post entries:', error);
+            }
+        } 
+            </script>
 
 </body>
 </html>
