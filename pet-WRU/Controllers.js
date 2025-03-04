@@ -49,7 +49,6 @@ exports.logout = async (req, res) => {
 };
 
 
-
 //Route to register an account with a hashed password
 exports.register = async (req, res) => {
     const { UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City } = req.body;
@@ -405,7 +404,6 @@ exports.selectedPost = async (req, res) => {
 
 
 //ROUTE TO SHOW THE FOUND PETS
-
 exports.showFoundPosts = async(req, res) => {
 
     try{ 
@@ -419,8 +417,9 @@ exports.showFoundPosts = async(req, res) => {
         console.error(err);
         res.status(500).json({error:'Database error. Unable to grab information from lostPets table.'});
     }
-
 }
+
+
 
 
 
