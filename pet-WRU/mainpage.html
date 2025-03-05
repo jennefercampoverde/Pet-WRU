@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                             <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
-                            <a href="login&signup.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
+                            <a href="loginPage.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
 
                     // Now that navbar is updated, attach authentication checks & logout event
                     applyAuthRedirects();
@@ -141,7 +141,7 @@
 
                     if (!userID) {
                         alert("Please log in to access this page.");
-                        window.location.href = "login&signup.html";
+                        window.location.href = "loginPage.html";
                     } else {
                         window.location.href = page;
                     }
