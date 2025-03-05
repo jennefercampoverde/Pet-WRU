@@ -188,43 +188,113 @@
     <div>
            <!-- Post Container (Where posts are displayed) -->
     <div id="post-container">
-        <div class="post" data-time="2025-01-30T12:00:00">
-            <img src="ProjectPictures2/DogCollar.jpg" alt="Dog Collar">
-            <div class="post-info">
-                <h3>Dog Collar</h3>
-                <p> Condition: Like New</p>
-                <small>Posted on: Jan 30, 2025</small>
-            </div>
-        </div>
-
-        <div class="post" data-time="20s25-01-25T08:30:00">
-            <img src="ProjectPictures2/CatToy.jpg" alt="Cat Toy">
-            <div class="post-info">
-                <h3>Cat Toy</h3>
-                <p> Condition: New</p>
-                <small>Posted on: Jan 03, 2025</small>
-            </div>
-        </div>
-
-        <div class="post" data-time="2025-01-27T15:45:00">
-            <img src="ProjectPictures2/FerretMeds.jpg" alt="lizard">
-            <div class="post-info">
-                <h3>Ferret Medicine</h3>
-                <p> Condition: New</p>
-                <small>Posted on: Dec 4, 2024</small>
-            </div>
-        </div>
-        <div class="post" data-time="2025-01-27T15:45:00">
-            <img src="ProjectPictures2/DogBed.jpg" alt="cat">
-            <div class="post-info">
-                <h3>Dog Bedding</h3>
-                <p> Condition: Gently Used</p>
-                <small>Posted on: Mar 29, 2024</small>
-            </div>
-        </div>
+        
     </div>
     
     </div>
+    <script>
 
+        //CALLING MISSING PETS LIST FUNCTION
+        if (document.getElementById('post-container')) {
+            console.log("Donations list element found. Calling showDonations()...");
+            showDonations(); // Load users when the page is ready
+        } else {
+            console.error("Donations list element not found in the DOM."); // Log if the donations list is missing
+        }
+         
+        // LOAD DONATIONS LIST FUNCTION
+        async function showDonations() {
+            console.log("Loading donations..."); // Start log
+            try {
+                const response = await fetch('http://localhost:3000/showDonations');
+                
+                console.log("Received response:", response.status); // Log the response status
+                if (!response.ok) {
+                    throw new Error('Failed to fetch all donations data');
+                }
+        
+                const donationPosts= await response.json();
+                console.log("Donation data:", donationPosts); // Log the donations data received
+        
+                //get role from local storage 
+        
+                const donationPostsList = document.getElementById('post-container');
+                if (!donationPostsList) {
+                    console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                    return;
+                }
+                donationPostsList.innerHTML = ''; // Clear the list before adding new items
+        
+                if (donationPosts.length === 0) {
+                    donationPostsList.textContent = 'No donations entries.';
+                } else {
+                    donationPosts.forEach(post => {
+                        //new div for post 
+                        const postElement = document.createElement('div');
+     
+                        //new div for post
+                        const innerPostElement = document.createElement('div');
+    
+                        const pathFolder="donationsImages/"
+                        
+                        //grabbing item image
+                        const postImg= document.createElement('img');
+                        postImg.src=pathFolder + `${post.item_image_path}`;
+    
+                        console.log(postImg)
+                        //creating div to hold a post
+                        const postInfoElement = document.createElement('div');
+                    
+                        //creating header element that holds item name
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = `${post.itemName}`;
+                        console.log(postHeader);
+                        
+                        
+                        //creating a paragraph element that holds condition 
+                        const postParagraph = document.createElement('p');
+                        postParagraph.textContent=`Condition: ${post.itemCondition}`;
+                        console.log(postParagraph);
+    
+                        //cleaning up date created data from JSON
+                        const dateCreated=new Date(post.dateCreated).toLocaleDateString();
+    
+                        //creating a small element that holds the date when the post was created
+                        const postSmall = document.createElement('small');
+                        postSmall.textContent = `Date Posted: ${dateCreated}`;
+                        console.log(postSmall);
+                        
+                        // Adding all elements to front end by nesting the divs
+    
+                        innerPostElement.appendChild(postImg); // image goes first and within post
+    
+                        postInfoElement.appendChild(postHeader); // then header and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postInfoElement.appendChild(postSmall);
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postElement.appendChild(innerPostElement);
+            
+                        
+                        postElement.classList.add('post-container'); 
+                        innerPostElement.classList.add('post');
+                        postInfoElement.classList.add('post-info');
+        
+                        // document.getElementById('post-container').appendChild(postElement);
+                        // document.getElementById('post-container').appendChild(postInfoElement);
+                        document.getElementById('post-container').appendChild(innerPostElement);
+                        
+    
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading all donations post entries:', error);
+            }
+        } 
+            </script>
 </body>
 </html>

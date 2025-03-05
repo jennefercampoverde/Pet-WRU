@@ -408,7 +408,7 @@ exports.showFoundPosts = async(req, res) => {
 
     try{ 
         const conn = await pool.getConnection();
-        const rows= await conn.query("SELECT foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID;");
+        const rows= await conn.query("SELECT foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID");
         res.json(rows);
         conn.release();
     } 
@@ -417,7 +417,30 @@ exports.showFoundPosts = async(req, res) => {
         console.error(err);
         res.status(500).json({error:'Database error. Unable to grab information from lostPets table.'});
     }
-}
+};
+
+//ROUTE TO SHOW THE DONATIONS PAGE
+
+exports.showDonations = async(req, res) => {
+
+    try{
+        const conn= await pool.getConnection();
+        const rows= await conn.query("SELECT * FROM donations");
+        res.json(rows);
+        conn.release();
+    }
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information from donations table.'});
+    }
+};
+
+
+
+
+
+
 
 
 

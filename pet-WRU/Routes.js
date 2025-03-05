@@ -29,6 +29,7 @@ router.post("/createFlyer", upload.single("animal_image_path"), Controller.creat
 router.get("/missingPosts", Controller.missingPosts);
 router.get("/selectedPost/:lostPetID", Controller.selectedPost);
 router.get("/showfoundPosts", Controller.showFoundPosts)
+router.get("/showDonations", Controller.showDonations);
 
 /*
 router.get("/inventory", Controller.inventory);
