@@ -28,8 +28,10 @@ router.post("/editCity", Controller.editCity);
 router.post("/createFlyer", upload.single("animal_image_path"), Controller.createFlyer);
 router.get("/missingPosts", Controller.missingPosts);
 router.get("/selectedPost/:lostPetID", Controller.selectedPost);
-router.get("/showfoundPosts", Controller.showFoundPosts)
+router.get("/showfoundPosts", Controller.showFoundPosts);
 router.get("/showDonations", Controller.showDonations);
+router.post("/editStatus", Controller.editStatus);
+router.delete("deleteFlyer/:lostID", Controller.deleteFlyer);
 
 /*
 router.get("/inventory", Controller.inventory);

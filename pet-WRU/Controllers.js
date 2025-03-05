@@ -115,10 +115,7 @@ exports.editUsername = async (req, res) => {
         }
 
         // Update the username in the database
-        const result = await conn.query(
-            "UPDATE usersInfo SET userName = ? WHERE userID = ?",
-            [userName, userID]
-        );
+        const result = await conn.query("UPDATE usersInfo SET userName = ? WHERE userID = ?", [userName, userID]);
         conn.release();
 
         if (result.affectedRows === 0) {
@@ -139,7 +136,7 @@ exports.editUsername = async (req, res) => {
 exports.editPassword = async (req, res) => {
     const { userPassword } = req.body;
 
-    // Ensure the new username is not empty or invalid
+    // Ensure the new password is not empty or invalid
     if (!userPassword || userPassword.trim().length === 0) {
         return res.status(400).json({ error: 'Password cannot be empty' });
     }
@@ -172,10 +169,7 @@ exports.editPassword = async (req, res) => {
         }
 
         // Update the password in the database
-        const result = await conn.query(
-            "UPDATE usersInfo SET userPassword = ? WHERE userID = ?",
-            [hash, userID]
-        );
+        const result = await conn.query("UPDATE usersInfo SET userPassword = ? WHERE userID = ?", [hash, userID]);
         conn.release();
 
         if (result.affectedRows === 0) {
@@ -196,7 +190,7 @@ exports.editPassword = async (req, res) => {
 exports.editEmail = async (req, res) => {
     const { emailAddress } = req.body;
 
-    // Ensure the new username is not empty or invalid
+    // Ensure the new email is not empty or invalid
     if (!emailAddress || emailAddress.trim().length === 0) {
         return res.status(400).json({ error: 'Email cannot be empty' });
     }
@@ -219,11 +213,8 @@ exports.editEmail = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Update the username in the database
-        const result = await conn.query(
-            "UPDATE usersInfo SET emailAddress = ? WHERE userID = ?",
-            [emailAddress, userID]
-        );
+        // Update the email in the database
+        const result = await conn.query("UPDATE usersInfo SET emailAddress = ? WHERE userID = ?", [emailAddress, userID]);
         conn.release();
 
         if (result.affectedRows === 0) {
@@ -244,7 +235,7 @@ exports.editEmail = async (req, res) => {
 exports.editZip = async (req, res) => {
     const { zipcode } = req.body;
 
-    // Ensure the new username is not empty or invalid
+    // Ensure the new zipcode is not empty or invalid
     if (!zipcode || zipcode.trim().length === 0) {
         return res.status(400).json({ error: 'Zipcode cannot be empty' });
     }
@@ -267,11 +258,8 @@ exports.editZip = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Update the username in the database
-        const result = await conn.query(
-            "UPDATE usersInfo SET zipcode = ? WHERE userID = ?",
-            [zipcode, userID]
-        );
+        // Update the zipcode in the database
+        const result = await conn.query("UPDATE usersInfo SET zipcode = ? WHERE userID = ?", [zipcode, userID]);
         conn.release();
 
         if (result.affectedRows === 0) {
@@ -292,7 +280,7 @@ exports.editZip = async (req, res) => {
 exports.editCity = async (req, res) => {
     const { city } = req.body;
 
-    // Ensure the new username is not empty or invalid
+    // Ensure the new city is not empty or invalid
     if (!city || city.trim().length === 0) {
         return res.status(400).json({ error: 'City cannot be empty' });
     }
@@ -315,11 +303,8 @@ exports.editCity = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Update the username in the database
-        const result = await conn.query(
-            "UPDATE usersInfo SET city = ? WHERE userID = ?",
-            [city, userID]
-        );
+        // Update the city in the database
+        const result = await conn.query("UPDATE usersInfo SET city = ? WHERE userID = ?", [city, userID]);
         conn.release();
 
         if (result.affectedRows === 0) {
@@ -419,8 +404,8 @@ exports.showFoundPosts = async(req, res) => {
     }
 };
 
-//ROUTE TO SHOW THE DONATIONS PAGE
 
+//ROUTE TO SHOW THE DONATIONS PAGE
 exports.showDonations = async(req, res) => {
 
     try{
@@ -436,6 +421,82 @@ exports.showDonations = async(req, res) => {
     }
 };
 
+
+//Route to update missing pet post status
+exports.editStatus = async (req, res) => {
+    const { lostID, status } = req.body;
+
+    // Ensure the new username is not empty or invalid
+    if (!status || status.trim().length === 0) {
+        return res.status(400).json({ error: 'Status cannot be empty' });
+    }
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if flyer exists
+        const [rows] = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [lostID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "Flyer not found" });
+        }
+
+        // Update the flyer in the database
+        const result = await conn.query("UPDATE lostpets SET status = ? WHERE lostID = ?", [status, lostID]);
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the flyer" });
+        }
+
+        console.log(`Status updated for flyer`);
+        res.json({ message: 'Flyer updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating flyer' });
+    }
+};
+
+
+//Route to delete missing pet posts
+exports.deleteFlyer = async (req, res) => {
+    const { lostID } = req.params;
+    const conn = await pool.getConnection();
+
+    try {
+        await conn.beginTransaction(); // Start a transaction
+
+        // Delete child entries first
+        const result1 = await conn.query("DELETE FROM postcomments WHERE lostID = ?", [lostID]);
+        const result2 = await conn.query("DELETE FROM foundpets WHERE lostID = ?", [lostID]);
+        const result3 = await conn.query("DELETE FROM lostpets WHERE lostID = ?", [lostID]);
+
+        if (result3[0].affectedRows === 0) {
+            await conn.rollback(); // Rollback if no rows were deleted in the main table
+            conn.release();
+            return res.status(400).json({ error: "No changes made to the flyer" });
+        }
+
+        await conn.commit(); // Commit the transaction
+        conn.release();
+
+        res.json({ success: true, message: "Flyer and related entries deleted successfully." });
+    } catch (error) {
+        await conn.rollback(); // Rollback on error
+        conn.release();
+        console.error("Error deleting flyer:", error);
+        res.status(500).json({ error: "Database error when deleting flyer" });
+    }
+};
 
 
 
