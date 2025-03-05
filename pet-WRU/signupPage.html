@@ -63,22 +63,48 @@
             </form>
         </section>   
     <script>
+
+        // Function to check if the ZIP code is valid
+        async function isValidZipCode(zip) {
+            try {
+                const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    // Check if the data contains location info (success)
+                    return true;
+                } else {
+                    // Invalid ZIP code
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error checking ZIP code:', error);
+                return false;
+            }
+        }
+
     
     // Signup Form Submission
     document.getElementById("signupForm").addEventListener("submit", async function(event) {
         event.preventDefault(); // Prevent page reload
 
-        try {
-            // Capture input values
-            const UserName = document.getElementById("signupUsername").value.trim();
-            const FirstName = document.getElementById("firstName").value.trim();
-            const LastName = document.getElementById("lastName").value.trim();
-            const DOB = document.getElementById("DOB").value;
-            const emailAddress = document.getElementById("emailAddress").value.trim();
-            const userPassword = document.getElementById("signupPassword").value.trim();
-            const Zipcode = document.getElementById("ZipCode").value.trim();
-            const City = document.getElementById("city").value.trim();
+        // Capture input values
+        const UserName = document.getElementById("signupUsername").value.trim();
+        const FirstName = document.getElementById("firstName").value.trim();
+        const LastName = document.getElementById("lastName").value.trim();
+        const DOB = document.getElementById("DOB").value;
+        const emailAddress = document.getElementById("emailAddress").value.trim();
+        const userPassword = document.getElementById("signupPassword").value.trim();
+        const Zipcode = document.getElementById("ZipCode").value.trim();
+        const City = document.getElementById("city").value.trim();
+            
+        // Validate the ZIP code before submitting
+        const isZipValid = await isValidZipCode(Zipcode);
+        if (!isZipValid) {
+            alert('Invalid ZIP code. Please enter a valid ZIP code.');
+            return; // Stop the form submission
+        }
 
+        try {
             // Send a POST request to the backend registration route
             const response = await fetch('/register', {
                 method: 'POST',
