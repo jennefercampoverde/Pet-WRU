@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>	</title>
+	<link rel="stylesheet" href="basic.css">
+</head>
+<body>
+	<!-- Top Navigation Bar -->
+    <!--each icon on navigation bar should take you to respectable page-->
+    <div class="navbar">
+        <!-- Logo -->
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
+        
+        <!-- Navigation Links -->
+        <!--each link references another html page-->
+        <div class="nav-links">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
+            <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->
+            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+            <a href="#" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
+        </div>
+    </div>
+	<h1 id="PageHeading"> Please log in or create and account. </h1>
+        <section>
+		    <h5> Sign Up </h5>
+		    <form id="signupForm">
+                <div class='parent'>
+                    <div class ='child' Signup1>
+                        <label for="signupUsername">Username: </label><br>
+                        <input type="text" id="signupUsername"><br><br>
+            
+                        <label for="firstName">First Name: </label><br>
+                        <input type="text" id="firstName"><br><br>
+
+                        <label for="lastName">Last Name: </label><br>
+                        <input type="text" id="lastName"><br><br>
+
+                        <label for="DOB">Date of Birth: </label><br>
+                        <input type="date" id="DOB"><br><br>
+
+                    </div>
+
+                    <div class ='child' Signup2>
+                        <label for="emailAddress">Email Address: </label><br>
+                        <input type="email" id="emailAddress"><br><br>
+
+                        <label for="signupPassword">Password: </label><br>
+                        <input type="password" id="signupPassword"><br><br>
+
+                        <label for="ZipCode">Zip Code: </label><br>
+                        <input type="text" id="ZipCode"><br><br>
+
+                        <label for="city">City: </label><br>
+                        <input type="text" id="city"><br><br>
+                    </div>
+                </div>
+                <div class="signupSubmit">
+                    <button type="submit">Create Account</button>
+                </div>
+            </form>
+        </section>   
+    <script>
+    
+    // Signup Form Submission
+    document.getElementById("signupForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Prevent page reload
+
+        try {
+            // Capture input values
+            const UserName = document.getElementById("signupUsername").value.trim();
+            const FirstName = document.getElementById("firstName").value.trim();
+            const LastName = document.getElementById("lastName").value.trim();
+            const DOB = document.getElementById("DOB").value;
+            const emailAddress = document.getElementById("emailAddress").value.trim();
+            const userPassword = document.getElementById("signupPassword").value.trim();
+            const Zipcode = document.getElementById("ZipCode").value.trim();
+            const City = document.getElementById("city").value.trim();
+
+            // Send a POST request to the backend registration route
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City }) 
+            });
+
+            // Parse the JSON response from the server
+            const result2 = await response.json();
+
+            // Check if signup was successful and redirect
+            if (result2.success) {
+                alert("Account created successfully! Redirecting to login...");
+                window.location.href = 'loginPage.html';
+            } else {
+                alert(result2.message || 'Account Registration failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        }
+    });
+    </script>
+</body>
+</html>
