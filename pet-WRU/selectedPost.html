@@ -201,6 +201,25 @@
                     map.setView([lat, lon], 15);
                 }
             }
+
+            // sign out
+            document.addEventListener("DOMContentLoaded", () => {
+                const signOutButton = document.getElementById("signOut");
+
+                if (signOutButton) {
+                    signOutButton.addEventListener("click", async (event) => {
+                        event.preventDefault(); // Prevent default link behavior
+
+                        try {
+                            await fetch('/logout', { method: 'POST' });
+                            sessionStorage.removeItem("userID"); // Clear cache
+                            window.location.href = 'loginPage.html'; // Redirect to login
+                        } catch (error) {
+                            console.error("Logout failed:", error);
+                        }
+                    });
+                }
+            });
         </script>
         
 </body>

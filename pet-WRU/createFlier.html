@@ -149,6 +149,7 @@
 
     <script>
         
+        // sign out
         document.addEventListener("DOMContentLoaded", () => {
             const signOutButton = document.getElementById("signOut");
 
@@ -183,59 +184,60 @@
         // Create Flyer form submission
         document.querySelector(".flier-details").addEventListener("submit", async function(event) { 
             event.preventDefault(); // Prevent page reload
-                        
-                    // Wait for the userID from the server
-                    let userID = await getUserID();
-
-                    if (userID == null) {  
-                        alert("Please log in to report a missing pet.");
-                        window.location.href = "login&signup.html"; // Redirect to login page
-                    } else {
-                        try {
-                            // Use FormData for file (img) uploads
-                            const formData = new FormData();
-
-                            // Append form fields to FormData
-                            formData.append("dateLost", document.getElementById("dateLost").value);
-                            formData.append("lastZipcode", document.getElementById("lastZipcode").value);
-                            formData.append("lastCityID", document.getElementById("lastCityID").value);
-                            formData.append("petName", document.getElementById("petName").value);
-                            formData.append("animalType", document.getElementById("animalType").value);
-                            formData.append("animalSize", document.getElementById("animalSize").value);
-                            formData.append("animalColor", document.getElementById("animalColor").value);
-                            formData.append("animalGender", document.getElementById("animalGender").value);
-                            formData.append("description", document.getElementById("description").value);
-                            // Get the file input
-                            const fileInput = document.querySelector('input[type="file"]').files[0];
-                            if (fileInput) {
-                                formData.append("animal_image_path", fileInput);
-                            }
-
-                            // Send a POST request to the backend registration route
-                            const response = await fetch("/createFlyer", {
-                                method: "POST",
-                                body: formData 
-                            });
                     
-                            // Parse the JSON response from the server
-                            const result = await response.json();
-                    
-                            // Check if signup was successful and redirect
-                            if (result.success) {
-                                alert("Flyer created successfully");
-                                //window.location.href = '';
-                            } else {
-                                alert(result.message || 'Failed to create flyer');
-                            }
-                        } catch (error) {
-                            console.error('Error:', error);
-                            alert('An error occurred. Please try again later.');
-                        }        
+            // Wait for the userID from the server
+            let userID = await getUserID();
+
+            if (userID == null) {  
+                alert("Please log in to report a missing pet.");
+                window.location.href = "login&signup.html"; // Redirect to login page
+            } else {
+                try {
+                    // Use FormData for file (img) uploads
+                    const formData = new FormData();
+
+                    // Append form fields to FormData
+                    formData.append("dateLost", document.getElementById("dateLost").value);
+                    formData.append("lastZipcode", document.getElementById("lastZipcode").value);
+                    formData.append("lastCityID", document.getElementById("lastCityID").value);
+                    formData.append("petName", document.getElementById("petName").value);
+                    formData.append("animalType", document.getElementById("animalType").value);
+                    formData.append("animalSize", document.getElementById("animalSize").value);
+                    formData.append("animalColor", document.getElementById("animalColor").value);
+                    formData.append("animalGender", document.getElementById("animalGender").value);
+                    formData.append("description", document.getElementById("description").value);
+                    // Get the file input
+                    const fileInput = document.querySelector('input[type="file"]').files[0];
+                    if (fileInput) {
+                        formData.append("animal_image_path", fileInput);
                     }
-                });
+
+                    // Send a POST request to the backend registration route
+                    const response = await fetch("/createFlyer", {
+                        method: "POST",
+                        body: formData 
+                    });
             
+                    // Parse the JSON response from the server
+                    const result = await response.json();
+            
+                    // Check if signup was successful and redirect
+                    if (result.success) {
+                        alert("Flyer created successfully");
+                        //window.location.href = '';
+                    } else {
+                        alert(result.message || 'Failed to create flyer');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                }        
+            }
+        });
+        
 
 
+            // shrinking of navigation bar
         function myFunction() {
             var navbar = document.getElementById("navLinks");
             if (navbar.classList.contains("responsive")) {
@@ -244,6 +246,6 @@
                 navbar.classList.add("responsive");
             }
         }
-        </script>
+    </script>
 </body>
 </html>
