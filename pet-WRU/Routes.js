@@ -33,8 +33,8 @@ router.get("/selectedPost/:lostPetID", Controller.selectedPost);
 router.get("/showfoundPosts", Controller.showFoundPosts);
 router.get("/showDonations", Controller.showDonations);
 router.post("/editStatus", Controller.editStatus);
-router.delete("deleteFlyer/:lostID", Controller.deleteFlyer);
-router.post("/showUserSelectedPost",Controller.showUserSelectedPost);
+router.delete("/deleteFlyer/:lostID", Controller.deleteFlyer);
+router.get("/userSelectedPost/:postID",Controller.userSelectedPost);
 
 /*
 router.get("/inventory", Controller.inventory);

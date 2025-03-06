@@ -500,11 +500,11 @@ exports.deleteFlyer = async (req, res) => {
 
 // SENDING  INDIVIDUAL PET POST INFO FROM DB
 
-exports.showUserSelectedPost = async (req,res)=>{
-    const {lostID}=req.data;
+exports.userSelectedPost = async (req,res)=>{
+    const {postID}=req.params;
     try{
         const conn= await pool.getConnection();
-        const rows= await conn.query("SELECT * FROM lostPets WHERE lostID=?",[lostID]);
+        const rows= await conn.query("SELECT * FROM lostPets WHERE lostID = ?",[postID]);
         res.json(rows);
         conn.release();
     }
@@ -512,27 +512,6 @@ exports.showUserSelectedPost = async (req,res)=>{
     {
         console.error(err);
         res.status(500).json({error:'Database error. Unable to grab information about selected post table.'});
-    }
-
-    
-
-};
-
-//SENDING postid for selected post to the next page //not sure if i need this ??
-
-exports.selectedPost = async (req,res)=>{
-    const {lostID}=req.body;
-    console.log(`PostID has been sent ${lostID}`);
-
-    try{
-        const conn = await pool.getConnection();
-        const rows= await
-        res.json(rows); //need to define rows
-        conn.release();
-    }
-    catch(err){
-        console.error(err);
-        res.status(500).json({error:'Database error. Unable to send postid for selected id.'});
     }
 
 };
