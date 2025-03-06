@@ -526,6 +526,7 @@ exports.selectedPost = async (req,res)=>{
 
     try{
         const conn = await pool.getConnection();
+        const rows= await
         res.json(rows); //need to define rows
         conn.release();
     }

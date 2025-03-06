@@ -309,7 +309,7 @@
                         
                         console.log(lostPetID);
                         sendPostID();
-                        async function sendPostID() {
+                        async function sendPostID(lostPetID) {
                 try {
                     const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
                         method: 'POST',
