@@ -65,6 +65,7 @@
 
     <script>
 
+
         document.addEventListener("DOMContentLoaded", async function () {
             console.log("JavaScript loaded successfully!"); // Debugging
 
@@ -129,9 +130,19 @@
                     // Now that navbar is updated, attach authentication checks & logout event
                     applyAuthRedirects();
                     applyLogoutEvent();
-                } catch (error) {
-                    console.error('Error updating navbar:', error);
-                }
+
+                    // Dynamic Active Link Highlighting
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                            if (link.href === window.location.href) {
+                                link.classList.add('active');
+                            } else {
+                                link.classList.remove('active');
+                            }
+                    });
+                    
+                    } catch (error) {
+                        console.error('Error updating navbar:', error);
+                    }
             }
 
             function applyAuthRedirects() {
@@ -162,7 +173,7 @@
                         try {
                             await fetch('/logout', { method: 'POST' });
                             sessionStorage.removeItem("userID"); // Clear cache
-                            window.location.href = 'login&signup.html'; // Redirect to login
+                            window.location.href = 'loginPage.html'; // Redirect to login
                         } catch (error) {
                             console.error("Logout failed:", error);
                         }
@@ -200,14 +211,6 @@
             navbar.classList.toggle("responsive");
         }
 
-        // Dynamic Active Link Highlighting
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            if (link.href === window.location.href) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
-        });
 
 
     </script>

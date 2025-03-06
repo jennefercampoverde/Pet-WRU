@@ -18,19 +18,26 @@
         <!-- Navigation Links -->
         <!--each link references another html page-->
         <div class="nav-links" id="navLinks">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
             <div class="dropdown">
                 <button class="dropbtn">Posts 
-                  <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
-                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
+                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
                 </div>
-              </div> 
-            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-to-bracket"></i> login </a> <!--icon insert here-->
-            
+            </div>
+            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
@@ -141,6 +148,25 @@
     </div>
 
     <script>
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const signOutButton = document.getElementById("signOut");
+
+            if (signOutButton) {
+                signOutButton.addEventListener("click", async (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    try {
+                        await fetch('/logout', { method: 'POST' });
+                        sessionStorage.removeItem("userID"); // Clear cache
+                        window.location.href = 'loginPage.html'; // Redirect to login
+                    } catch (error) {
+                        console.error("Logout failed:", error);
+                    }
+                });
+            }
+        });
+
         async function getUserID() {
             try {
                 const response = await fetch('/getUserID');
@@ -154,24 +180,6 @@
             }
         }
 
-        // Function to check if the ZIP code is valid
-        async function isValidZipCode(zip) {
-            try {
-                const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    // Check if the data contains location info (success)
-                    return true;
-                } else {
-                    // Invalid ZIP code
-                    return false;
-                }
-            } catch (error) {
-                console.error('Error checking ZIP code:', error);
-                return false;
-            }
-        }
-
         // Create Flyer form submission
         document.querySelector(".flier-details").addEventListener("submit", async function(event) { 
             event.preventDefault(); // Prevent page reload
@@ -181,19 +189,11 @@
 
                     if (userID == null) {  
                         alert("Please log in to report a missing pet.");
-                        window.location.href = "loginPage.html"; // Redirect to login page
+                        window.location.href = "login&signup.html"; // Redirect to login page
                     } else {
                         try {
                             // Use FormData for file (img) uploads
                             const formData = new FormData();
-
-                            const lastZipcode = document.getElementById("lastZipcode").value.trim();
-                            const isZipValid = await isValidZipCode(lastZipcode);
-
-                            if (!isZipValid) {
-                                alert('Invalid ZIP code. Please enter a valid ZIP code.');
-                                return; // Stop form submission
-                            }
 
                             // Append form fields to FormData
                             formData.append("dateLost", document.getElementById("dateLost").value);
@@ -205,7 +205,6 @@
                             formData.append("animalColor", document.getElementById("animalColor").value);
                             formData.append("animalGender", document.getElementById("animalGender").value);
                             formData.append("description", document.getElementById("description").value);
-                            
                             // Get the file input
                             const fileInput = document.querySelector('input[type="file"]').files[0];
                             if (fileInput) {
@@ -235,6 +234,7 @@
                     }
                 });
             
+
 
         function myFunction() {
             var navbar = document.getElementById("navLinks");

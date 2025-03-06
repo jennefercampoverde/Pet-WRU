@@ -6,6 +6,7 @@
 	<title>	</title>
 	<link rel="stylesheet" href="basic.css">
     <link rel="stylesheet" href="mainpageStyle.css">
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<!-- Top Navigation Bar -->
@@ -17,19 +18,26 @@
         <!-- Navigation Links -->
         <!--each link references another html page-->
         <div class="nav-links" id="navLinks">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
             <div class="dropdown">
                 <button class="dropbtn">Posts 
-                  <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
-                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
+                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
                 </div>
-              </div> 
-            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-to-bracket"></i> login </a> <!--icon insert here-->
-            
+            </div>
+            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
@@ -159,6 +167,35 @@
                 navbar.classList.add("responsive");
             }
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const signOutButton = document.getElementById("signOut");
+
+            if (signOutButton) {
+                signOutButton.addEventListener("click", async (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    try {
+                        await fetch('/logout', { method: 'POST' });
+                        sessionStorage.removeItem("userID"); // Clear cache
+                        window.location.href = 'loginPage.html'; // Redirect to login
+                    } catch (error) {
+                        console.error("Logout failed:", error);
+                    }
+                });
+            }
+        });
+
+            // Dynamic Active Link Highlighting
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                    if (link.href === window.location.href) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+            });
+                
+              
 
     </script>
     
