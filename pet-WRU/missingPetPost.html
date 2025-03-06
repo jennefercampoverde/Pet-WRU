@@ -202,6 +202,7 @@
 
 <script>
 
+
     //CALLING MISSING PETS LIST FUNCTION
     if (document.getElementById('post-container')) {
         console.log("Missing pet list element found. Calling loadMissingPetsEntries()...");
@@ -237,15 +238,17 @@
                 lostPostsList.textContent = 'No missing pet entries.';
             } else {
                 lostPosts.forEach(post => {
+                    
                     //new div for post 
                     const postElement = document.createElement('div');
+
  
                     //new div for post
                     const innerPostElement = document.createElement('div');
 
                     const pathFolder="projectImages/"
                     
-                    //need to do if that column is empty use a default image of animal
+                    //pulling animal image
                     const postImg= document.createElement('img');
                     postImg.src=pathFolder + `${post.animal_image_path}`;
 
@@ -299,7 +302,30 @@
                     // document.getElementById('post-container').appendChild(postElement);
                     // document.getElementById('post-container').appendChild(postInfoElement);
                     document.getElementById('post-container').appendChild(innerPostElement);
-                    
+                    innerPostElement.addEventListener('click',function(){
+                        lostPetID=post.lostID;
+                        console.log(post.lostID);
+                        
+                        
+                        console.log(lostPetID);
+                        sendPostID();
+                        async function sendPostID() {
+                try {
+                    const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        
+                    });
+                    const result = await response.json();
+                
+                } catch (error) {
+                    console.error('Error fetching selected post ID to next page:', error);
+                    return null;
+                }
+            }
+            window.location.href = "selectedPost.html";
+
+                    });             
 
                 });
             }
@@ -307,6 +333,9 @@
             console.error('Error loading all missing pet post entries:', error);
         }
     } 
+        
         </script>
+
+        
 </body>
 </html>

@@ -15,6 +15,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+
 // API Routes
 router.post("/login", Controller.login);
 router.post("/logout", Controller.logout);
@@ -32,6 +34,7 @@ router.get("/showfoundPosts", Controller.showFoundPosts);
 router.get("/showDonations", Controller.showDonations);
 router.post("/editStatus", Controller.editStatus);
 router.delete("deleteFlyer/:lostID", Controller.deleteFlyer);
+router.post("/showUserSelectedPost",Controller.showUserSelectedPost);
 
 /*
 router.get("/inventory", Controller.inventory);

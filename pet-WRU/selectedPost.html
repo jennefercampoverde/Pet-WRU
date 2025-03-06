@@ -37,58 +37,7 @@
     </div>
 
     <div class="post-container">
-        <header class="post-header">
-            <h1>Sunny</h1>
-        </header>
-
-        <section class="post-details">
-            <div class="post-image">
-                <img src="projectImages/Goldenret.jpeg" alt="dog">
-                <div class="post-actions">
-                    <h2>Created by username</h2>
-                </div>
-            </div>
-            <div class="post-info">
-                <div class="post-info-row description">
-                    <strong>Description</strong>
-                    <p>blah blah blah blah blah</p>
-                </div>
-                <div class="post-info-row species">
-                    <strong>Type of Animal</strong>
-                    <div class="species">
-                        <p >Dog</p>
-                    </div>
-                </div>
-                <div class="post-info-row">
-                    <strong>Color</strong>
-                    <p>Golden/yellow</p>
-                </div>
-                <div class="post-info-row">
-                    <strong>Size</strong>
-                    <p>Large</p>
-                </div>
-                <div class="post-info-row">
-                    <strong>Gender</strong>
-                    <p>Female</p>
-                </div>
-                <div class="post-info-row">
-                    <strong>Last Known Location</strong>
-                    <div class="location-container">
-                        <p>St Agnes Rd, Uniondale</p>
-                        <button type="submit" class="btn location-btn" onclick="openPopup()">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                    <div class="popup" id="popup"> 
-                        <div id="map"></div>
-                        <!-- <img src = "projectImages/oakst.png"> -->
-                        <button type="button" onclick="closePopup()"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                </div>
-                <div class="post-info-row">
-                    <strong>Date Went Missing</strong>
-                    <p>2/01/2025</p>
-                </div>
+        
             </div>
         </section>
 
@@ -99,6 +48,186 @@
                 <button type="submit" class="submit_button"> Post</button>
             </form>
         </section>
+        <script>
+
+    //to getpostID from missingPetsPage
+    async function getPostID() {
+                try {
+                    const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const data = await response.json();
+
+                    return data.postID; // Return selected post ID or null
+                    console.log(lostPetID);
+                } catch (error) {
+                    console.error('Error fetching selected post ID:', error);
+                    return null;
+                }
+            };
+
+    //CALLING SELECTED MISSING PET LIST FUNCTION
+    if (document.getElementById('post-container')) {
+        console.log("Selected Missing pet list element found. Calling selectedMissingPetPost()...");
+        shwowingSelectedPetPost(postID); // Load users when the page is ready
+    } else {
+        console.error("Selected Missing pet list element not found in the DOM."); // Log if the missing pets list is missing
+    }
+
+    // LOAD SELECTED MISSING PETS LIST FUNCTION
+    async function shwowingSelectedPetPost(postID) {
+        console.log("Loading clicked missing Pet information..."); // Start log
+        console.log(`[POST /postID]`);
+        try {
+            const response = await fetch('http://localhost:3000/userSelectedPost');
+            
+            console.log("Received response:", response.status); // Log the response status
+            if (!response.ok) {
+                throw new Error('Failed to fetch selected missing pet data');
+            }
+    
+            const selectedLostPosts= await response.json();
+            console.log("User Selected Missing Pet data:", lostPosts); // Log the missing pet data received
+    
+    
+            const selectedLostPostsList = document.getElementById('post-container');
+            if (!selectedLostPostsList) {
+                console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                return;
+            }
+            selectedLostPostsList.innerHTML = ''; // Clear the list before adding new items
+    
+            if (selectedLostPosts.length === 0) {
+                selectedLostPostsList.textContent = 'No missing pet entries.';
+            } else {
+                const post= document.createElement('div');
+                
+                //creates pet name
+                const postHeader= document.createElement('h1');
+
+                //creates section
+                const section= document.createElement('section');
+                //creates new div
+                const insidePost= document.createElement('div');
+
+                //creating animal image
+                const pathFolder="projectImages/"
+                const postImg= document.createElement('img');
+                postImg.src=pathFolder + `${post.animal_image_path}`;
+
+                //creating h2 for username post is made by
+                const postUsername= document.createElement('h2');
+                postUsername=textContent`Created by: ${post.userID}`;
+
+                //creating "description" text on page
+                const postDescriptionTitle= document.createElement('strong');
+                postDescriptionTitle=textcontent`Description`;
+
+                //creating a para. element that holds the description
+                const postDescription= document.createElement('p');
+                postDescription=textcontent`Description: ${post.description}`;
+
+                //creating "Animal" text on page
+                const postAnimalTypeTitle= document.createElement('strong');
+                postDescriptionTitle=textcontent`Type of Animal`;
+
+                //creating a para. element that holds the animal type
+                const postAnimalType= document.createElement('p');
+                postDescription=textcontent`${post.animalType}`;
+
+                //creating "Color" text on page
+                const postAnimalColorTitle= document.createElement('strong');
+                postAnimalColorTitle=textcontent`Color`;
+
+                //creating a para. element that holds the animal color
+                const postAnimalColor= document.createElement('p');
+                postAnimalColor=textcontent`${post.animalColor}`;
+
+                //creating "Size" text on page
+                const postAnimalSizeTitle= document.createElement('strong');
+                postAnimalSizeTitle=textcontent`Size`;
+
+                //creating a para. element that holds the animal size
+                const postAnimalSize= document.createElement('p');
+                postAnimalSize=textcontent`${post.animalSize}`;
+
+                //creating "Gender" text on page
+                const postGenderTitle= document.createElement('strong');
+                postGenderTitle=textcontent`Gender`;
+                
+                //creating a para. element that holds the animal gender
+                const postGender= document.createElement('p');
+                postGender=textcontent`${post.animalGender}`;
+
+                //creating "Last Known Location" text on page
+                const postLastLocTitle= document.createElement('strong');
+                postLastLocTitle=textcontent`Last Known Location`;
+
+                //creating a para. element that holds the animal last known location
+                const postLastLoc= document.createElement('p');
+                postLastLoc=textcontent`${post.lastCityID}`;
+
+                //creating new div for geolocation
+                const mapdiv= document.createElement('button')
+
+
+                //creating first button to open map
+                const buttonOpen= document.createElement('button');
+                buttonOpen.type='submit';
+                buttonOpen.onclick='openPopup()';
+
+
+                //creating italic element
+                const postItalics=document.createElement('i');
+
+                //creating second button to close map
+                const buttonClose= document.createElement('button');
+                buttonClose.type='submit';
+                buttonClose.onclick='closePopup()';
+
+                //creating italic element
+                const postItalicsClose=document.createElement('i');
+
+                //cleaning up date lost data from JSON
+                const dateLost=new Date(post.dateLost).toLocaleDateString();
+                console.log(dateLost);
+
+                //creating a para. element that holds the animal date missing
+                const postDateMissing= document.createElement('p');
+                postDateMissing=textcontext`${post.dateLost}`;
+
+                // Adding all elements to front end by nesting the divs
+                post.appendChild(postHeader);
+                section.appendChild(postImg);  // image goes first and within post
+
+                buttonClose.body.appendChild(postItalics);
+                mapdiv.appendChild(buttonOpen);
+                buttonClose.body.appendChild(postItalicsClose);
+                mapdiv.appendChild(buttonClose);
+                section.appendChild(mapdiv);
+                section.appendChild(dateLost);
+                section.appendChild(postDateMissing);
+                post.appendChild(section);
+
+
+                //Adding CSS ID/Classes to Elements
+                mapdiv.classList.add('map');
+                section.classList.add('post-details');
+                insidePost.classList.add('post-actions');
+
+                //Adding everything to the main div
+                document.getElementById('post-container').appendChild(post);
+
+            }
+        }
+        catch (error) {
+            console.error('Error loading all missing pet post entries:', error);
+        }};
+
+    
+
+        </script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
