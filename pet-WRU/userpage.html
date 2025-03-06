@@ -122,6 +122,30 @@
     </section>
 
     <script>
+
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+         });
+
+
         // Function to handle form submission for updating fields
         async function updateAccount(event) {
         event.preventDefault();
