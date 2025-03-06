@@ -29,12 +29,12 @@ router.post("/editZip", Controller.editZip);
 router.post("/editCity", Controller.editCity);
 router.post("/createFlyer", upload.single("animal_image_path"), Controller.createFlyer);
 router.get("/missingPosts", Controller.missingPosts);
-router.get("/selectedPost/:lostPetID", Controller.selectedPost);
+router.get("/selectedPostMap/:lostPetID", Controller.selectedPostMap); //shows the map for selected post
 router.get("/showfoundPosts", Controller.showFoundPosts);
 router.get("/showDonations", Controller.showDonations);
 router.post("/editStatus", Controller.editStatus);
 router.delete("/deleteFlyer/:lostID", Controller.deleteFlyer);
-router.get("/userSelectedPost/:postID",Controller.userSelectedPost);
+router.get("/userSelectedPost/:postID",Controller.userSelectedPost); //shows actual post
 
 /*
 router.get("/inventory", Controller.inventory);

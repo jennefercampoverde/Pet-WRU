@@ -132,7 +132,7 @@
 
         async function fetchLocationData(postID) {
             try {
-                const response = await fetch(`http://localhost:3000/selectedPost/${postID}`);
+                const response = await fetch(`http://localhost:3000/selectedPostMap/${postID}`);
                 if (!response.ok) throw new Error("Failed to fetch location data");
 
                 const geoInfo = await response.json();

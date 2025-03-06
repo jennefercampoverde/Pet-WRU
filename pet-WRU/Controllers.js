@@ -373,7 +373,7 @@ exports.missingPosts = async (req, res) => {
 
 
 // Route to load map for selected page
-exports.selectedPost = async (req, res) => {
+exports.selectedPostMap = async (req, res) => {
     const {lostPetID} = req.params;
 
     try {
@@ -498,7 +498,7 @@ exports.deleteFlyer = async (req, res) => {
     }
 };
 
-// SENDING  INDIVIDUAL PET POST INFO FROM DB
+// Route for the selected post page 
 
 exports.userSelectedPost = async (req,res)=>{
     const {postID}=req.params;
