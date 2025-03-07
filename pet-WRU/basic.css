@@ -9,6 +9,7 @@ html,body {
     flex-direction: column;
 }
 
+
 .navbar {
     display: flex;
      /* space-between makes the most sense-everything is spaced out*/
@@ -176,6 +177,8 @@ html,body {
     position: relative; /* Needed to position the child element (image) inside this container */
     
 }
+
+
 
 /* for image */
 .bottom-right {
@@ -397,53 +400,43 @@ h5 {
     margin: 3px 0;
 }
 
-/* footer */
-.footer-container {
-    background-color:  #ffffff;;
-    /*padding-bottom: 2rem 0 4rem 0;*/
-    width: 100vw; /* Stretch across the entire viewport width */
-    margin: 0; /* Remove default margin to align with the page */
-    padding: 2rem 0; /* Add padding for spacing */
-    margin-top: 70px;
+
+.content{
+    flex:1;
 }
 
-/* Footer Styling */
-.footer {
+/* footer */
+footer {
+    background-color: #ffffff; /* Light gray background */
+    padding: 20px 0;
+    text-align: center;
+    margin-top: auto;
     width: 100%;
-    height: auto;
-    background-color:  #ffffff;;
+}
+
+.footer-links {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 30px;
-    text-align: center;
-    color: #6c757d;
-    font-size: 0.9em;
-    /*margin: 0 auto;*/
+    gap: 20px; /* Space between links */
+    margin-bottom: 10px;
 }
 
-.footer-heading {
-    display: flex;
-    flex-direction: column;
-    margin-right: 4rem;
-}
-
-.footer-heading h2 {
-    margin-bottom: 2rem;
-    padding-bottom: 10px;
-}
-
-.footer-heading a {
-    color: black;
+.footer-links a {
     text-decoration: none;
-    margin-bottom: 0.5rem;
+    color: #333; /* Dark text for readability */
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
-.footer-heading a:hover {
-    color: red;
-    transition: 0.3s ease-out;
+.footer-links a:hover {
+    color: #336eec; /* Green color on hover */
 }
 
+.copyright {
+    font-size: 14px;
+    color: #777; /* Lighter text color */
+}
 
 
 /* Button Styling */

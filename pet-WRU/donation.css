@@ -384,3 +384,35 @@ span:active {
     font-size: 0.9em; /* Adjust text size for info */
     margin: 3px 0;
 }
+
+/* footer */
+footer {
+    background-color: #ffffff; /* Light gray background */
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 150px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between links */
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #333; /* Dark text for readability */
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #336eec; /* Green color on hover */
+}
+
+.copyright {
+    font-size: 14px;
+    color: #777; /* Lighter text color */
+}
