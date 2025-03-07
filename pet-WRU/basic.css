@@ -407,11 +407,11 @@ h5 {
 
 /* footer */
 footer {
-    background-color: #ffffff; /* Light gray background */
+    background-color: #ffffff; 
     padding: 20px 0;
     text-align: center;
+    height: auto;
     margin-top: auto;
-    width: 100%;
 }
 
 .footer-links {

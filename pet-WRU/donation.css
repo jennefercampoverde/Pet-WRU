@@ -387,11 +387,13 @@ span:active {
 
 /* footer */
 footer {
-    background-color: #ffffff; /* Light gray background */
+    background-color: #ffffff; 
     padding: 20px 0;
     text-align: center;
-    margin-top: 150px;
+    height: auto;
+    margin-top: auto;
 }
+
 
 .footer-links {
     display: flex;
