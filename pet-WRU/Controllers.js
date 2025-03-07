@@ -373,7 +373,7 @@ exports.missingPosts = async (req, res) => {
 
 
 // Route to load map for selected page
-exports.selectedPost = async (req, res) => {
+exports.selectedPostMap = async (req, res) => {
     const {lostPetID} = req.params;
 
     try {
@@ -498,7 +498,23 @@ exports.deleteFlyer = async (req, res) => {
     }
 };
 
+// Route for the selected post page 
 
+exports.userSelectedPost = async (req,res)=>{
+    const {postID}=req.params;
+    try{
+        const conn= await pool.getConnection();
+        const rows= await conn.query("SELECT * FROM lostPets WHERE lostID = ?",[postID]);
+        res.json(rows);
+        conn.release();
+    }
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information about selected post table.'});
+    }
+
+};
 
 
 

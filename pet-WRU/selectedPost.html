@@ -11,248 +11,182 @@
 </head>
 <body>
     <!-- Top Navigation Bar -->
-    <!--each icon on navigation bar should take you to respectable page-->
-    <div class="navbar" id="myNavbar" >
-        <!-- Logo -->
+    <div class="navbar" id="myNavbar">
         <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
-        
-        <!-- Navigation Links -->
-        <!--each link references another html page-->
         <div class="nav-links" id="navLinks">
             <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
             <div class="dropdown">
-                <button class="dropbtn">Posts 
-                    <i class="fa fa-caret-down"></i>
-                </button>
+                <button class="dropbtn">Posts <i class="fa fa-caret-down"></i></button>
                 <div class="dropdown-content">
-                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
-                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>
                 </div>
             </div>
-            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
-            <div class="dropdown">
-                <button class="dropbtn">Account 
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
-                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
-                </div>
-            </div>
+            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a>
+            <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 
-    <div class="post-container">
-        <header class="post-header">
-            <h1>Sunny</h1>
-        </header>
+    <div class="post-container" id="post-container"></div>
 
-        <section class="post-details">
-            <div class="post-image">
-                <img src="projectImages/Goldenret.jpeg" alt="dog">
-                <div class="post-actions">
-                    <h2>Created by username</h2>
-                </div>
-            </div>
-            <div class="post-info">
-                <div class="post-info-row description">
-                    <strong>Description</strong>
-                    <p>blah blah blah blah blah</p>
-                </div>
-                <div class="post-info-row species">
-                    <strong>Type of Animal</strong>
-                    <div class="species">
-                        <p >Dog</p>
-                    </div>
-                </div>
-                <div class="post-info-row">
-                    <strong>Color</strong>
-                    <p>Golden/yellow</p>
-                </div>
-                <div class="post-info-row">
-                    <strong>Size</strong>
-                    <p>Large</p>
-                </div>
-                <div class="post-info-row">
-                    <strong>Gender</strong>
-                    <p>Female</p>
-                </div>
-                <div class="post-info-row">
-                    <strong>Last Known Location</strong>
-                    <div class="location-container">
-                        <p>St Agnes Rd, Uniondale</p>
-                        <button type="submit" class="btn location-btn" onclick="openPopup()">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                    <div class="popup" id="popup"> 
-                        <div id="map"></div>
-                        <!-- <img src = "projectImages/oakst.png"> -->
-                        <button type="button" onclick="closePopup()"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                </div>
-                <div class="post-info-row">
-                    <strong>Date Went Missing</strong>
-                    <p>2/01/2025</p>
-                </div>
-            </div>
-        </section>
+    <section class="post-feedback">
+        <h2>Comments</h2>
+        <form id="feedback-form" action="#" method="POST">
+            <textarea name="comment" id="comment-text" rows="5" placeholder="Write your comment here..." required></textarea>
+            <button type="submit" class="submit_button"> Post</button>
+        </form>
+    </section>
 
-        <section class="post-feedback">
-            <h2>Comments</h2>
-            <form id="feedback-form" action="#" method="POST">
-                <textarea name="comment" id="comment-text" rows="5" placeholder="Write your comment here..." required></textarea>
-                <button type="submit" class="submit_button"> Post</button>
-            </form>
-        </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const postID = await getPostID();
+            if (postID) {
+                showingSelectedPetPost(postID);
+                fetchLocationData(postID);
+            }
+        });
+
+        async function getPostID() {
+            try {
+                // Get the postID from the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const postID = urlParams.get('postID');  // Get the value of the postID parameter
+
+                if (!postID) {
+                    throw new Error("Post ID is missing in the URL.");
+                }
+
+                console.log('Post ID from URL:', postID);  // Log for debugging
+
+                return postID;
+            } catch (error) {
+                console.error('Error getting post ID:', error);
+            }
+        }
+
+        async function showingSelectedPetPost(postID) {
+            console.log("Loading clicked missing pet information...");
+            try {
+                const response = await fetch(`http://localhost:3000/userSelectedPost/${postID}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch post data");
+                }
+
+                const selectedPostArray = await response.json();  // Expecting an array here
+                console.log("User Selected Missing Pet data:", selectedPostArray);
+
+                if (selectedPostArray.length === 0) {
+                    console.error("No data found for the selected post.");
+                    return;
+                }
+
+                const selectedPost = selectedPostArray[0];  // Get the first item from the array
+                const postContainer = document.getElementById("post-container");
+                if (!postContainer) {
+                    console.error("Element with ID 'post-container' not found.");
+                    return;
+                }
+                postContainer.innerHTML = "";  // Clear any previous content
+
+                // Rendering Post Details
+                const postDiv = document.createElement("div");
+                postDiv.classList.add("post-details");
+
+                const postHeader = document.createElement("h1");
+                postHeader.textContent = selectedPost.petName;
+
+                const postImg = document.createElement("img");
+                postImg.src = "projectImages/" + selectedPost.animal_image_path;
+
+                const postUsername = document.createElement("h2");
+                postUsername.textContent = `Created by: ${selectedPost.userID}`;
+
+                const postDescription = document.createElement("p");
+                postDescription.textContent = `Description: ${selectedPost.description}`;
+
+                const postAnimalType = document.createElement("p");
+                postAnimalType.textContent = `Type of Animal: ${selectedPost.animalType}`;
+
+                const postAnimalColor = document.createElement("p");
+                postAnimalColor.textContent = `Color: ${selectedPost.animalColor}`;
+
+                const postAnimalSize = document.createElement("p");
+                postAnimalSize.textContent = `Size: ${selectedPost.animalSize}`;
+
+                const postGender = document.createElement("p");
+                postGender.textContent = `Gender: ${selectedPost.animalGender}`;
+
+                const postLastLoc = document.createElement("p");
+                postLastLoc.textContent = `Last Known Location: ${selectedPost.lastCityID}`;
+
+                const postDateMissing = document.createElement("p");
+                postDateMissing.textContent = `Date Missing: ${new Date(selectedPost.dateLost).toLocaleDateString()}`;
+
+                postDiv.append(postHeader, postImg, postUsername, postDescription, postAnimalType, postAnimalColor, postAnimalSize, postGender, postLastLoc, postDateMissing);
+                postContainer.appendChild(postDiv);
+            } catch (error) {
+                console.error("Error loading missing pet post:", error);
+            }
+        }
+
+        async function fetchLocationData(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/selectedPostMap/${postID}`);
+                if (!response.ok) throw new Error("Failed to fetch location data");
+
+                const geoInfo = await response.json();
+                console.log("GeoLoc Pet data:", geoInfo);
+
+                if (geoInfo.length > 0) {
+                    getCoordinates(geoInfo[0].lastZipcode, geoInfo[0].lastCityID);
+                }
+            } catch (error) {
+                console.error("Error fetching location data:", error);
+            }
+        }
+
+        async function getCoordinates(zipcode, city) {
+            const query = `${zipcode}, ${city}`;
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.length > 0) {
+                    updateMap(data[0].lat, data[0].lon);
+                } else {
+                    console.error("Location not found");
+                }
+            } catch (error) {
+                console.error("Error fetching coordinates:", error);
+            }
+        }
+
+        let map;
+        function updateMap(lat, lon) {
+            if (!map) {
+                map = L.map("map").setView([lat, lon], 15);
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: "&copy; OpenStreetMap contributors"
+                }).addTo(map);
+                L.marker([lat, lon], { title: "Last Seen Location" }).addTo(map);
+            } else {
+                map.setView([lat, lon], 15);
+            }
+        }
+
+        function myFunction() {
+            const navbar = document.getElementById("navLinks");
+            navbar.classList.toggle("responsive");
+        }
+    </script>
+
+    <div id="popup" class="popup-container">
+        <button onclick="closePopup()">Close</button>
+        <div id="map" style="width: 100%; height: 400px;"></div>
     </div>
-        <footer>
-            <div class="footer-links">
-                <a href="aboutUs.html">About us</a>
-                <a href="resource.html">Resources</a>
-                <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
-            </div>
-            <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
-        </footer>
-        
-        <script>
-            async function getUserID() {
-                try {
-                    const response = await fetch('/getUserID');
-                    const data = await response.json();
 
-                    // Return the userID or null if not found
-                    return data.userID;
-                } catch (error) {
-                    console.error('Error fetching user ID:', error);
-                    return null; // Return null in case of an error
-                }
-            }
-
-            document.addEventListener("DOMContentLoaded", async () => {
-                let userID = await getUserID(); 
-
-                if (!userID) {
-                    alert("Please log in to access this page.");
-                    window.location.href = "loginPage.html"; // Redirect if no userID
-                }
-            });
-
-            
-            document.addEventListener("DOMContentLoaded", function () {
-                const lostPetID = 1; // Replace with actual ID dynamically
-                fetchLocationData(lostPetID);
-            });
-        
-            let popup = document.getElementById("popup");
-            let map; // Declare the map globally
-        
-            function openPopup() {
-                popup.classList.add("open-popup");
-                // If the map exists, invalidate its size after the popup is opened
-                if (map) {
-                    setTimeout(() => {
-                        map.invalidateSize();
-                    }, 300); // Allow time for popup to render
-                }
-            }
-        
-            function closePopup() {
-                popup.classList.remove("open-popup");
-            }
-        
-            function myFunction() {
-                var navbar = document.getElementById("navLinks");
-                if (navbar.classList.contains("responsive")) {
-                    navbar.classList.remove("responsive");
-                } else {
-                    navbar.classList.add("responsive");
-                }
-            }
-        
-            async function fetchLocationData(lostPetID) {
-                try {
-                    const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
-                        method: 'GET',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-        
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch location data');
-                    }
-        
-                    const geoInfo = await response.json();
-                    console.log("GeoLoc Pet data:", geoInfo);
-        
-                    if (geoInfo.length > 0) {
-                        const { lastZipcode, lastCityID } = geoInfo[0];
-                        console.log(`Zipcode: ${lastZipcode}, CityID: ${lastCityID}`);
-        
-                        getCoordinates(lastZipcode, lastCityID);
-                    }
-                } catch (error) {
-                    console.error('Error fetching location data:', error);
-                }
-            }
-        
-            async function getCoordinates(zipcode, city) {
-                const query = `${zipcode}, ${city}`;
-                const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
-        
-                try {
-                    const response = await fetch(url);
-                    const data = await response.json();
-        
-                    if (data.length > 0) {
-                        const { lat, lon } = data[0];
-                        console.log(`Coordinates: ${lat}, ${lon}`);
-        
-                        // Update Map
-                        updateMap(lat, lon);
-                    } else {
-                        console.error("Location not found");
-                    }
-                } catch (error) {
-                    console.error("Error fetching coordinates:", error);
-                }
-            }
-        
-            function updateMap(lat, lon) {
-                // Initialize the map only if it's not already initialized
-                if (!map) {
-                    map = L.map('map').setView([lat, lon], 15); // Create map if not created yet
-        
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; OpenStreetMap contributors'
-                    }).addTo(map);
-        
-                    L.marker([lat, lon], { title: "Last Seen Location" }).addTo(map);
-                } else {
-                    // If the map exists, just update the view
-                    map.setView([lat, lon], 15);
-                }
-            }
-
-            // sign out
-            document.addEventListener("DOMContentLoaded", () => {
-                const signOutButton = document.getElementById("signOut");
-
-                if (signOutButton) {
-                    signOutButton.addEventListener("click", async (event) => {
-                        event.preventDefault(); // Prevent default link behavior
-
-                        try {
-                            await fetch('/logout', { method: 'POST' });
-                            sessionStorage.removeItem("userID"); // Clear cache
-                            window.location.href = 'loginPage.html'; // Redirect to login
-                        } catch (error) {
-                            console.error("Logout failed:", error);
-                        }
-                    });
-                }
-            });
-        </script>
-        
 </body>
 </html>

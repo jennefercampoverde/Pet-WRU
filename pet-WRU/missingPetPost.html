@@ -19,26 +19,19 @@
         <!-- Navigation Links -->
         <!--each link references another html page-->
         <div class="nav-links" id="navLinks">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
             <div class="dropdown">
                 <button class="dropbtn">Posts 
-                    <i class="fa fa-caret-down"></i>
+                  <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
-                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
+                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
                 </div>
-            </div>
-            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
-            <div class="dropdown">
-                <button class="dropbtn">Account 
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
-                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
-                </div>
-            </div>
+              </div> 
+            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+            <a href="login&signup.html"><i class="fa-solid fa-right-to-bracket"></i> login </a> <!--icon insert here-->
+            
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
@@ -201,170 +194,148 @@
     <!-- Post grid section: to display the posts in rows of 3 -->
     <div>
            <!-- Post Container (Where posts are displayed) -->
-        <div id="post-container">
+    <div id="post-container">
+        
 
-        </div>
-    
     </div>
+</div>
 
-    
-    <footer>
-        <div class="footer-links">
-            <a href="aboutUs.html">About us</a>
-            <a href="resources.html">Resources</a>
-            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
-        </div>
-        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
-    </footer>
-    
-    
-    <script>
-        async function getUserID() {
-                try {
-                    const response = await fetch('/getUserID');
-                    const data = await response.json();
+<script>
 
-                    // Return the userID or null if not found
-                    return data.userID;
-                } catch (error) {
-                    console.error('Error fetching user ID:', error);
-                    return null; // Return null in case of an error
-                }
-            }
 
-            document.addEventListener("DOMContentLoaded", async () => {
-                let userID = await getUserID(); 
-
-                if (!userID) {
-                    alert("Please log in to access this page.");
-                    window.location.href = "loginPage.html"; // Redirect if no userID
-                }
-            });
-
-            // sign out
-            document.addEventListener("DOMContentLoaded", () => {
-                const signOutButton = document.getElementById("signOut");
-
-                if (signOutButton) {
-                    signOutButton.addEventListener("click", async (event) => {
-                        event.preventDefault(); // Prevent default link behavior
-
-                        try {
-                            await fetch('/logout', { method: 'POST' });
-                            sessionStorage.removeItem("userID"); // Clear cache
-                            window.location.href = 'loginPage.html'; // Redirect to login
-                        } catch (error) {
-                            console.error("Logout failed:", error);
-                        }
-                    });
-                }
-            });
-
-        //CALLING MISSING PETS LIST FUNCTION
-        if (document.getElementById('post-container')) {
-            console.log("Missing pet list element found. Calling loadMissingPetsEntries()...");
-            missingPosts(); // Load users when the page is ready
-        } else {
-            console.error("Missing pet list element not found in the DOM."); // Log if the missing pets list is missing
-        }
-        
-        // LOAD MISSING PETS LIST FUNCTION
-        async function missingPosts() {
-            console.log("Loading missing Pets..."); // Start log
-            try {
-                const response = await fetch('http://localhost:3000/missingPosts');
-                
-                console.log("Received response:", response.status); // Log the response status
-                if (!response.ok) {
-                    throw new Error('Failed to fetch all missing pet data');
-                }
-        
-                const lostPosts= await response.json();
-                console.log("Missing Pet data:", lostPosts); // Log the missing pet data received
-        
-                //get role from local storage 
-        
-                const lostPostsList = document.getElementById('post-container');
-                if (!lostPostsList) {
-                    console.error("Element with ID 'post-container' not found."); // Log if the element is not found
-                    return;
-                }
-                lostPostsList.innerHTML = ''; // Clear the list before adding new items
-        
-                if (lostPosts.length === 0) {
-                    lostPostsList.textContent = 'No missing pet entries.';
-                } else {
-                    lostPosts.forEach(post => {
-                        //new div for post 
-                        const postElement = document.createElement('div');
-    
-                        //new div for post
-                        const innerPostElement = document.createElement('div');
-
-                        const pathFolder="projectImages/"
-                        
-                        //need to do if that column is empty use a default image of animal
-                        const postImg= document.createElement('img');
-                        postImg.src=pathFolder + `${post.animal_image_path}`;
-
-                        console.log(postImg)
-                        //creating div to hold a post
-                        const postInfoElement = document.createElement('div');
-                    
-                        //creating header element that holds pet name
-                        const postHeader = document.createElement('h3');
-                        postHeader.textContent = `${post.petName}`;
-                        console.log(postHeader);
-                        
-                        //cleaning up date lost data from JSON
-                        const dateLost=new Date(post.dateLost).toLocaleDateString();
-                        console.log(dateLost);
-                        
-                        //creating a paragraph element that holds date of when the pet was lost 
-                        const postParagraph = document.createElement('p');
-                        postParagraph.textContent=`Date Missing: ${dateLost}`;
-                        console.log(postParagraph);
-
-                        //cleaning up date created data from JSON
-                        const dateCreated=new Date(post.dateCreated).toLocaleDateString();
-                        console.log(dateLost);
-
-                        //creating a small element that holds the date when the post was created
-                        const postSmall = document.createElement('small');
-                        postSmall.textContent = `Date Posted: ${dateCreated}`;
-                        console.log(postSmall);
-                        
-                        // Adding all elements to front end by nesting the divs
-
-                        innerPostElement.appendChild(postImg); // image goes first and within post
-
-                        postInfoElement.appendChild(postHeader); // then header and within post-info
-                        innerPostElement.appendChild(postInfoElement);
-
-                        postInfoElement.appendChild(postParagraph); // last dates and within post-info
-                        innerPostElement.appendChild(postInfoElement);
-
-                        postInfoElement.appendChild(postSmall);
-                        innerPostElement.appendChild(postInfoElement);
-
-                        postElement.appendChild(innerPostElement);
+    //CALLING MISSING PETS LIST FUNCTION
+    if (document.getElementById('post-container')) {
+        console.log("Missing pet list element found. Calling loadMissingPetsEntries()...");
+        missingPosts(); // Load users when the page is ready
+    } else {
+        console.error("Missing pet list element not found in the DOM."); // Log if the missing pets list is missing
+    }
+     
+    // LOAD MISSING PETS LIST FUNCTION
+    async function missingPosts() {
+        console.log("Loading missing Pets..."); // Start log
+        try {
+            const response = await fetch('http://localhost:3000/missingPosts');
             
-                        //have to confirm these css ids/classes
-                        postElement.classList.add('post-container'); 
-                        innerPostElement.classList.add('post');
-                        postInfoElement.classList.add('post-info');
-        
-                        // document.getElementById('post-container').appendChild(postElement);
-                        // document.getElementById('post-container').appendChild(postInfoElement);
-                        document.getElementById('post-container').appendChild(innerPostElement);
-                        
-
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading all missing pet post entries:', error);
+            console.log("Received response:", response.status); // Log the response status
+            if (!response.ok) {
+                throw new Error('Failed to fetch all missing pet data');
             }
-        } 
-    </script>
+    
+            const lostPosts= await response.json();
+            console.log("Missing Pet data:", lostPosts); // Log the missing pet data received
+    
+            //get role from local storage 
+    
+            const lostPostsList = document.getElementById('post-container');
+            if (!lostPostsList) {
+                console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                return;
+            }
+            lostPostsList.innerHTML = ''; // Clear the list before adding new items
+    
+            if (lostPosts.length === 0) {
+                lostPostsList.textContent = 'No missing pet entries.';
+            } else {
+                lostPosts.forEach(post => {
+                    
+                    //new div for post 
+                    const postElement = document.createElement('div');
+
+ 
+                    //new div for post
+                    const innerPostElement = document.createElement('div');
+
+                    const pathFolder="projectImages/"
+                    
+                    //pulling animal image
+                    const postImg= document.createElement('img');
+                    postImg.src=pathFolder + `${post.animal_image_path}`;
+
+                    console.log(postImg)
+                    //creating div to hold a post
+                    const postInfoElement = document.createElement('div');
+                
+                    //creating header element that holds pet name
+                    const postHeader = document.createElement('h3');
+                    postHeader.textContent = `${post.petName}`;
+                    console.log(postHeader);
+                    
+                    //cleaning up date lost data from JSON
+                    const dateLost=new Date(post.dateLost).toLocaleDateString();
+                    console.log(dateLost);
+                    
+                    //creating a paragraph element that holds date of when the pet was lost 
+                    const postParagraph = document.createElement('p');
+                    postParagraph.textContent=`Date Missing: ${dateLost}`;
+                    console.log(postParagraph);
+
+                    //cleaning up date created data from JSON
+                    const dateCreated=new Date(post.dateCreated).toLocaleDateString();
+                    console.log(dateLost);
+
+                    //creating a small element that holds the date when the post was created
+                    const postSmall = document.createElement('small');
+                    postSmall.textContent = `Date Posted: ${dateCreated}`;
+                    console.log(postSmall);
+                    
+                    // Adding all elements to front end by nesting the divs
+
+                    innerPostElement.appendChild(postImg); // image goes first and within post
+
+                    postInfoElement.appendChild(postHeader); // then header and within post-info
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postInfoElement.appendChild(postSmall);
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postElement.appendChild(innerPostElement);
+        
+                    //have to confirm these css ids/classes
+                    postElement.classList.add('post-container'); 
+                    innerPostElement.classList.add('post');
+                    postInfoElement.classList.add('post-info');
+    
+                    // document.getElementById('post-container').appendChild(postElement);
+                    // document.getElementById('post-container').appendChild(postInfoElement);
+                    document.getElementById('post-container').appendChild(innerPostElement);
+                    innerPostElement.addEventListener('click',function(){
+                        lostPetID=post.lostID;
+                        console.log(post.lostID);
+                        
+                        
+                        console.log(lostPetID);
+                        sendPostID();
+                        async function sendPostID(lostPetID) {
+                try {
+                    const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        
+                    });
+                    const result = await response.json();
+                
+                } catch (error) {
+                    console.error('Error fetching selected post ID to next page:', error);
+                    return null;
+                }
+            }
+            window.location.href = `selectedPost.html?postID=${lostPetID}`;
+
+                    });             
+
+                });
+            }
+        } catch (error) {
+            console.error('Error loading all missing pet post entries:', error);
+        }
+    } 
+        
+        </script>
+
+        
 </body>
 </html>
