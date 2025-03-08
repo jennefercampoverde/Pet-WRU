@@ -18,19 +18,26 @@
         <!-- Navigation Links -->
         <!--each link references another html page-->
         <div class="nav-links" id="navLinks">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
             <div class="dropdown">
                 <button class="dropbtn">Posts 
-                  <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
-                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
+                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
                 </div>
-              </div> 
-            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-to-bracket"></i> login </a> <!--icon insert here-->
-            
+            </div>
+            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
@@ -76,6 +83,27 @@
     <span onclick="openNav()" class="filter-button"><i class="fas fa-filter"></i> Filter</span>
 
     <script>
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+        });
 
         function myFunction() {
             var navbar = document.getElementById("navLinks");
@@ -155,13 +183,41 @@
     <!-- Post grid section: to display the movies in rows of 3 -->
     <div>
            <!-- Post Container (Where posts are displayed) -->
-    <div id="post-container">
-        
+        <div id="post-container">
+            
+        </div>
     </div>
-
     
-    </div>
+    <footer>
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resource.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+        </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
+    
+    
     <script>
+
+        // sign out
+        document.addEventListener("DOMContentLoaded", () => {
+            const signOutButton = document.getElementById("signOut");
+
+            if (signOutButton) {
+                signOutButton.addEventListener("click", async (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    try {
+                        await fetch('/logout', { method: 'POST' });
+                        sessionStorage.removeItem("userID"); // Clear cache
+                        window.location.href = 'loginPage.html'; // Redirect to login
+                    } catch (error) {
+                        console.error("Logout failed:", error);
+                    }
+                });
+            }
+        });
 
         //CALLING FOUND PETS LIST FUNCTION
         if (document.getElementById('post-container')) {

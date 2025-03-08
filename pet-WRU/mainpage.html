@@ -51,19 +51,17 @@
         <img src="projectImages/cat.png" alt="Decorative Image" class="bottom-right">
   
     </div>
-    <div class = "footer-container">
-        <div class="footer">
-                <div class="footer-heading footer1">
-                    <h2> :P </h2>
-                    <a href="aboutUs.html">About us</a>
-                    <a href="resources.html">Resources</a>
-                    <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
-                </div>
-                
+    <footer>
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resources.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
         </div>
-    </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
 
     <script>
+
 
         document.addEventListener("DOMContentLoaded", async function () {
             console.log("JavaScript loaded successfully!"); // Debugging
@@ -124,14 +122,24 @@
                                 </div>
                             </div>
                             <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
-                            <a href="login&signup.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
+                            <a href="loginPage.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
 
                     // Now that navbar is updated, attach authentication checks & logout event
                     applyAuthRedirects();
                     applyLogoutEvent();
-                } catch (error) {
-                    console.error('Error updating navbar:', error);
-                }
+
+                    // Dynamic Active Link Highlighting
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                            if (link.href === window.location.href) {
+                                link.classList.add('active');
+                            } else {
+                                link.classList.remove('active');
+                            }
+                    });
+                    
+                    } catch (error) {
+                        console.error('Error updating navbar:', error);
+                    }
             }
 
             function applyAuthRedirects() {
@@ -141,7 +149,7 @@
 
                     if (!userID) {
                         alert("Please log in to access this page.");
-                        window.location.href = "login&signup.html";
+                        window.location.href = "loginPage.html";
                     } else {
                         window.location.href = page;
                     }
@@ -162,7 +170,7 @@
                         try {
                             await fetch('/logout', { method: 'POST' });
                             sessionStorage.removeItem("userID"); // Clear cache
-                            window.location.href = 'login&signup.html'; // Redirect to login
+                            window.location.href = 'loginPage.html'; // Redirect to login
                         } catch (error) {
                             console.error("Logout failed:", error);
                         }
@@ -184,7 +192,7 @@
 
                     if (!userID) {
                         alert("Please log in to report a missing pet.");
-                        window.location.href = "login&signup.html"; 
+                        window.location.href = "loginPage.html"; 
                     } else {
                         window.location.href = "createFlier.html"; 
                     }
@@ -200,14 +208,6 @@
             navbar.classList.toggle("responsive");
         }
 
-        // Dynamic Active Link Highlighting
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            if (link.href === window.location.href) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
-        });
 
 
     </script>

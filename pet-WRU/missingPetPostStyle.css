@@ -1,7 +1,7 @@
 html,body {
     height: 100%;
     margin: 0;
-    padding: 0;
+    /* padding: 0; */
     font-family: Arial, sans-serif;
     background: rgb(248, 224, 180);
     line-height: 1.6;
@@ -250,7 +250,7 @@ span:active {
     width: 300px; 
     height: 0;
     overflow-y: auto;
-    background-color: #95fcc0ec; 
+    background-color: #4db4f8ec; 
     transition: 0.5s;
     z-index: 1000;
     padding: 10px; 
@@ -332,6 +332,7 @@ span:active {
         /* Container for the post grid */
 #post-container {
     display: flex;
+    flex:1;
     flex-wrap: wrap; /* Allow wrapping of rows */
     gap: 20px; /* Add spacing between items */
     justify-content: center; /* Center the rows */
@@ -383,4 +384,37 @@ span:active {
 .post-info p, small {
     font-size: 0.9em; /* Adjust text size for info */
     margin: 3px 0;
+}
+
+/* footer */
+footer {
+    background-color: #ffffff; 
+    padding: 20px 0;
+    text-align: center;
+    height: auto;
+    margin-top: auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between links */
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #333; /* Dark text for readability */
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #336eec; /* Green color on hover */
+}
+
+.copyright {
+    font-size: 14px;
+    color: #777; /* Lighter text color */
 }

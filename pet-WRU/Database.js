@@ -11,4 +11,4 @@ const pool = mariadb.createPool({
     // port: 3307 //for sheila
 });
 
-module.exports = pool; // Export the pool for use
+module.exports = pool; // Export the pool for uses

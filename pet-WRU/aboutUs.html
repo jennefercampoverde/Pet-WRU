@@ -17,61 +17,176 @@
         <!-- Navigation Links -->
         <!--each link references another html page-->
         <div class="nav-links" id="navLinks">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
-            <div class="dropdown">
-                <button class="dropbtn">Posts 
-                  <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
-                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
-                </div>
-              </div> 
-            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
-            <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-to-bracket"></i> login </a> <!--icon insert here-->
             
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 
-	<h1 id="AbutHeading"> About Us! </h1>
-    <div class="Description">
-	<section>
-		<h3> Description of website </h3>
-		<p>Pet WRU is a platform designed to help reunite lost pets with their owners.
-            Our website offers a simple and accessible space where pet owners can report
-            missing animals by creating digital flyers. These flyers are displayed on a
-            separate page in a list, and include key details such as the pet’s name, color,
-            age, and contact information. Other users can view and comment on posts to share
-            updates or offer assistance. Once a pet is found, the flyer can be updated accordingly
-            and moved to a "Found Pets" section, offering encouragement to others still searching.</p>
-	</section>
+    <div class="content">
+        <h1 id="AbutHeading"> About Us! </h1>
+        <div class="Description">
+        <section>
+            <h3> Description of website </h3>
+            <p>Pet WRU is a platform designed to help reunite lost pets with their owners.
+                Our website offers a simple and accessible space where pet owners can report
+                missing animals by creating digital flyers. These flyers are displayed on a
+                separate page in a list, and include key details such as the pet’s name, color,
+                age, and contact information. Other users can view and comment on posts to share
+                updates or offer assistance. Once a pet is found, the flyer can be updated accordingly
+                and moved to a "Found Pets" section, offering encouragement to others still searching.</p>
+        </section>
+        </div>
+        <div class="WhyCreated">
+        <section>
+            <h3> Why we created Pet WRU </h3>
+            <p>Losing a pet is a heartbreaking experience for any pet owner. Whether it is a dog that has
+                slipped out of the backyard, a cat that has wandered too far from home, or even a bird that
+                flew away, the emotional toll of having a beloved animal go missing is immense. The distress
+                caused by losing a pet cannot be overstated. For many people, pets are considered to be their
+                family members, and the anxiety and fear associated with their disappearance can be overwhelming.
+                Many pet owners feel a sense of helplessness, especially when the available tools seem insufficient
+                or out of reach due to financial constraints. They are seen as being part of the family, and to
+                lose them can be truly emotionally devastating.
+            </p>
+        </section>
+        </div>
+        <div class="Features">
+        <section>
+            <h3> Features of our website</h3>
+            <p> Our page allows for users to create fliers to promote awareness for their lost pets.
+                Allows for users to remote many types of animals without much restrictions.
+                Our website offers no fees making this an easy way to promote your lost pets.
+                The UI we use is easy to understand making this website useable by anyone regarless of their tech knowledge.
+            </p>
+        </section>
+
+        </div>
     </div>
-    <div class="WhyCreated">
-    <section>
-		<h3> Why we created Pet WRU </h3>
-		<p>Losing a pet is a heartbreaking experience for any pet owner. Whether it is a dog that has
-            slipped out of the backyard, a cat that has wandered too far from home, or even a bird that
-            flew away, the emotional toll of having a beloved animal go missing is immense. The distress
-            caused by losing a pet cannot be overstated. For many people, pets are considered to be their
-            family members, and the anxiety and fear associated with their disappearance can be overwhelming.
-            Many pet owners feel a sense of helplessness, especially when the available tools seem insufficient
-            or out of reach due to financial constraints. They are seen as being part of the family, and to
-            lose them can be truly emotionally devastating.
-        </p>
-	</section>
-    </div>
-    <div class="Features">
-    <section>
-        <h3> Features of our website</h3>
-        <p> Our page allows for users to create fliers to promote awareness for their lost pets.
-            Allows for users to remote many types of animals without much restrictions.
-            Our website offers no fees making this an easy way to promote your lost pets.
-            The UI we use is easy to understand making this website useable by anyone regarless of their tech knowledge.
-        </p>
-    </section>
-    </div>
+
+    
+        <footer>
+            <div class="footer-links">
+                <a href="aboutUs.html">About us</a>
+                <a href="resources.html">Resources</a>
+                <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+            </div>
+            <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+        </footer>
+    
+
     <script>
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            console.log("JavaScript loaded successfully!"); // Debugging
+
+            async function getUserID() {
+                try {
+                    const response = await fetch('/getUserID');
+                    const data = await response.json();
+                    return data.userID; // Return user ID or null
+                } catch (error) {
+                    console.error('Error fetching user ID:', error);
+                    return null;
+                }
+            }
+
+            async function loginNavbar() {
+                try {
+                    const userID = await getUserID();
+                    let navLinks = document.getElementById("navLinks");
+
+                    if (!navLinks) {
+                        console.error("Error: navLinks not found in DOM.");
+                        return;
+                    }
+
+                    // Update navbar dynamically based on login status
+                    navLinks.innerHTML = userID
+                        ? `
+                            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+                            <div class="dropdown">
+                                <button class="dropbtn">Posts 
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                                </div>
+                            </div>
+                            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
+                            <div class="dropdown">
+                                <button class="dropbtn">Account 
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                                </div>
+                            </div>`
+                        : `
+                            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+                            <div class="dropdown">
+                                <button class="dropbtn">Posts 
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                                </div>
+                            </div>
+                            <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>
+                            <a href="loginPage.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
+
+                    // Now that navbar is updated, attach authentication checks & logout event
+                    applyAuthRedirects();
+                    applyLogoutEvent();
+                } catch (error) {
+                    console.error('Error updating navbar:', error);
+                }
+            }
+
+            function applyAuthRedirects() {
+                async function handleAuthRedirect(event, page) {
+                    event.preventDefault();
+                    let userID = await getUserID();
+
+                    if (!userID) {
+                        alert("Please log in to access this page.");
+                        window.location.href = "loginPage.html";
+                    } else {
+                        window.location.href = page;
+                    }
+                }
+
+                document.querySelectorAll(".auth-link").forEach(link => {
+                    link.addEventListener("click", function (event) {
+                        handleAuthRedirect(event, link.getAttribute("href"));
+                    });
+                });
+            }
+
+            function applyLogoutEvent() {
+                const signOutButton = document.getElementById("signOut");
+
+                if (signOutButton) {
+                    signOutButton.addEventListener("click", async () => {
+                        try {
+                            await fetch('/logout', { method: 'POST' });
+                            sessionStorage.removeItem("userID"); // Clear cache
+                            window.location.href = 'loginPage.html'; // Redirect to login
+                        } catch (error) {
+                            console.error("Logout failed:", error);
+                        }
+                    });
+                } else {
+                    console.warn("Sign-out button not found in DOM.");
+                }
+            }
+
+            // Call function when page loads
+            await loginNavbar(); // Wait for navbar to be updated before applying event listeners
+
+        });
 
         function myFunction() {
             var navbar = document.getElementById("navLinks");
@@ -81,8 +196,6 @@
                 navbar.classList.add("responsive");
             }
         }
-
-    
 
     </script>
 </body>
