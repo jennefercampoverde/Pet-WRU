@@ -188,15 +188,12 @@
             navbar.classList.toggle("responsive");
         }
 
-
-
+        //function to show the comments for the post
         async function postComments(postID)
         { 
 
         console.log("Loading comments Pets..."); // Start log
         try {
-
-            
 
             console.log(`Fetching comments post with ID: ${postID}`);
             const response = await fetch(`http://localhost:3000/showComments/${postID}`);
@@ -216,12 +213,10 @@
                     console.error("No data found for the selected comments post.");
                     return;
                 }
-
-                //const commentPosts = commentPostsArray[0];  // Get the first item from the array
+            // Get the first item from the array
 
                 console.log('Fetched Comments:', commentPosts); 
-    
-            //get role from local storage 
+
     
             const commentPostsList = document.getElementById('post-comments');
             if (!commentPostsList) {
@@ -237,19 +232,19 @@
                     //new div for post 
                     const commentElement = document.createElement('div');
 
-                    //creating header element that holds pet name
+                    //creating header element that holds user id of who made the comment 
                     const postHeader = document.createElement('h3');
                     postHeader.textContent = `Posted by: User ${comment.userID}`;
                     console.log("header",postHeader);
 
-                    //cleaning up date lost data from JSON
+                    //cleaning up comment date created from JSON
                     const dateCreatedText=new Date(comment.dateCreated).toLocaleDateString();
                     
-                    //creating a paragraph element that holds date of when the pet was lost 
+                    //creating a paragraph element that holds date of when the comment was made 
                     const dateCreated= document.createElement('p');
                     dateCreated.textContent=`Posted on: ${dateCreatedText}`;
                     
-                    //creates element to create description
+                    //creates element that holds comment text
                     const commentDescription = document.createElement('h2');
                     commentDescription.textContent = `${comment.commentText}`;
 
