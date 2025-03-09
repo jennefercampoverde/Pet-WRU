@@ -32,16 +32,22 @@
 
     </div>
 
-    <section class="post-feedback">
-        <h2>Comments</h2>
-        <form id="feedback-form" action="#" method="POST">
-            <textarea name="comment" id="comment-text" rows="5" placeholder="Write your comment here..." required></textarea>
-            <button type="submit" class="submit_button"> Post</button>
-        </form>
+    <section id="comments-section">
+        
         
     </section>
-    <h2> Comments </h2>
+    <h2 class="postComments-header"> View Comments Below </h2>
+    
     <div id="post-comments"> </div>  
+
+    <footer id="page_footer">
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resource.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+        </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
 
 
     <script>
@@ -56,6 +62,20 @@
                 console.error("No postID found.");
             }
         });
+
+        function openPopup() {
+                popup.classList.add("open-popup");
+                // If the map exists, invalidate its size after the popup is opened
+                if (map) {
+                    setTimeout(() => {
+                        map.invalidateSize();
+                    }, 300); // Allow time for popup to render
+                }
+            }
+        
+            function closePopup() {
+                popup.classList.remove("open-popup");
+            }
 
         async function getPostID() {
             try {
@@ -111,8 +131,6 @@
                 const detailsSection= document.createElement('section');
                 detailsSection.classList.add('post-details');
 
-                
-
                 //creating img and div inside the section for image 
                 const imgDiv = document.createElement('div');
                 const img = document.createElement('img');
@@ -121,7 +139,6 @@
                 imgDiv.append(img);
                 detailsSection.appendChild(imgDiv);
 
-
                 //creating text for username & div that holds username
                 const usernameDiv= document.createElement('div');
                 const usernameText=document.createElement('h2');
@@ -129,21 +146,26 @@
                 usernameDiv.classList.add('post-actions');
                 usernameDiv.append(usernameText);
                 detailsSection.appendChild(usernameDiv);
-                usernameDiv.appendChild(imgDiv);
+                imgDiv .appendChild(usernameDiv);
                 
 
-                
+                //div to hold everything else
+
+                const infoDiv = document.createElement('div');
+                infoDiv.classList.add('post-info');
+                detailsSection.appendChild(infoDiv);
 
                 //creating title, text for description & div that holds the description
                 const descriptionDiv= document.createElement('div');
                 const descriptionTitle=document.createElement('strong');
                 descriptionTitle.textContent = 'Description:';
                 descriptionDiv.append(descriptionTitle);
-                detailsSection.appendChild(descriptionDiv);
+                infoDiv.appendChild(descriptionDiv);
                 const descriptionText=document.createElement('p');
                 descriptionText.textContent = `${selectedPost.description}`;
                 descriptionDiv.classList.add('post-info-row.description');
                 descriptionDiv.append(descriptionText);
+
 
 
                 //creating title, text for Type of Animal & div that holds the Type of Animal
@@ -151,10 +173,10 @@
                 const typeTitle=document.createElement('strong');
                 typeTitle.textContent = 'Type of Animal:';
                 typeDiv.append(typeTitle);
-                detailsSection.appendChild(typeDiv);
+                infoDiv.appendChild(typeDiv);
                 const typeText=document.createElement('p');
                 typeText.textContent = `${selectedPost.animalType}`;
-                typeDiv.classList.add('post-info-row.species');
+                typeDiv.classList.add('post-info-row');
                 typeDiv.append(typeText);
 
                 //creating title, text for color & div that holds the color
@@ -162,11 +184,11 @@
                 const colorTitle=document.createElement('strong');
                 colorTitle.textContent = 'Color:';
                 colorDiv.append(colorTitle);
-                detailsSection.appendChild(colorDiv);
+                infoDiv.appendChild(colorDiv);
                 const colorText=document.createElement('p');
                 colorText.textContent = `${selectedPost.animalColor}`;
                 console.log(colorText);
-                colorDiv.classList.add('post-info-row.species');
+                colorDiv.classList.add('post-info-row');
                 colorDiv.append(colorText);
 
 
@@ -175,11 +197,11 @@
                 const sizeTitle= document.createElement('strong');
                 sizeTitle.textContent = 'Size:';
                 sizeDiv.append(sizeTitle);
-                detailsSection.appendChild(sizeDiv);
+                infoDiv.appendChild(sizeDiv);
                 const sizeText=document.createElement('p');
                 sizeText.textContent = `${selectedPost.animalSize}`;
                 console.log(sizeText);
-                sizeDiv.classList.add('post-info-row.species');
+                sizeDiv.classList.add('post-info-row');
                 sizeDiv.append(sizeText);
 
 
@@ -188,34 +210,122 @@
                 const genderTitle= document.createElement('strong');
                 genderTitle.textContent = 'Gender:';
                 genderDiv.append(genderTitle);
-                detailsSection.appendChild(genderDiv);
+                infoDiv.appendChild(genderDiv);
                 const genderText=document.createElement('p');
                 genderText.textContent = `${selectedPost.animalGender}`;
                 console.log(genderText);
-                genderDiv.classList.add('post-info-row.species');
+                genderDiv.classList.add('post-info-row');
                 genderDiv.append(genderText);
 
 
                 //creating title, text for last known location & div that holds the last known location 
                 const lastLocDiv= document.createElement('div');
+                lastLocDiv.classList.add('post-info-row');
                 const lastLocTitle= document.createElement('strong');
                 lastLocTitle.textContent = 'Last Known Location:';
                 lastLocDiv.append(lastLocTitle);
-                detailsSection.appendChild(lastLocDiv);
+                infoDiv.appendChild(lastLocDiv);
+
+                //creating div for to hold all map stuff
+                const locationDiv= document.createElement('div');
+                locationDiv.classList.add('location-container');
+
+                lastLocDiv.appendChild(locationDiv);
+
+                //adding last city data
                 const lastLocText=document.createElement('p');
                 lastLocText.textContent = `${selectedPost.lastCityID}`;
                 console.log(lastLocText);
-                lastLocDiv.classList.add('post-info-row.species');
-                lastLocDiv.append(lastLocText);
+                locationDiv.append(lastLocText);
+
+                //adding map button to open
+                const mapButton= document.createElement('button');
+                mapButton.type='submit';
+                mapButton.classList.add('btn.location-btn');
+
+                //adding i element in button 
+                const buttonText=document.createElement('i');
+                buttonText.textContent = 'View Map';
+                //buttonText.classList.add('popup button');
+                //mapButton.onclick=openPopup; not working 
+                mapButton.appendChild(buttonText);
+                locationDiv.appendChild(mapButton);
+
+                //adding div for the popup
+                const popupDiv= document.createElement('div');
+                lastLocDiv.appendChild(popupDiv);
+                popupDiv.classList.add('popup');
+                popupDiv.setAttribute("id","popup");
+
+                //div for map
+                const mapDiv= document.createElement('div');
+                mapDiv.setAttribute("id","map");
+                popupDiv.appendChild(mapDiv);
+
+                //adding map button to close
+                const closeButton= document.createElement('button');
+                //closeButton.onclick=openPopup; not working 
+                closeButton.type='submit';
+
+                //adding i element in button 
+                const closeButtonText=document.createElement('i');
+                closeButtonText.textContent = 'close';
+                //closeButtonText.classList.add('fa-solid fa-xmark');
+                
+                closeButton.append(closeButtonText);
+                mapDiv.appendChild(closeButton);
+                
+
+                //creating title, text for date missing & div that holds the date missing
+                const dateDiv= document.createElement('div');
+                const dateTitle= document.createElement('strong');
+                dateTitle.textContent = 'Date Missing:';
+                dateDiv.append(dateTitle);
+                infoDiv.appendChild(dateDiv);
+                const dateText=document.createElement('p');
+                dateText.textContent = `${new Date(selectedPost.dateLost).toLocaleDateString()}`;;
+                console.log(dateText);
+                dateDiv.classList.add('post-info-row');
+                dateDiv.append(dateText);
 
 
+                //creating section for creating comments form
+                const createCommentsSection = document.getElementById('comments-section');
+                createCommentsSection.classList.add('post-feedback');
+                
 
+                //creating section heading for comments form 
+                const commentsHeader= document.createElement('h2');
+                commentsHeader.textContent = 'Comments';
+                createCommentsSection.append(commentsHeader);
 
+                //creating form for posting comments
+                const createCommentsForm= document.createElement('form');
+                createCommentsForm.setAttribute("id","feedback-form");
+                //createCommentsForm.action('#');
+                //createCommentsForm.method("POST");
+                createCommentsSection.append(createCommentsForm);
+
+                //creating textbox
+                const createCommentsBox= document.createElement('textarea');
+                createCommentsBox.setAttribute("name","comment");
+                createCommentsBox.setAttribute("id","comment-text");
+                createCommentsBox.setAttribute("rows","5");
+                createCommentsBox.setAttribute("placeholder","Write your comment here...");
+                createCommentsForm.append(createCommentsBox);
+
+                //creating submit button for creating a comment
+                const commentButton= document.createElement('button');
+                commentButton.textContent='Post';
+                commentButton.type="submit";
+                commentButton.classList.add('submit_button');
+                createCommentsForm.append(commentButton);
+                //add eventclicker here to POST COMMENT
 
 
                 postContainer.appendChild(postHeader);
                 postContainer.appendChild(detailsSection);
-                
+
             } catch (error) {
                 console.error("Error loading missing pet post:", error);
             }
@@ -268,6 +378,8 @@
             }
         }
 
+
+
         function myFunction() {
             const navbar = document.getElementById("navLinks");
             navbar.classList.toggle("responsive");
@@ -317,6 +429,10 @@
                     //new div for post 
                     const commentElement = document.createElement('div');
 
+                    //creating inner div
+                    const commentDiv= document.createElement('div');
+                    commentDiv.classList.add('comment-info');
+
                     //creating header element that holds user id of who made the comment 
                     const postHeader = document.createElement('h3');
                     postHeader.textContent = `Posted by: User ${comment.userID}`;
@@ -331,14 +447,15 @@
                     
                     //creates element that holds comment text
                     const commentDescription = document.createElement('p');
-                    commentDescription.textContent = `Comment: ${comment.commentText}`;
+                    commentDescription.textContent = `${comment.commentText}`;
                     
                     commentElement.classList.add('post-comments');
 
 
-                    commentElement.appendChild(postHeader);
-                    commentElement.appendChild(commentDescription);
-                    commentElement.appendChild(dateCreated);
+                    commentDiv.appendChild(postHeader);
+                    commentDiv.appendChild(commentDescription);
+                    commentDiv.appendChild(dateCreated);
+                    commentElement.appendChild(commentDiv);
                     
                     document.getElementById('post-comments').appendChild(commentElement);                         
 
@@ -353,10 +470,7 @@
 
     </script>
 
-    <div id="popup" class="popup-container">
-        <button onclick="closePopup()">Close</button>
-        <div id="map" style="width: 100%; height: 400px;"></div>
-    </div>
+    
 
 </body>
 </html>
