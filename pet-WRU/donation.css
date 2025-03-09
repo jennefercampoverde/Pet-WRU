@@ -385,36 +385,174 @@ span:active {
     margin: 3px 0;
 }
 
-/* footer */
-footer {
-    background-color: #ffffff; 
-    padding: 20px 0;
-    text-align: center;
-    height: auto;
-    margin-top: auto;
+/*                                                    */
+
+.container {
+    background: white;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 100px 130px 40px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-.footer-links {
+.flier-header {
     display: flex;
-    justify-content: center;
-    gap: 20px; /* Space between links */
+    align-items: center;
+    gap: 80px;
     margin-bottom: 10px;
 }
 
-.footer-links a {
-    text-decoration: none;
-    color: #333; /* Dark text for readability */
-    font-weight: bold;
-    font-size: 16px;
-    transition: color 0.3s ease;
-}
-
-.footer-links a:hover {
-    color: #336eec; /* Green color on hover */
-}
-
-.copyright {
+.image-upload {
+    width: 160px;
+    height: 160px;
+    border: 2px dashed #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     font-size: 14px;
-    color: #777; /* Lighter text color */
+    color: #666;
+    margin-left: -15px;
+}
+
+.image-upload label {
+    font-weight: bold;
+    margin-top: 105px;
+    color: #000000;
+    font-size: 19px;
+}
+
+.upload-button {
+    margin-top: 55px;
+    padding-bottom: 10px;
+    margin-left: 95px;
+}
+
+.flier-title {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.flier-title h2 {
+    margin: 0;
+    font-size: 30px;
+    color: #000000;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    margin-bottom: 30px;
+    margin-top: 70px;
+    margin-left: -15px;
+}
+
+.details-grid div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    
+}
+
+input, select, textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Ensure only the 'Description' label is centered vertically */
+.description-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between label and textarea */
+}
+
+.description-container label {
+    white-space: nowrap; /* Prevents label from wrapping */
+    
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+    width: 350px;
+}
+
+.post-button {
+    display: block;
+    width: 110px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: #ff6600;
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-button:hover {
+    background: #e65c00;
+}
+
+/* footer */
+.footer-container {
+    background-color:  #ffffff;;
+    /*padding-bottom: 2rem 0 4rem 0;*/
+    width: 100vw; /* Stretch across the entire viewport width */
+    margin: 0; /* Remove default margin to align with the page */
+    padding: 2rem 0; /* Add padding for spacing */
+    margin-top: 70px;
+}
+
+/* Footer Styling */
+.footer {
+    width: 100%;
+    height: auto;
+    background-color:  #ffffff;;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9em;
+    /*margin: 0 auto;*/
+}
+
+.footer-heading {
+    display: flex;
+    flex-direction: column;
+    margin-right: 4rem;
+}
+
+.footer-heading h2 {
+    margin-bottom: 2rem;
+    padding-bottom: 10px;
+}
+
+.footer-heading a {
+    color: black;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+}
+
+.footer-heading a:hover {
+    color: red;
+    transition: 0.3s ease-out;
+}
+
+h1 {
+    color: #0a79e0;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 10px;
 }
