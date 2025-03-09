@@ -303,6 +303,18 @@ html,body {
     border: 1px solid #eaeaea;
 }
 
+.post-comments{
+    max-width: 700px;
+    margin-top: 30px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    
+
+}
+
 .post-feedback h2 {
     margin-bottom: 15px;
     color: #2c3e50;
@@ -426,12 +438,15 @@ html,body {
 
 /* Style to comments */
 .comment {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    position: relative;
+    max-width: 700px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 70px;
+        
+
 }
 
 .comment strong {

@@ -28,7 +28,9 @@
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 
-    <div class="post-container" id="post-container"></div>
+    <div id="post-container">
+
+    </div>
 
     <section class="post-feedback">
         <h2>Comments</h2>
@@ -36,7 +38,9 @@
             <textarea name="comment" id="comment-text" rows="5" placeholder="Write your comment here..." required></textarea>
             <button type="submit" class="submit_button"> Post</button>
         </form>
+        
     </section>
+    <h2> Comments </h2>
     <div id="post-comments"> </div>  
 
 
@@ -88,49 +92,130 @@
                 }
 
                 const selectedPost = selectedPostArray[0];  // Get the first item from the array
-                const postContainer = document.getElementById("post-container");
+                const postContainer = document.getElementById('post-container');
                 if (!postContainer) {
                     console.error("Element with ID 'post-container' not found.");
                     return;
                 }
                 postContainer.innerHTML = "";  // Clear any previous content
 
-                // Rendering Post Details
-                const postDiv = document.createElement("div");
-                postDiv.classList.add("post-details");
+                //creating selected post using data
+                postContainer.classList.add('post-container');
 
-                const postHeader = document.createElement("h1");
+                //Adding Missing Pet Name
+                const postHeader = document.createElement('h1');
                 postHeader.textContent = selectedPost.petName;
+                postHeader.classList.add('post-header');
 
-                const postImg = document.createElement("img");
-                postImg.src = "projectImages/" + selectedPost.animal_image_path;
+                //Adding section to hold post details
+                const detailsSection= document.createElement('section');
+                detailsSection.classList.add('post-details');
 
-                const postUsername = document.createElement("h2");
-                postUsername.textContent = `Created by: ${selectedPost.userID}`;
+                
 
-                const postDescription = document.createElement("p");
-                postDescription.textContent = `Description: ${selectedPost.description}`;
+                //creating img and div inside the section for image 
+                const imgDiv = document.createElement('div');
+                const img = document.createElement('img');
+                img.src = 'projectImages/' + selectedPost.animal_image_path;
+                imgDiv.classList.add('post-image');
+                imgDiv.append(img);
+                detailsSection.appendChild(imgDiv);
 
-                const postAnimalType = document.createElement("p");
-                postAnimalType.textContent = `Type of Animal: ${selectedPost.animalType}`;
 
-                const postAnimalColor = document.createElement("p");
-                postAnimalColor.textContent = `Color: ${selectedPost.animalColor}`;
+                //creating text for username & div that holds username
+                const usernameDiv= document.createElement('div');
+                const usernameText=document.createElement('h2');
+                usernameText.textContent = `Created by: ${selectedPost.userID}`;
+                usernameDiv.classList.add('post-actions');
+                usernameDiv.append(usernameText);
+                detailsSection.appendChild(usernameDiv);
+                usernameDiv.appendChild(imgDiv);
+                
 
-                const postAnimalSize = document.createElement("p");
-                postAnimalSize.textContent = `Size: ${selectedPost.animalSize}`;
+                
 
-                const postGender = document.createElement("p");
-                postGender.textContent = `Gender: ${selectedPost.animalGender}`;
+                //creating title, text for description & div that holds the description
+                const descriptionDiv= document.createElement('div');
+                const descriptionTitle=document.createElement('strong');
+                descriptionTitle.textContent = 'Description:';
+                descriptionDiv.append(descriptionTitle);
+                detailsSection.appendChild(descriptionDiv);
+                const descriptionText=document.createElement('p');
+                descriptionText.textContent = `${selectedPost.description}`;
+                descriptionDiv.classList.add('post-info-row.description');
+                descriptionDiv.append(descriptionText);
 
-                const postLastLoc = document.createElement("p");
-                postLastLoc.textContent = `Last Known Location: ${selectedPost.lastCityID}`;
 
-                const postDateMissing = document.createElement("p");
-                postDateMissing.textContent = `Date Missing: ${new Date(selectedPost.dateLost).toLocaleDateString()}`;
+                //creating title, text for Type of Animal & div that holds the Type of Animal
+                const typeDiv= document.createElement('div');
+                const typeTitle=document.createElement('strong');
+                typeTitle.textContent = 'Type of Animal:';
+                typeDiv.append(typeTitle);
+                detailsSection.appendChild(typeDiv);
+                const typeText=document.createElement('p');
+                typeText.textContent = `${selectedPost.animalType}`;
+                typeDiv.classList.add('post-info-row.species');
+                typeDiv.append(typeText);
 
-                postDiv.append(postHeader, postImg, postUsername, postDescription, postAnimalType, postAnimalColor, postAnimalSize, postGender, postLastLoc, postDateMissing);
-                postContainer.appendChild(postDiv);
+                //creating title, text for color & div that holds the color
+                const colorDiv= document.createElement('div');
+                const colorTitle=document.createElement('strong');
+                colorTitle.textContent = 'Color:';
+                colorDiv.append(colorTitle);
+                detailsSection.appendChild(colorDiv);
+                const colorText=document.createElement('p');
+                colorText.textContent = `${selectedPost.animalColor}`;
+                console.log(colorText);
+                colorDiv.classList.add('post-info-row.species');
+                colorDiv.append(colorText);
+
+
+                //creating title, text for size & div that holds the size
+                const sizeDiv= document.createElement('div');
+                const sizeTitle= document.createElement('strong');
+                sizeTitle.textContent = 'Size:';
+                sizeDiv.append(sizeTitle);
+                detailsSection.appendChild(sizeDiv);
+                const sizeText=document.createElement('p');
+                sizeText.textContent = `${selectedPost.animalSize}`;
+                console.log(sizeText);
+                sizeDiv.classList.add('post-info-row.species');
+                sizeDiv.append(sizeText);
+
+
+                //creating title, text for gender & div that holds the gender
+                const genderDiv= document.createElement('div');
+                const genderTitle= document.createElement('strong');
+                genderTitle.textContent = 'Gender:';
+                genderDiv.append(genderTitle);
+                detailsSection.appendChild(genderDiv);
+                const genderText=document.createElement('p');
+                genderText.textContent = `${selectedPost.animalGender}`;
+                console.log(genderText);
+                genderDiv.classList.add('post-info-row.species');
+                genderDiv.append(genderText);
+
+
+                //creating title, text for last known location & div that holds the last known location 
+                const lastLocDiv= document.createElement('div');
+                const lastLocTitle= document.createElement('strong');
+                lastLocTitle.textContent = 'Last Known Location:';
+                lastLocDiv.append(lastLocTitle);
+                detailsSection.appendChild(lastLocDiv);
+                const lastLocText=document.createElement('p');
+                lastLocText.textContent = `${selectedPost.lastCityID}`;
+                console.log(lastLocText);
+                lastLocDiv.classList.add('post-info-row.species');
+                lastLocDiv.append(lastLocText);
+
+
+
+
+
+
+                postContainer.appendChild(postHeader);
+                postContainer.appendChild(detailsSection);
+                
             } catch (error) {
                 console.error("Error loading missing pet post:", error);
             }
@@ -245,8 +330,11 @@
                     dateCreated.textContent=`Posted on: ${dateCreatedText}`;
                     
                     //creates element that holds comment text
-                    const commentDescription = document.createElement('h2');
-                    commentDescription.textContent = `${comment.commentText}`;
+                    const commentDescription = document.createElement('p');
+                    commentDescription.textContent = `Comment: ${comment.commentText}`;
+                    
+                    commentElement.classList.add('post-comments');
+
 
                     commentElement.appendChild(postHeader);
                     commentElement.appendChild(commentDescription);
