@@ -301,6 +301,48 @@ html,body {
     padding: 20px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid #eaeaea;
+    max-width: 700px;
+    margin: 20px auto;
+    
+}
+
+.post-comments{
+    
+    text-align: left;
+    margin: 30px auto; 
+    max-width: 700px;
+    align-items: baseline;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    padding: 20px;
+    grid-template-columns: 150px 1fr;
+    gap: 80px;
+    
+    
+
+}
+
+.comment-info{
+    
+        
+
+        border-bottom: 1px solid #eaeaea;
+        padding: 10px 0;
+        text-align: left;
+        padding: 20px;
+        line-height: 1.6;
+        background-color: #f0f0f0;
+        box-shadow: 0 2px 4px rgba(50, 50, 50, 0.1);
+    
+}
+
+.postComments-header{
+    margin-bottom: 15px;
+    color: #2c3e50;
+    text-align: center;
 }
 
 .post-feedback h2 {
@@ -358,6 +400,19 @@ html,body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.close-location-btn{
+    cursor: pointer;
+    font-size: 0.5rem; /* Adjust icon size */
+    padding: 5px;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevents button from shrinking too much */
+
 }
 
 .location-btn i {
@@ -426,12 +481,16 @@ html,body {
 
 /* Style to comments */
 .comment {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    position: relative;
+    max-width: 700px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 70px;
+    
+        
+
 }
 
 .comment strong {

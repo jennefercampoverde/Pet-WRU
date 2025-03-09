@@ -516,6 +516,28 @@ exports.userSelectedPost = async (req,res)=>{
 
 };
 
+// Route for the comments for selected post page 
+
+exports.showComments = async (req,res)=>{
+    const { postID }=req.params;
+    
+    try{
+        const conn= await pool.getConnection();
+        const rows= await conn.query("SELECT * FROM postComments WHERE lostID= ?",[postID]);
+        res.json(rows);
+        conn.release();
+    }
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information about comments selected post table.'});
+    }
+
+};
+
+
+
+
 
 
 
