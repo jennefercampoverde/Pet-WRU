@@ -402,6 +402,19 @@ html,body {
     justify-content: center;
 }
 
+.close-location-btn{
+    cursor: pointer;
+    font-size: 0.5rem; /* Adjust icon size */
+    padding: 5px;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevents button from shrinking too much */
+
+}
+
 .location-btn i {
     font-size: 1rem; /* Adjust icon size */
 }

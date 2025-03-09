@@ -63,7 +63,7 @@
             }
         });
 
-        function openPopup() {
+        async function openPopup() {
                 popup.classList.add("open-popup");
                 // If the map exists, invalidate its size after the popup is opened
                 if (map) {
@@ -73,7 +73,7 @@
                 }
             }
         
-            function closePopup() {
+            async function closePopup() {
                 popup.classList.remove("open-popup");
             }
 
@@ -242,6 +242,7 @@
                 const mapButton= document.createElement('button');
                 mapButton.type='submit';
                 mapButton.classList.add('btn.location-btn');
+                mapButton.addEventListener('click',openPopup);
 
                 //adding i element in button 
                 const buttonText=document.createElement('i');
@@ -264,16 +265,18 @@
 
                 //adding map button to close
                 const closeButton= document.createElement('button');
-                //closeButton.onclick=openPopup; not working 
                 closeButton.type='submit';
+                closeButton.classList.add('btn.close-location-btn');
+                closeButton.addEventListener('click',closePopup);
+
 
                 //adding i element in button 
                 const closeButtonText=document.createElement('i');
-                closeButtonText.textContent = 'close';
+                closeButtonText.textContent = 'Close Map';
                 //closeButtonText.classList.add('fa-solid fa-xmark');
                 
                 closeButton.append(closeButtonText);
-                mapDiv.appendChild(closeButton);
+                locationDiv.appendChild(closeButton);
                 
 
                 //creating title, text for date missing & div that holds the date missing
