@@ -37,6 +37,8 @@
             <button type="submit" class="submit_button"> Post</button>
         </form>
     </section>
+    <div id="post-comments"> </div>  
+
 
     <script>
         document.addEventListener("DOMContentLoaded", async function () {
@@ -44,6 +46,10 @@
             if (postID) {
                 showingSelectedPetPost(postID);
                 fetchLocationData(postID);
+                postComments(postID);
+            }
+            else{
+                console.error("No postID found.");
             }
         });
 
@@ -181,6 +187,87 @@
             const navbar = document.getElementById("navLinks");
             navbar.classList.toggle("responsive");
         }
+
+
+
+        async function postComments(postID)
+        { 
+
+        console.log("Loading comments Pets..."); // Start log
+        try {
+
+            
+
+            console.log(`Fetching comments post with ID: ${postID}`);
+            const response = await fetch(`http://localhost:3000/showComments/${postID}`);
+            
+            console.log("Received response:", response.status); // Log the response status
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch all comment pet data');
+            }
+            const commentPosts= await response.json(); //array
+
+
+            console.log('Fetched Comments array :', commentPosts); 
+
+
+            if (commentPosts.length === 0) {
+                    console.error("No data found for the selected comments post.");
+                    return;
+                }
+
+                //const commentPosts = commentPostsArray[0];  // Get the first item from the array
+
+                console.log('Fetched Comments:', commentPosts); 
+    
+            //get role from local storage 
+    
+            const commentPostsList = document.getElementById('post-comments');
+            if (!commentPostsList) {
+                console.error("Element with ID 'post-comments' not found."); // Log if the element is not found
+                return;
+            }
+            commentPostsList.innerHTML = ''; // Clear the list before adding new items
+    
+            if (commentPosts.length === 0) {
+                commentPostsList.textContent = 'No missing pet entries.';
+            } else {
+                commentPosts.forEach(comment => {
+                    //new div for post 
+                    const commentElement = document.createElement('div');
+
+                    //creating header element that holds pet name
+                    const postHeader = document.createElement('h3');
+                    postHeader.textContent = `Posted by: User ${comment.userID}`;
+                    console.log("header",postHeader);
+
+                    //cleaning up date lost data from JSON
+                    const dateCreatedText=new Date(comment.dateCreated).toLocaleDateString();
+                    
+                    //creating a paragraph element that holds date of when the pet was lost 
+                    const dateCreated= document.createElement('p');
+                    dateCreated.textContent=`Posted on: ${dateCreatedText}`;
+                    
+                    //creates element to create description
+                    const commentDescription = document.createElement('h2');
+                    commentDescription.textContent = `${comment.commentText}`;
+
+                    commentElement.appendChild(postHeader);
+                    commentElement.appendChild(commentDescription);
+                    commentElement.appendChild(dateCreated);
+                    
+                    document.getElementById('post-comments').appendChild(commentElement);                         
+
+                });
+            }
+        } catch (error) {
+            console.error('Error loading all missing comment entries:', error);
+        }
+
+
+    };
+
     </script>
 
     <div id="popup" class="popup-container">

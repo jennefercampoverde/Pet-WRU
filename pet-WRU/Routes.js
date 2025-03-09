@@ -35,6 +35,7 @@ router.get("/showDonations", Controller.showDonations);
 router.post("/editStatus", Controller.editStatus);
 router.delete("/deleteFlyer/:lostID", Controller.deleteFlyer);
 router.get("/userSelectedPost/:postID",Controller.userSelectedPost); //shows actual post
+router.get("/showComments/:postID",Controller.showComments);
 
 /*
 router.get("/inventory", Controller.inventory);
