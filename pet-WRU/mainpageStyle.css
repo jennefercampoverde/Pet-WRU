@@ -166,50 +166,51 @@ html,body {
 
 /* Container Styling */
 .container {
-    flex: 1;
-    max-width: 1000px;
+    /* flex: 1;
+    width: 100%;
     margin: 0 auto;
-    padding: 100px 150px 40px;
-    background-color: #fff;
+    padding: 100px;
+    
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
     position: relative; /* Needed to position the child element (image) inside this container */
-    margin-top: 150px;
+    /* 
     margin-bottom: 150px;
-    flex-direction: column;
+    
+    /* flex-direction: column; */
     align-items: center; /* Centers content horizontally */
-    text-align: center; /* Ensures text is also centered */
+    display: flex;
+    background-color: #fff;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+    padding: 50px;
+    gap: 50px;
+    margin-top: 150px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Needed to position the child element (image) inside this container */
+} 
+
+.left-image {
+    max-width: 100%;
+    width: 400px;
+    height: auto;
+    border-radius: 10px;
 }
 
-/* for image */
-.bottom-right {
-    display: block;
-    /*position: absolute; */
-    margin-left: auto;
-    margin-top: 20px; /* Optional spacing */
-    /*bottom: 10px; *//* Adjust distance from the bottom */
-    /*right: 10px; *//* Adjust distance from the right */
-    width: 100px; /* Adjust size of the image */
-    height: auto; /* Maintain aspect ratio */
-}
 
-
-/* Header Styling */
-.website-name h1{
-    color: #000000;
+.text-content {
+    max-width: 45%;
     text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 50px;
 }
 
-h1 {
+.text-content h1 {
     color: #000000;
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 10px;
 }
 
-h2 {
+.text-content h2 {
     color: #333;
     font-size: 1.5em;
     margin-bottom: 10px;
@@ -218,6 +219,52 @@ h2 {
     text-align: center;
 }
 
+.text-content button {
+    padding: 20px 10px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.2em;
+    width: 200px;
+    height: 90px;
+    
+}
+
+.text-content button:hover {
+    background-color: #0b5ed7;
+}
+
+@media (max-width: 830px) {
+    .left-image{
+        width: 40%;
+    }
+
+    .text-content h1 {
+        font-size: 1.5em;
+    }
+
+    .text-content h2{
+        font-size: 1em;
+        padding-bottom: 20px;
+    }
+
+    .text-content button {
+        padding: 20px 10px;
+        background-color: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 0.7em;
+        width: 120px;
+        height: 50px;
+        
+    }
+}
 
 /* footer */
 footer {
