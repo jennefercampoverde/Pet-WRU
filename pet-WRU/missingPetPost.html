@@ -29,7 +29,15 @@
                     <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
                 </div>
               </div> 
-            <a href="donationPostPage.html"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+              <div class="dropdown">
+                <button class="dropbtn">Donations 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-paw"></i> Donate Today</a>
+                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-paw"></i> Donations</a>        
+                </div>
+            </div>
             <a href="login&signup.html"><i class="fa-solid fa-right-to-bracket"></i> login </a> <!--icon insert here-->
             
         </div>
@@ -106,6 +114,27 @@
     <span onclick="openNav()" class="filter-button"><i class="fas fa-filter"></i> Filter</span>
 
     <script>
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+        });
         
         function myFunction() {
             var navbar = document.getElementById("navLinks");
