@@ -166,6 +166,15 @@
                 return null; // Return null in case of an error
             }
         }
+        
+        document.addEventListener("DOMContentLoaded", async () => {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+        });
 
         // Function to check if the ZIP code is valid
         async function isValidZipCode(zip) {
