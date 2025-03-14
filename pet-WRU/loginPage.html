@@ -85,6 +85,16 @@
             alert('An error occurred. Please try again later.');
         }
     });
+
+    // Dynamic Active Link Highlighting
+    document.querySelectorAll('.nav-links a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+    });
+    
     </script>
 </body>
 </html>
