@@ -71,6 +71,9 @@
             }
         });
 
+        //specific renderings for formatting date
+        var dateFormat = {month: 'short', day:'numeric', year:'numeric'};
+
         async function openPopup() {
                 popup.classList.add("open-popup");
                 // If the map exists, invalidate its size after the popup is opened
@@ -102,6 +105,7 @@
                 console.error('Error getting post ID:', error);
             }
         }
+        
 
         async function showingSelectedPetPost(postID) {
             console.log("Loading clicked missing pet information...");
@@ -294,7 +298,7 @@
                 dateDiv.append(dateTitle);
                 infoDiv.appendChild(dateDiv);
                 const dateText=document.createElement('p');
-                dateText.textContent = `${new Date(selectedPost.dateLost).toLocaleDateString()}`;;
+                dateText.textContent = `${new Date(selectedPost.dateLost).toLocaleDateString("en-US",dateFormat)}`;;
                 console.log(dateText);
                 dateDiv.classList.add('post-info-row');
                 dateDiv.append(dateText);
@@ -322,6 +326,7 @@
                 createCommentsBox.setAttribute("name","comment");
                 createCommentsBox.setAttribute("id","comment-text");
                 createCommentsBox.setAttribute("rows","5");
+                createCommentsBox.setAttribute("required","true");
                 createCommentsBox.setAttribute("placeholder","Write your comment here...");
                 createCommentsForm.append(createCommentsBox);
 
@@ -450,7 +455,7 @@
                     console.log("header",postHeader);
 
                     //cleaning up comment date created from JSON
-                    const dateCreatedText=new Date(comment.dateCreated).toLocaleDateString();
+                    const dateCreatedText=new Date(comment.dateCreated).toLocaleDateString("en-US",dateFormat);
                     
                     //creating a paragraph element that holds date of when the comment was made 
                     const dateCreated= document.createElement('p');
