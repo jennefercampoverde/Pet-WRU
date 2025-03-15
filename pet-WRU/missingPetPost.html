@@ -264,6 +264,8 @@
         }
     });
 
+    //date formating
+    const dateFormat= {month:'short', day:'numeric',year:'numeric' }
     //CALLING MISSING PETS LIST FUNCTION
     if (document.getElementById('post-container')) {
         console.log("Missing pet list element found. Calling loadMissingPetsEntries()...");
@@ -322,7 +324,7 @@
                     console.log(postHeader);
                     
                     //cleaning up date lost data from JSON
-                    const dateLost=new Date(post.dateLost).toLocaleDateString();
+                    const dateLost=new Date(post.dateLost).toLocaleDateString("en-US",dateFormat);
                     console.log(dateLost);
                     
                     //creating a paragraph element that holds date of when the pet was lost 
@@ -331,7 +333,7 @@
                     console.log(postParagraph);
 
                     //cleaning up date created data from JSON
-                    const dateCreated=new Date(post.dateCreated).toLocaleDateString();
+                    const dateCreated=new Date(post.dateCreated).toLocaleDateString("en-US",dateFormat);
                     console.log(dateLost);
 
                     //creating a small element that holds the date when the post was created

@@ -269,6 +269,9 @@
                 }
         });
 
+        //Used for Formatting Date
+        const dateFormat= {month:'short', day:'numeric', year:'numeric'};
+
         //CALLING MISSING PETS LIST FUNCTION
         if (document.getElementById('post-container')) {
             console.log("Donations list element found. Calling showDonations()...");
@@ -332,7 +335,7 @@
                         console.log(postParagraph);
     
                         //cleaning up date created data from JSON
-                        const dateCreated=new Date(post.dateCreated).toLocaleDateString();
+                        const dateCreated=new Date(post.dateCreated).toLocaleDateString("en-US",dateFormat);
     
                         //creating a small element that holds the date when the post was created
                         const postSmall = document.createElement('small');
