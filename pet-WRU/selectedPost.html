@@ -388,7 +388,13 @@
                 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                     attribution: "&copy; OpenStreetMap contributors"
                 }).addTo(map);
-                L.marker([lat, lon], { title: "Last Seen Location" }).addTo(map);
+                var circle = L.circle([lat, lon], { // Center coordinates ([51.505, -0.09],
+                    color: 'red',
+                    fillColor: 'red',
+                    fillOpacity: 0.15,
+                    radius: 150 // Radius in meters
+                }).addTo(map);
+                //L.marker).addTo(map);
             } else {
                 map.setView([lat, lon], 15);
             }
