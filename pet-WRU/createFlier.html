@@ -123,7 +123,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="lastCityID">Last Seen Location: (Town)</label>
+                    <label for="lastCityID">Last Seen Location: (Street, Town)</label>
                     <input type="text" id="lastCityID" required>
                 </div>
                 <div>
@@ -183,16 +183,31 @@
                 if (response.ok) {
                     const data = await response.json();
                     // Check if the data contains location info (success)
-                    return true;
+                    return data;
                 } else {
                     // Invalid ZIP code
-                    return false;
+                    return null;
                 }
             } catch (error) {
                 console.error('Error checking ZIP code:', error);
+                return null;
+            }
+        }
+        
+        // Function to check if the address entered by the user is valid
+        async function isValidAddress(street, town, zip) {
+            const geoUrl = `https://nominatim.openstreetmap.org/search?street=${encodeURIComponent(street)}&city=${encodeURIComponent(town)}&postalcode=${zip}&country=US&format=json`;
+            
+            try {
+                const response = await fetch(geoUrl);
+                const data = await response.json();
+                return data.length > 0; // If results exist, it's a valid address
+            } catch (error) {
+                console.error('Error checking address:', error);
                 return false;
             }
         }
+        
 
         // Create Flyer form submission
         document.querySelector(".flier-details").addEventListener("submit", async function(event) { 
@@ -210,12 +225,43 @@
                             const formData = new FormData();
 
                             const lastZipcode = document.getElementById("lastZipcode").value.trim();
-                            const isZipValid = await isValidZipCode(lastZipcode);
+                            const zipData = await isValidZipCode(lastZipcode);
 
-                            if (!isZipValid) {
+                            if (!zipData) {
                                 alert('Invalid ZIP code. Please enter a valid ZIP code.');
                                 return; // Stop form submission
                             }
+
+                            // to check if the format of the last known location is valid (Street, Town)
+                            const input = document.getElementById("lastCityID").value;
+                            const regex = /^[^,]+,\s*[^,]+$/; // Ensures there is a comma with text before and after it
+
+                            if (!regex.test(input)) {
+                                alert("Invalid format! Please enter the last known location in the format: Street, Town.");
+                                return; // stop form submission
+                            }
+
+                            // split up street and town
+                            const lastCityID = document.getElementById("lastCityID").value.trim();
+                            let [lastStreet, lastCity] = lastCityID.split(",").map(s => s.trim());
+                            
+                            // debug
+                            console.log(`Street: ${lastStreet}, City: ${lastCity}, Zipcode: ${lastZipcode}`);
+
+                            // Check if the town is valid for the ZIP code
+                            const validTown = zipData.places.some(place => place["place name"].toLowerCase() === lastCity.toLowerCase());
+                            if (!validTown) {
+                                alert(`The town '${lastCity}' does not match ZIP code ${lastZipcode}. Please try again.`);
+                                return; // Stop form submission
+                            }
+
+                            // Check if the full address exists
+                            const validAddress = await isValidAddress(lastStreet, lastCity, lastZipcode);
+                            if (!validAddress) {
+                                alert(`The street '${lastStreet}' in '${lastCity}, ${lastZipcode}' does not exist. Please try again.`);
+                                return; // Stop form submission
+                            }
+
 
                             // Append form fields to FormData
                             formData.append("dateLost", document.getElementById("dateLost").value);
