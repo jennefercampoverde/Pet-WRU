@@ -8,7 +8,7 @@ const pool = mariadb.createPool({
     password: "1234", // Database password
     database: "websiteDatabase", // Database name
     connectionLimit: 10, // Maximum number of connections in the pool
-    // port: 3307 //for sheila
+    port: 3307 //for sheila
 });
 
 module.exports = pool; // Export the pool for uses
