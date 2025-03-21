@@ -42,7 +42,7 @@ router.get("/selectedPostMap/:lostPetID", Controller.selectedPostMap); //shows t
 router.get("/showfoundPosts", Controller.showFoundPosts);
 router.get("/showDonations", Controller.showDonations);
 router.post("/editStatus", Controller.editStatus);
-router.delete("/deleteFlyer/:lostID", Controller.deleteFlyer);
+router.delete("/deleteFlyer/:postID", Controller.deleteFlyer);
 router.get("/userSelectedPost/:postID",Controller.userSelectedPost); //shows actual post
 router.get("/showComments/:postID",Controller.showComments);
 router.post("/createDonation", uploadDonation.single("donation_image_path"), Controller.createDonation);

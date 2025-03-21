@@ -469,18 +469,18 @@ exports.editStatus = async (req, res) => {
 
 //Route to delete missing pet posts
 exports.deleteFlyer = async (req, res) => {
-    const { lostID } = req.params;
+    const { postID } = req.params; 
     const conn = await pool.getConnection();
 
     try {
         await conn.beginTransaction(); // Start a transaction
 
         // Delete child entries first
-        const result1 = await conn.query("DELETE FROM postcomments WHERE lostID = ?", [lostID]);
-        const result2 = await conn.query("DELETE FROM foundpets WHERE lostID = ?", [lostID]);
-        const result3 = await conn.query("DELETE FROM lostpets WHERE lostID = ?", [lostID]);
+        const result1 = await conn.query("DELETE FROM postcomments WHERE lostID = ?", [postID]); 
+        const result2 = await conn.query("DELETE FROM foundpets WHERE lostID = ?", [postID]); 
+        const result3 = await conn.query("DELETE FROM lostpets WHERE lostID = ?", [postID]); 
 
-        if (result3[0].affectedRows === 0) {
+        if (result3.affectedRows === 0) {
             await conn.rollback(); // Rollback if no rows were deleted in the main table
             conn.release();
             return res.status(400).json({ error: "No changes made to the flyer" });
@@ -489,6 +489,7 @@ exports.deleteFlyer = async (req, res) => {
         await conn.commit(); // Commit the transaction
         conn.release();
 
+        console.log("Flyer deleted successfully");
         res.json({ success: true, message: "Flyer and related entries deleted successfully." });
     } catch (error) {
         await conn.rollback(); // Rollback on error
