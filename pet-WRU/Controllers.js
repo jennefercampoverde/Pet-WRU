@@ -50,11 +50,13 @@ exports.logout = async (req, res) => {
 
 
 //Route to register an account with a hashed password
+// Route to register an account with a hashed password
 exports.register = async (req, res) => {
     const { UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City } = req.body;
 
     let hash;
     try {
+        // Hash the password
         hash = await bcrypt.hash(userPassword, 10);
     } catch (err) {
         console.error("Error hashing password:", err);
@@ -63,6 +65,17 @@ exports.register = async (req, res) => {
 
     try {
         const conn = await pool.getConnection();
+
+        // Check if the username already exists
+        const [existingUser] = await conn.query("SELECT * FROM usersInfo WHERE userName = ?", [UserName]);
+
+        if (existingUser.length > 0) {
+            // If the username already exists, return an error
+            conn.release();
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
+
+        // Insert the new user into the database
         const result = await conn.query("INSERT INTO usersInfo (userName, firstName, lastName, dob, emailAddress, userPassword, zipcode, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [UserName, FirstName, LastName, DOB, emailAddress, hash, Zipcode, City]);
 
@@ -70,10 +83,14 @@ exports.register = async (req, res) => {
         res.json({ message: 'Account created successfully!', success: true });
         conn.release();
     } catch (err) {
-        console.error(err);
+        if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
+        console.error("Database error:", err);
         res.status(500).json({ error: 'Database error when creating an account' });
     }
 };
+
 
 
 //Route to send server side stored ID to client side
@@ -423,14 +440,10 @@ exports.showDonations = async(req, res) => {
 
 
 //Route to update missing pet post status
-exports.editStatus = async (req, res) => {
-    const { lostID, status } = req.body;
-
-    // Ensure the new username is not empty or invalid
-    if (!status || status.trim().length === 0) {
-        return res.status(400).json({ error: 'Status cannot be empty' });
-    }
-
+exports.updateStatus = async (req, res) => {
+    const { postID } = req.params;
+    const { status } = req.body;
+   
     try {
         const conn = await pool.getConnection();
 
@@ -442,7 +455,7 @@ exports.editStatus = async (req, res) => {
         }
 
         // Check if flyer exists
-        const [rows] = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [lostID]);
+        const [rows] = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [postID]);
 
         if (rows.length === 0) {
             conn.release();
@@ -450,11 +463,20 @@ exports.editStatus = async (req, res) => {
         }
 
         // Update the flyer in the database
-        const result = await conn.query("UPDATE lostpets SET status = ? WHERE lostID = ?", [status, lostID]);
+        const result = await conn.query("UPDATE lostpets SET status = ? WHERE lostID = ?", [status, postID]);
+
+        //add flyer to found pets table
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const result2 = await conn.query("INSERT INTO foundPets (lostID, dateFound, status) VALUES (?, ?, ?)", [postID, currentDate, status]);
+
         conn.release();
 
         if (result.affectedRows === 0) {
             return res.status(400).json({ error: "No changes made to the flyer" });
+        }
+
+        if (result2.affectedRows === 0) {
+            return res.status(400).json({ error: "Flyer not added to found pets table" });
         }
 
         console.log(`Status updated for flyer`);

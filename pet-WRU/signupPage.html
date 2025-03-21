@@ -133,18 +133,23 @@
             const response = await fetch('/register', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City }) 
+                body: JSON.stringify({ UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City })
             });
 
             // Parse the JSON response from the server
             const result2 = await response.json();
 
-            // Check if signup was successful and redirect
+            // Check if signup was successful
             if (result2.success) {
                 alert("Account created successfully! Redirecting to login...");
                 window.location.href = 'loginPage.html';
             } else {
-                alert(result2.message || 'Account Registration failed');
+                // Handle specific error for duplicate username
+                if (result2.error === 'Username is already taken') {
+                    alert('The username is already taken. Please choose a different one.');
+                } else {
+                    alert(result2.message || 'Account Registration failed');
+                }
             }
         } catch (error) {
             console.error('Error:', error);
