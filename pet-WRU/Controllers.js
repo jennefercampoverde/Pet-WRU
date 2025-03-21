@@ -498,8 +498,8 @@ exports.deleteFlyer = async (req, res) => {
     }
 };
 
-// Route for the selected post page 
 
+// Route for the selected post page 
 exports.userSelectedPost = async (req,res)=>{
     const {postID}=req.params;
     try{
@@ -516,8 +516,8 @@ exports.userSelectedPost = async (req,res)=>{
 
 };
 
-// Route for the comments for selected post page 
 
+// Route for the comments for selected post page 
 exports.showComments = async (req,res)=>{
     const { postID }=req.params;
     
@@ -536,6 +536,43 @@ exports.showComments = async (req,res)=>{
 };
 
 
+//Route to create a flyer
+exports.createDonation = async (req, res) => {
+    try {
+        const { DonationName, quantity, category, 
+            condition, description } = req.body;
+        
+        // Get user ID from session
+        const userID = req.session.userID;
+        if (!userID) {
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Get file path if an image is uploaded
+        const fileInput = req.file ? req.file.filename : null;
+
+        // Default item status
+        const itemStatus = "Available";
+
+        // Pull user data from database
+        const conn = await pool.getConnection();
+        const result = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+        const usersInfo = result[0];
+
+        // Insert into database
+        await conn.query(`INSERT INTO donations (userID, zipcode, itemStatus, itemCategory, itemName, quantity, itemCondition, itemDescription, item_image_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                                                [userID, usersInfo.zipcode, itemStatus, category, DonationName, quantity, condition, description, fileInput ]);
+
+        conn.release();
+
+        console.log(`Donation listed successfully.`);
+        res.json({ message: "Donation listed successfully!" });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Database error when listing a donation" });
+    }
+};
 
 
 
