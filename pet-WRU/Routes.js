@@ -41,7 +41,7 @@ router.get("/missingPosts", Controller.missingPosts);
 router.get("/selectedPostMap/:lostPetID", Controller.selectedPostMap); //shows the map for selected post
 router.get("/showfoundPosts", Controller.showFoundPosts);
 router.get("/showDonations", Controller.showDonations);
-router.post("/editStatus", Controller.editStatus);
+router.post("/updateStatus/:postID", Controller.updateStatus);
 router.delete("/deleteFlyer/:postID", Controller.deleteFlyer);
 router.get("/userSelectedPost/:postID",Controller.userSelectedPost); //shows actual post
 router.get("/showComments/:postID",Controller.showComments);

@@ -423,14 +423,10 @@ exports.showDonations = async(req, res) => {
 
 
 //Route to update missing pet post status
-exports.editStatus = async (req, res) => {
-    const { lostID, status } = req.body;
-
-    // Ensure the new username is not empty or invalid
-    if (!status || status.trim().length === 0) {
-        return res.status(400).json({ error: 'Status cannot be empty' });
-    }
-
+exports.updateStatus = async (req, res) => {
+    const { postID } = req.params;
+    const { status } = req.body;
+   
     try {
         const conn = await pool.getConnection();
 
@@ -442,7 +438,7 @@ exports.editStatus = async (req, res) => {
         }
 
         // Check if flyer exists
-        const [rows] = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [lostID]);
+        const [rows] = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [postID]);
 
         if (rows.length === 0) {
             conn.release();
@@ -450,11 +446,20 @@ exports.editStatus = async (req, res) => {
         }
 
         // Update the flyer in the database
-        const result = await conn.query("UPDATE lostpets SET status = ? WHERE lostID = ?", [status, lostID]);
+        const result = await conn.query("UPDATE lostpets SET status = ? WHERE lostID = ?", [status, postID]);
+
+        //add flyer to found pets table
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const result2 = await conn.query("INSERT INTO foundPets (lostID, dateFound, status) VALUES (?, ?, ?)", [postID, currentDate, status]);
+
         conn.release();
 
         if (result.affectedRows === 0) {
             return res.status(400).json({ error: "No changes made to the flyer" });
+        }
+
+        if (result2.affectedRows === 0) {
+            return res.status(400).json({ error: "Flyer not added to found pets table" });
         }
 
         console.log(`Status updated for flyer`);
