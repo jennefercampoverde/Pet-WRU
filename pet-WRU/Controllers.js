@@ -50,11 +50,13 @@ exports.logout = async (req, res) => {
 
 
 //Route to register an account with a hashed password
+// Route to register an account with a hashed password
 exports.register = async (req, res) => {
     const { UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City } = req.body;
 
     let hash;
     try {
+        // Hash the password
         hash = await bcrypt.hash(userPassword, 10);
     } catch (err) {
         console.error("Error hashing password:", err);
@@ -63,6 +65,17 @@ exports.register = async (req, res) => {
 
     try {
         const conn = await pool.getConnection();
+
+        // Check if the username already exists
+        const [existingUser] = await conn.query("SELECT * FROM usersInfo WHERE userName = ?", [UserName]);
+
+        if (existingUser.length > 0) {
+            // If the username already exists, return an error
+            conn.release();
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
+
+        // Insert the new user into the database
         const result = await conn.query("INSERT INTO usersInfo (userName, firstName, lastName, dob, emailAddress, userPassword, zipcode, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [UserName, FirstName, LastName, DOB, emailAddress, hash, Zipcode, City]);
 
@@ -70,10 +83,14 @@ exports.register = async (req, res) => {
         res.json({ message: 'Account created successfully!', success: true });
         conn.release();
     } catch (err) {
-        console.error(err);
+        if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
+        console.error("Database error:", err);
         res.status(500).json({ error: 'Database error when creating an account' });
     }
 };
+
 
 
 //Route to send server side stored ID to client side
