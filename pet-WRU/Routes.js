@@ -3,8 +3,19 @@ const router = express.Router();
 const Controller = require("./Controllers");
 const multer = require("multer");
 
-// Configure Multer Storage
-const storage = multer.diskStorage({
+// Configure Multer Storage for Donation Images
+const storageDonation = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "donationsImages/"); // Folder where images are stored
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + "-" + file.originalname); // Unique filename
+    }
+});
+const uploadDonation = multer({ storage: storageDonation });
+
+// Configure Multer Storage for Pet Images
+const storagePet = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "projectImages/"); // Folder where images are stored
     },
@@ -12,9 +23,7 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + "-" + file.originalname); // Unique filename
     }
 });
-
-const upload = multer({ storage: storage });
-
+const uploadPet = multer({ storage: storagePet });
 
 
 // API Routes
@@ -27,15 +36,19 @@ router.post("/editPassword", Controller.editPassword);
 router.post("/editEmail", Controller.editEmail);
 router.post("/editZip", Controller.editZip);
 router.post("/editCity", Controller.editCity);
-router.post("/createFlyer", upload.single("animal_image_path"), Controller.createFlyer);
+router.post("/createFlyer", uploadPet.single("animal_image_path"), Controller.createFlyer);
 router.get("/missingPosts", Controller.missingPosts);
 router.get("/selectedPostMap/:lostPetID", Controller.selectedPostMap); //shows the map for selected post
 router.get("/showfoundPosts", Controller.showFoundPosts);
 router.get("/showDonations", Controller.showDonations);
 router.post("/editStatus", Controller.editStatus);
-router.delete("/deleteFlyer/:lostID", Controller.deleteFlyer);
+router.delete("/deleteFlyer/:postID", Controller.deleteFlyer);
 router.get("/userSelectedPost/:postID",Controller.userSelectedPost); //shows actual post
 router.get("/showComments/:postID",Controller.showComments);
+router.post("/createDonation", uploadDonation.single("donation_image_path"), Controller.createDonation);
+
+
+
 
 /*
 router.get("/inventory", Controller.inventory);

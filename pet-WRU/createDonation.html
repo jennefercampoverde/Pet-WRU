@@ -55,7 +55,7 @@
         <div class="flier-header">
             <div class="image-upload">
                 <label>Upload Item <br>Image</label>
-                <input type="file" accept="image/*" class ="upload-button" required>
+                <input type="file" name="donation_image_path" accept="image/*" class="upload-button" required>
             </div>
             <div class="flier-title">
                 <h2>Donation</h2>
@@ -63,15 +63,15 @@
             </div>
         </div>
         
-        <form class="flier-details">
+        <form class="flier-details" id="flierForm" enctype="multipart/form-data">
             <div class="details-grid">
                 <div>
                     <label>Donation Name:</label>
-                    <input type="text" required>
+                    <input type="text" id="DonationName" required>
                 </div>
                 <div>
-                    <label>Quantity:</label>
-                    <select required>
+                    <label for="quantity">Quantity:</label>
+                    <select id="quantity" required>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -80,8 +80,8 @@
                     </select>
                 </div>
                 <div>
-                    <label>Category of Item:</label>
-                    <select required>
+                    <label for="category">Category of Item:</label>
+                    <select id="category" required>
                         <option value="Bedding"> Bedding</option>
                         <option value="Clothing"> Clothing</option>
                         <option value="Grooming Supplies"> Grooming Supplies</option>
@@ -93,8 +93,8 @@
                     </select>
                 </div>
                 <div>
-                    <label>Condition:</label>
-                    <select required>
+                    <label for="condition">Condition:</label>
+                    <select id="condition" required>
                         <option value="New"> New</option>
                         <option value="Like New"> Like New</option>
                         <option value="Gently Used"> Gently Used</option>
@@ -104,13 +104,14 @@
                 </div>
             </div>
             <div class="description-container">
-                <label>Description:</label>
-                <textarea required></textarea>
+                <label for="description">Description:</label>
+                <textarea id="description" required></textarea>
             </div>
+            <button class="post-button" type="submit">Post</button>
         </form>
+
     </div>
     
-    <button class="post-button" type="submit">Post</button>
     
     <footer>
         <div class="footer-links">
@@ -145,6 +146,60 @@
             }
         });
         
+        // Create Flyer form submission
+        document.querySelector(".flier-details").addEventListener("submit", async function(event) { 
+            event.preventDefault(); // Prevent page reload
+                    
+                // Wait for the userID from the server
+                let userID = await getUserID();
+
+                if (userID == null) {  
+                    alert("Please log in to list a donation.");
+                    window.location.href = "loginPage.html"; // Redirect to login page
+                } else {
+                    try {
+                        // Use FormData for file (img) uploads
+                        const formData = new FormData();
+
+                        // Append form fields to FormData
+                        formData.append("DonationName", document.getElementById("DonationName").value);
+                        formData.append("quantity", document.getElementById("quantity").value);
+                        formData.append("category", document.getElementById("category").value);
+                        formData.append("condition", document.getElementById("condition").value);
+                        formData.append("description", document.getElementById("description").value);
+                            
+                        // Get the file input
+                        const fileInput = document.querySelector('input[type="file"]').files[0];
+                        if (fileInput) {
+                            formData.append("donation_image_path", fileInput);
+                        }
+
+                        // Send a POST request to the backend registration route
+                        const response = await fetch("/createDonation", {
+                            method: "POST",
+                            body: formData 
+                        });
+                    
+                        // Parse the JSON response from the server
+                        const result = await response.json();
+                   
+                        // Check if signup was successful and redirect
+                        if (result.success) {
+                            alert("Donation listed successfully");
+                            //window.location.href = '';
+                        } else {
+                            alert(result.message || 'Failed to list donation');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again later.');
+                    }        
+                }
+            });
+
+
+
+
         function myFunction() {
             var navbar = document.getElementById("navLinks");
             if (navbar.classList.contains("responsive")) {

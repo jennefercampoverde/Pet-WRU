@@ -16,7 +16,7 @@
         
         <!-- Navigation Links -->
         <!--each link references another html page-->
-        <div class="nav-links">
+        <div class="nav-links" id="navLinks">
             <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> 
             <div class="dropdown">
                 <button class="dropbtn">Posts 
@@ -26,8 +26,8 @@
                     <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> 
                     <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>       
                 </div>
-              </div> 
-              <div class="dropdown">
+            </div> 
+            <div class="dropdown">
                 <button class="dropbtn">Donations 
                     <i class="fa fa-caret-down"></i>
                 </button>
@@ -36,8 +36,11 @@
                     <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
                 </div>
             </div>  
-            <a href="loginPage.html"><i class="fa-solid fa-right-to-bracket"></i> login </a> </div>
+            <a href="loginPage.html"><i class="fa-solid fa-right-to-bracket"></i> login </a> 
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
+
 	<h1 id="PageHeading"> Please log in or create and account. </h1>
 	    <section>
 		    <h4> Log in </h4>
@@ -86,6 +89,12 @@
         }
     });
 
+    // Responsive Navigation Toggle
+    function myFunction() {
+        let navbar = document.getElementById("navLinks");
+        navbar.classList.toggle("responsive");
+    }
+
     // Dynamic Active Link Highlighting
     document.querySelectorAll('.nav-links a').forEach(link => {
             if (link.href === window.location.href) {
@@ -94,6 +103,7 @@
                 link.classList.remove('active');
             }
     });
+
     
     </script>
 </body>

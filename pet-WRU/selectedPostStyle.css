@@ -509,7 +509,7 @@ html,body {
 
 /* Style for comment delete button */
 .delete-button {
-    background: none;
+    background: whitesmoke;
     border: none;
     color: #FF0000;
     font-size: 16px;

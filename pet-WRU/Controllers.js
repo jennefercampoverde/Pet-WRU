@@ -469,18 +469,18 @@ exports.editStatus = async (req, res) => {
 
 //Route to delete missing pet posts
 exports.deleteFlyer = async (req, res) => {
-    const { lostID } = req.params;
+    const { postID } = req.params; 
     const conn = await pool.getConnection();
 
     try {
         await conn.beginTransaction(); // Start a transaction
 
         // Delete child entries first
-        const result1 = await conn.query("DELETE FROM postcomments WHERE lostID = ?", [lostID]);
-        const result2 = await conn.query("DELETE FROM foundpets WHERE lostID = ?", [lostID]);
-        const result3 = await conn.query("DELETE FROM lostpets WHERE lostID = ?", [lostID]);
+        const result1 = await conn.query("DELETE FROM postcomments WHERE lostID = ?", [postID]); 
+        const result2 = await conn.query("DELETE FROM foundpets WHERE lostID = ?", [postID]); 
+        const result3 = await conn.query("DELETE FROM lostpets WHERE lostID = ?", [postID]); 
 
-        if (result3[0].affectedRows === 0) {
+        if (result3.affectedRows === 0) {
             await conn.rollback(); // Rollback if no rows were deleted in the main table
             conn.release();
             return res.status(400).json({ error: "No changes made to the flyer" });
@@ -489,6 +489,7 @@ exports.deleteFlyer = async (req, res) => {
         await conn.commit(); // Commit the transaction
         conn.release();
 
+        console.log("Flyer deleted successfully");
         res.json({ success: true, message: "Flyer and related entries deleted successfully." });
     } catch (error) {
         await conn.rollback(); // Rollback on error
@@ -498,8 +499,8 @@ exports.deleteFlyer = async (req, res) => {
     }
 };
 
-// Route for the selected post page 
 
+// Route for the selected post page 
 exports.userSelectedPost = async (req,res)=>{
     const {postID}=req.params;
     try{
@@ -516,8 +517,8 @@ exports.userSelectedPost = async (req,res)=>{
 
 };
 
-// Route for the comments for selected post page 
 
+// Route for the comments for selected post page 
 exports.showComments = async (req,res)=>{
     const { postID }=req.params;
     
@@ -536,6 +537,43 @@ exports.showComments = async (req,res)=>{
 };
 
 
+//Route to create a flyer
+exports.createDonation = async (req, res) => {
+    try {
+        const { DonationName, quantity, category, 
+            condition, description } = req.body;
+        
+        // Get user ID from session
+        const userID = req.session.userID;
+        if (!userID) {
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Get file path if an image is uploaded
+        const fileInput = req.file ? req.file.filename : null;
+
+        // Default item status
+        const itemStatus = "Available";
+
+        // Pull user data from database
+        const conn = await pool.getConnection();
+        const result = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+        const usersInfo = result[0];
+
+        // Insert into database
+        await conn.query(`INSERT INTO donations (userID, zipcode, itemStatus, itemCategory, itemName, quantity, itemCondition, itemDescription, item_image_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                                                [userID, usersInfo.zipcode, itemStatus, category, DonationName, quantity, condition, description, fileInput ]);
+
+        conn.release();
+
+        console.log(`Donation listed successfully.`);
+        res.json({ message: "Donation listed successfully!" });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Database error when listing a donation" });
+    }
+};
 
 
 

@@ -27,8 +27,8 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-paw"></i> Donate Today</a>
-                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-paw"></i> Donations</a>        
+                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-box"></i> Donate Today</a>
+                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
                 </div>
             </div>
             <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
@@ -59,7 +59,28 @@
 
 
     <script>
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+       // add unauthorized restriction 
         document.addEventListener("DOMContentLoaded", async function () {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+
             const postID = await getPostID();
             if (postID) {
                 showingSelectedPetPost(postID);
@@ -105,8 +126,24 @@
                 console.error('Error getting post ID:', error);
             }
         }
-        
 
+        async function deletePost(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/deleteFlyer/${postID}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("Post deleted successfully.");
+                    window.location.href = "mainpage.html"; // Redirect after deletion
+                } else {
+                    alert("Failed to delete post.");
+                }
+            } catch (error) {
+                console.error("Error deleting post:", error);
+            }
+        }
+        
         async function showingSelectedPetPost(postID) {
             console.log("Loading clicked missing pet information...");
             try {
@@ -338,7 +375,23 @@
                 createCommentsForm.append(commentButton);
                 //add eventclicker here to POST COMMENT
 
+                //delete button for post creator
+                let currentUserID = await getUserID();
 
+                if (currentUserID && currentUserID === selectedPost.userID) {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = "Delete Post";
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.onclick = async function () {
+                        if (confirm("Are you sure you want to delete this post?")) {
+                            await deletePost(postID);
+                            //window.location.href = "missingPetPost.html";
+                        }
+                    };
+                
+                    postContainer.appendChild(deleteButton);
+                }
+                
                 postContainer.appendChild(postHeader);
                 postContainer.appendChild(detailsSection);
 
