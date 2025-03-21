@@ -18,6 +18,8 @@ CREATE TABLE usersInfo(
     PRIMARY KEY (userID)
 );
 
+-- ALTER TABLE usersInfo
+-- ADD CONSTRAINT UNIQUE (userName);
 
 CREATE TABLE lostPets(
     lostID  int NOT NULL AUTO_INCREMENT,
