@@ -327,6 +327,7 @@ html,body {
     color: #fff;
     border: none;
     padding: 10px;
+    margin-bottom: 20px;
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
@@ -454,25 +455,26 @@ html,body {
     margin-top: 5px;
 }
 
-/* Style for comment delete button */
-.delete-button {
-    background: none;
+/* Style for the delete button  */
+.comment .delete-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none !important;
     border: none;
-    color: #FF0000;
-    font-size: 16px;
     cursor: pointer;
-    position: absolute; 
-    top: 10px;  
-    right: 10px; 
-    display: inline-block; 
+    width: auto;
+    height: auto;
 }
 
-.delete-button:hover {
-    color: #D50000;
+.comment .delete-button i {
+    font-size: 16px;
+    color: #FF0000;
+    transition: color 0.3s ease;
 }
 
-.delete-button i {
-    font-size: 20px; /* Adjust icon size */
+.comment .delete-button i:hover {
+    color: #D50000 !important;
 }
 
 footer {
