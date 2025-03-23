@@ -255,10 +255,11 @@
                     donationPostsList.innerHTML = ''; // Clear the list before adding new items
         
                 if (donationPosts.length === 0) {
-                    donationPostsList.textContent = 'No donations entries.';
+                    /*donationPostsList.textContent = 'No donations entries.';
                     const textDisplay= document.createElement('p');
                     textDisplay.textContent= 'You have no current donation posts';
-                    document.getElementById('post-container').appendChild(textDisplay);
+                    document.getElementById('post-container').appendChild(textDisplay);*/
+                    console.log('No related donations posts for this user');
                 } else {
                     /*const donationTitle= document.createElement('H3');
                     donationTitle.textContent= 'Your Current Donation Posts';
@@ -320,8 +321,6 @@
                         innerPostElement.classList.add('post');
                         postInfoElement.classList.add('post-info');
         
-                        // document.getElementById('post-container').appendChild(postElement);
-                        // document.getElementById('post-container').appendChild(postInfoElement);
                         document.getElementById('post-container').appendChild(innerPostElement);
             
                     });
@@ -330,8 +329,6 @@
                 catch(error){
                     console.error('Error loading all donations post entries:', error);
                 }
-
-
             }
 
             async function showRelatedMissingPosts(){
@@ -356,19 +353,18 @@
 
                     missingPostsList.innerHTML = ''; // Clear the list before adding new items
 
-
                     if (missingPosts.length === 0) {
-                        missingPostsList.textContent = 'No missing pet entries.';
+                        /*missingPostsList.textContent = 'No missing pet entries.';
                         const textDisplay= document.createElement('p');
                         textDisplay.textContent= 'You have no current missing pet posts';
-                        document.getElementById('post-container-missing').appendChild(textDisplay);
+                        document.getElementById('post-container-missing').appendChild(textDisplay);*/
+                        console.log('No related missing pet posts for this user');
                     } else {
                         console.log("progress");
                         /*const missingTitle= document.createElement('H3');
                         missingTitle.textContent= 'Your Current Missing Posts';
                         document.getElementById('post-container-missing').appendChild(missingTitle);*/
                     
-
                         missingPosts.forEach(post => {
                     
                         //new div for post 
@@ -437,7 +433,7 @@
                 }
                     }
                     catch(error){
-                        console.error('Error loading all related missing post entries:', error);
+                        console.error('Error loading all related missing post entries for this user:', error);
                     }
       
             }
@@ -458,7 +454,7 @@
                     //creating GUI
                     const foundPostsList = document.getElementById('post-container-found');
                     if (!foundPostsList) {
-                        console.error("Element with ID 'post-container-missing' not found."); // Log if the element is not found
+                        console.error("Element with ID 'post-container-found' not found."); // Log if the element is not found
                         return;}
 
                     foundPostsList.innerHTML = ''; // Clear the list before adding new items
@@ -537,7 +533,7 @@
 
                 }
                 catch(error){
-                    console.error('Error loading all related Found post entries:', error);
+                    console.error('Error loading all related Found post entries for this user:', error);
 
                     
                 }
