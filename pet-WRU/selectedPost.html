@@ -36,18 +36,21 @@
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 
+     <!-- The selected Post-->
     <div id="post-container">
-
     </div>
 
-    <section id="comments-section">
-        
+    <!-- Creating comments textbox-->
+    <section id="comments-section">      
         
     </section>
+
+    <!-- Showing current Comments-->
     <h2 class="postComments-header"> View Comments Below </h2>
     
     <div id="post-comments"> </div>  
 
+    <!--Page footer-->
     <footer id="page_footer">
         <div class="footer-links">
             <a href="aboutUs.html">About us</a>
@@ -85,11 +88,14 @@
             if (postID) {
                 showingSelectedPetPost(postID);
                 fetchLocationData(postID);
+                createComments();
+                
                 postComments(postID);
             }
             else{
                 console.error("No postID found.");
             }
+            
         });
 
         //specific renderings for formatting date
@@ -109,6 +115,7 @@
                 popup.classList.remove("open-popup");
             }
 
+        //get postID
         async function getPostID() {
             try {
                 // Get the postID from the URL
@@ -118,7 +125,7 @@
                 if (!postID) {
                     throw new Error("Post ID is missing in the URL.");
                 }
-
+                console.log("Current URL:", window.location.href);
                 console.log('Post ID from URL:', postID);  // Log for debugging
 
                 return postID;
@@ -126,7 +133,7 @@
                 console.error('Error getting post ID:', error);
             }
         }
-
+        //deleting post
         async function deletePost(postID) {
             try {
                 const response = await fetch(`http://localhost:3000/deleteFlyer/${postID}`, {
@@ -144,6 +151,7 @@
             }
         }
 
+        //updating post status
         async function updateStatus(postID) {
             try {
                 const response = await fetch(`http://localhost:3000/updateStatus/${postID}`, {
@@ -165,6 +173,7 @@
             }
         }
         
+        //showing the specific post with details from database
         async function showingSelectedPetPost(postID) {
             console.log("Loading clicked missing pet information...");
             try {
@@ -218,7 +227,6 @@
                 detailsSection.appendChild(usernameDiv);
                 imgDiv .appendChild(usernameDiv);
                 
-
                 //div to hold everything else
 
                 const infoDiv = document.createElement('div');
@@ -235,8 +243,6 @@
                 descriptionText.textContent = `${selectedPost.description}`;
                 descriptionDiv.classList.add('post-info-row.description');
                 descriptionDiv.append(descriptionText);
-
-
 
                 //creating title, text for Type of Animal & div that holds the Type of Animal
                 const typeDiv= document.createElement('div');
@@ -261,7 +267,6 @@
                 colorDiv.classList.add('post-info-row');
                 colorDiv.append(colorText);
 
-
                 //creating title, text for size & div that holds the size
                 const sizeDiv= document.createElement('div');
                 const sizeTitle= document.createElement('strong');
@@ -274,7 +279,6 @@
                 sizeDiv.classList.add('post-info-row');
                 sizeDiv.append(sizeText);
 
-
                 //creating title, text for gender & div that holds the gender
                 const genderDiv= document.createElement('div');
                 const genderTitle= document.createElement('strong');
@@ -286,7 +290,6 @@
                 console.log(genderText);
                 genderDiv.classList.add('post-info-row');
                 genderDiv.append(genderText);
-
 
                 //creating title, text for last known location & div that holds the last known location 
                 const lastLocDiv= document.createElement('div');
@@ -339,7 +342,6 @@
                 closeButton.classList.add('btn.close-location-btn');
                 closeButton.addEventListener('click',closePopup);
 
-
                 //adding i element in button 
                 const closeButtonText=document.createElement('i');
                 closeButtonText.textContent = 'Close Map';
@@ -347,7 +349,6 @@
                 
                 closeButton.append(closeButtonText);
                 locationDiv.appendChild(closeButton);
-                
 
                 //creating title, text for date missing & div that holds the date missing
                 const dateDiv= document.createElement('div');
@@ -360,41 +361,6 @@
                 console.log(dateText);
                 dateDiv.classList.add('post-info-row');
                 dateDiv.append(dateText);
-
-
-                //creating section for creating comments form
-                const createCommentsSection = document.getElementById('comments-section');
-                createCommentsSection.classList.add('post-feedback');
-                
-
-                //creating section heading for comments form 
-                const commentsHeader= document.createElement('h2');
-                commentsHeader.textContent = 'Comments';
-                createCommentsSection.append(commentsHeader);
-
-                //creating form for posting comments
-                const createCommentsForm= document.createElement('form');
-                createCommentsForm.setAttribute("id","feedback-form");
-                //createCommentsForm.action('#');
-                //createCommentsForm.method("POST");
-                createCommentsSection.append(createCommentsForm);
-
-                //creating textbox
-                const createCommentsBox= document.createElement('textarea');
-                createCommentsBox.setAttribute("name","comment");
-                createCommentsBox.setAttribute("id","comment-text");
-                createCommentsBox.setAttribute("rows","5");
-                createCommentsBox.setAttribute("required","true");
-                createCommentsBox.setAttribute("placeholder","Write your comment here...");
-                createCommentsForm.append(createCommentsBox);
-
-                //creating submit button for creating a comment
-                const commentButton= document.createElement('button');
-                commentButton.textContent='Post';
-                commentButton.type="submit";
-                commentButton.classList.add('submit_button');
-                createCommentsForm.append(commentButton);
-                //add eventclicker here to POST COMMENT
 
                 let currentUserID = await getUserID();
                 
@@ -409,7 +375,6 @@
                             window.location.href = "missingPetPost.html";
                         }
                     };
-                
                     postContainer.appendChild(deleteButton);
                 }
 
@@ -436,6 +401,7 @@
                 console.error("Error loading missing pet post:", error);
             }
         }
+        //getting location information from database
 
         async function fetchLocationData(postID) {
             try {
@@ -452,6 +418,7 @@
                 console.error("Error fetching location data:", error);
             }
         }
+        //getting map coordinates
 
         async function getCoordinates(zipcode, city) {
             const query = `${zipcode}, ${city}`;
@@ -471,6 +438,7 @@
             }
         }
 
+        //updating the map
         let map;
         function updateMap(lat, lon) {
             if (!map) {
@@ -490,16 +458,144 @@
             }
         }
 
-
-
+        
         function myFunction() {
             const navbar = document.getElementById("navLinks");
             navbar.classList.toggle("responsive");
         }
 
+
+        //function to create a comment 
+        async function createComments(){
+
+        //creating section for creating comments form
+        const createCommentsSection = document.getElementById('comments-section');
+        createCommentsSection.classList.add('post-feedback');
+    
+
+        //creating section heading for comments form 
+        const commentsHeader= document.createElement('h2');
+        commentsHeader.textContent = 'Comments';
+        createCommentsSection.append(commentsHeader);
+
+        //creating form for posting comments
+        const createCommentsForm= document.createElement('form');
+        createCommentsForm.setAttribute("id","feedback-form");
+        //createCommentsForm.action('#');
+        //createCommentsForm.method("POST");
+        createCommentsSection.append(createCommentsForm);
+
+        //creating textbox
+        const createCommentsBox= document.createElement('textarea');
+        createCommentsBox.setAttribute("name","comment");
+        createCommentsBox.setAttribute("id","commentText");
+        createCommentsBox.setAttribute("maxlength","150");
+        createCommentsBox.setAttribute("rows","5");
+        createCommentsBox.setAttribute("required","true");
+        createCommentsBox.setAttribute("placeholder","Write your comment here...(max 150 characters)");
+        createCommentsForm.append(createCommentsBox);
+
+        //creating submit button for creating a comment
+        const commentButton= document.createElement('button');
+        commentButton.textContent='Post';
+        commentButton.type="submit";
+        commentButton.classList.add('submit_button');
+        createCommentsForm.append(commentButton);
+        //add eventclicker here to POST COMMENT
+        commentButton.addEventListener('click', async function(event){
+            event.preventDefault(); // Prevent default link behavior
+             //prevent page reload
+             commentButton.disabled = false; 
+            console.log("Form submitted!"); 
+
+            let userID= await getUserID();
+
+                const commentTextFinal = document.getElementById("commentText").value.trim();
+                ///const postID = await getPostID();
+                const postID = new URLSearchParams(window.location.search).get('postID').toString();
+                console.log("PostID for creating comment:",postID)
+                //console.log("user id for creating comment:",userID)
+
+                if (!postID){
+                console.error("PostID is missing");
+                return;
+                }
+            try{
+                await sendComment(postID, commentTextFinal, userID);
+    
+            async function sendComment(postID, commentTextFinal, userID) {
+                const infoSending = {
+                commentText:commentTextFinal.toString(),
+                userID:userID.toString(),
+                };
+
+                try {
+                    
+                    const response = await fetch(`http://localhost:3000/createComment/${postID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(infoSending),
+                        
+                    });
+                    
+                    const result = await response.json();
+                    
+                    consol.log('json response:', result);
+                    if (!result.ok){
+
+                        console.error('Failed to send comment.', result.status);
+                        return;
+                    }
+                    console.log('Comment successfully posted:',result);
+                    alert("Your comment has been Successfully posted!");
+
+                    window.location.href = `selectedPost.html?postID=${encodeURIComponent(postID)}`;
+                
+                } catch (error) {
+                    console.error('Error fetching selected post ID to next page:', error);
+                    return null;
+                }
+            }
+            commentText.value = ''; //clearing the input textbox
+   
+            window.location.href = `selectedPost.html?postID=${postID}`;
+        }
+         catch(error)
+         {
+            console.error('Error loading all missing comment entries:', error);
+            alert("An error occurred while creating the comment.");
+         }
+    })
+}
+
+
+async function deleteComment(commentID,postID) {
+            try {
+                console.log("yooo :",commentID);
+                const response = await fetch(`http://localhost:3000/deleteComment/${commentID}`, 
+                {
+                    method: "DELETE",
+                });
+                
+                console.log("status :",response.status);
+                console.log("Comment ID going to delete :",commentID);
+                if (response.ok) {
+                    alert("Comment was deleted successfully.");
+                    window.location.href = `selectedPost.html?postID=${encodeURIComponent(postID)}`
+                } else {
+                    alert("Failed to update post.");
+                }
+            } catch (error) {
+                console.error("Error deleting post:", error);
+            }
+        }
+
         //function to show the comments for the post
         async function postComments(postID)
         { 
+            let currentUserID = await getUserID();
+
+            //const postID= getPostID();
 
         console.log("Loading comments Pets..."); // Start log
         try {
@@ -541,6 +637,10 @@
                     //new div for post 
                     const commentElement = document.createElement('div');
 
+                    const commentID= `${comment.commentID}`;
+                    console.log("commentid passing through:",commentID);
+                    console.log("type",commentID.type);
+
                     //creating inner div
                     const commentDiv= document.createElement('div');
                     commentDiv.classList.add('comment-info');
@@ -561,12 +661,40 @@
                     const commentDescription = document.createElement('p');
                     commentDescription.textContent = `${comment.commentText}`;
                     
-                    commentElement.classList.add('post-comments');
+                    //creates delete button
+                    const commentButton= document.createElement('button');
+        
+                    if (currentUserID && currentUserID=== comment.userID) {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = "Delete this Comment";
+                    //deleteButton.classList.add("delete-button");
+                    deleteButton.type="submit";
+                                  
+                    deleteButton.addEventListener('click', async function () {
+                        
+                            event.preventDefault(); // Prevent default link behavior
+                            
+                            //deleteButton.disabled = false; 
 
+                            console.log("Form was submitted!"); 
+                            console.log(commentID);
+                            if(await deleteComment(commentID, postID)){
+                             window.location.href = `selectedPost.html?postID=${postID}`;
+                            console.log(commentID);
+                            }
+                            else{
+                                console.error("Failed to delete comment");
+                            }   
+                    });
+                    commentDiv.appendChild(deleteButton);
+                }
+  
+                    commentElement.classList.add('post-comments');
 
                     commentDiv.appendChild(postHeader);
                     commentDiv.appendChild(commentDescription);
                     commentDiv.appendChild(dateCreated);
+                    //commentDiv.appendChild(deleteButton);
                     commentElement.appendChild(commentDiv);
                     
                     document.getElementById('post-comments').appendChild(commentElement);                         
@@ -576,10 +704,7 @@
         } catch (error) {
             console.error('Error loading all missing comment entries:', error);
         }
-
-
     };
-
     </script>
 
     
