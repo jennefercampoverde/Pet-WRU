@@ -659,6 +659,94 @@ exports.deleteComment = async (req, res) => {
 };
 
 
+//Route to show user related donations
+
+exports.showRelatedDonations = async(req, res) => {
+
+    try{ 
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+
+        const conn = await pool.getConnection();
+        const rows= await conn.query("SELECT * FROM donations WHERE userID = ?",[userID]);
+        res.json(rows);
+        conn.release();
+    } 
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information from donations table for this user.'});
+    }
+};
+
+
+//Route to show user related missing pet posts
+
+exports.showRelatedMissingPosts = async(req, res) => {
+
+    try{ 
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+
+        const conn = await pool.getConnection();
+        const rows= await conn.query("SELECT * FROM lostPets WHERE userID = ?",[userID]);
+        res.json(rows);
+        conn.release();
+    } 
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information from lostPets table for this user.'});
+    }
+};
+
+
+
+//Route to show user related missing pet posts
+
+
+exports.showRelatedFoundPosts = async(req, res) => {
+    
+    try{ 
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+
+        const conn = await pool.getConnection();
+        const rows= await conn.query("SELECT foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID WHERE lostPets.userID = ?",[userID]);
+        res.json(rows);
+        conn.release();
+    } 
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information from foundPets table for this user.'});
+    }
+};
+
+
+
+
 
 
 

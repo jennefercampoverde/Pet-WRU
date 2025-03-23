@@ -48,7 +48,9 @@ router.get("/showComments/:postID",Controller.showComments);
 router.post("/createDonation", uploadDonation.single("donation_image_path"), Controller.createDonation);
 router.post("/createComment/:postID", Controller.createComment);
 router.delete("/deleteComment/:commentID", Controller.deleteComment);
-
+router.get("/showRelatedDonations", Controller.showRelatedDonations);
+router.get("/showRelatedMissingPosts", Controller.showRelatedMissingPosts);
+router.get("/showRelatedFoundPosts", Controller.showRelatedFoundPosts);
 
 
 

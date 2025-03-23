@@ -344,7 +344,7 @@ h5 {
 
 /*Post grid*/
     /* Container for the post grid */
-#post-container {
+#post-container, #post-container-missing, #post-container-found {
     display: flex;
     flex-wrap: wrap; /* Allow wrapping of rows */
     gap: 20px; /* Add spacing between items */
@@ -353,6 +353,7 @@ h5 {
     margin-left: 20px;
     margin-bottom: 50px;
 }
+
 
 /* Individual post card */
 .post {
