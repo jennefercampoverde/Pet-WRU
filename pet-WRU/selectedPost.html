@@ -221,7 +221,7 @@
                 //creating text for username & div that holds username
                 const usernameDiv= document.createElement('div');
                 const usernameText=document.createElement('h2');
-                usernameText.textContent = `Created by: ${selectedPost.userID}`;
+                usernameText.textContent = `Created by: ${selectedPost.userName}`;
                 usernameDiv.classList.add('post-actions');
                 usernameDiv.append(usernameText);
                 detailsSection.appendChild(usernameDiv);
@@ -647,7 +647,7 @@ async function deleteComment(commentID,postID) {
 
                     //creating header element that holds user id of who made the comment 
                     const postHeader = document.createElement('h3');
-                    postHeader.textContent = `Posted by: User ${comment.userID}`;
+                    postHeader.textContent = `Posted by: ${comment.userName}`;
                     console.log("header",postHeader);
 
                     //cleaning up comment date created from JSON
