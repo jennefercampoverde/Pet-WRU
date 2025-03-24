@@ -598,6 +598,147 @@ exports.createDonation = async (req, res) => {
 };
 
 
+//route to create a comment on the selected post page
+
+exports.createComment = async(req,res) =>{
+    const{postID}=req.params;
+    const{commentText} = req.body;
+    const userID = req.session.userID;
+        
+    if (!userID) {
+           conn.release();
+           return res.status(401).json({ error: "Unauthorized. Please log in." });
+    }
+        
+    try{
+        
+    
+        const conn = await pool.getConnection();
+        const rows = await conn.query("INSERT INTO postComments(lostID, commentText, userID) VALUES (?, ?, ?)",[postID,commentText,userID]);
+        console.log("Response data:", rows);
+        res.json({ message: "Comment created successfully!"});
+        conn.release();
+        console.log('Comment has been posted successfully.')
+    }
+    catch (err){
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to create a comment for the selected post.'})
+    }
+
+};
+
+
+
+//Route to delete comments
+exports.deleteComment = async (req, res) => {
+    const { commentID } = req.params; 
+    console.log("Deleting comment with ID:" ,commentID);
+    const conn = await pool.getConnection();
+    try {
+        
+        const result = await conn.query("DELETE FROM postcomments WHERE commentID = ?", [commentID]); 
+        if (result.affectedRows === 0) {
+            conn.release();
+            return res.status(400).json({ error: "No changes made to the comment" });
+        }
+
+        conn.release();
+        console.log("Comment deleted successfully");    
+        return res.status(200).json({message:"Comment Deleted successfully from database!"});
+        
+    } catch (error) {
+        conn.release();
+        console.error("Error deleting comment:", error);
+        return res.status(500).json({ error: "Database error when deleting comment" });
+    }
+};
+
+
+//Route to show user related donations
+
+exports.showRelatedDonations = async(req, res) => {
+
+    try{ 
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+
+        const conn = await pool.getConnection();
+        const rows= await conn.query("SELECT * FROM donations WHERE userID = ?",[userID]);
+        res.json(rows);
+        conn.release();
+    } 
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information from donations table for this user.'});
+    }
+};
+
+
+//Route to show user related missing pet posts
+
+exports.showRelatedMissingPosts = async(req, res) => {
+
+    try{ 
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+
+        const conn = await pool.getConnection();
+        const rows= await conn.query("SELECT * FROM lostPets WHERE userID = ?",[userID]);
+        //res.json(rows);
+        conn.release();
+    } 
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information from lostPets table for this user.'});
+    }
+};
+
+
+
+//Route to show user related missing pet posts
+
+exports.showRelatedFoundPosts = async(req, res) => {
+    
+    try{ 
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+
+        const conn = await pool.getConnection();
+        const rows= await conn.query("SELECT foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID WHERE lostPets.userID = ?",[userID]);
+        res.json(rows);
+        conn.release();
+    } 
+    catch (err)
+    {
+        console.error(err);
+        res.status(500).json({error:'Database error. Unable to grab information from foundPets table for this user.'});
+    }
+};
+
+
 
 
 

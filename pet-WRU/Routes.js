@@ -46,8 +46,11 @@ router.delete("/deleteFlyer/:postID", Controller.deleteFlyer);
 router.get("/userSelectedPost/:postID",Controller.userSelectedPost); //shows actual post
 router.get("/showComments/:postID",Controller.showComments);
 router.post("/createDonation", uploadDonation.single("donation_image_path"), Controller.createDonation);
-
-
+router.post("/createComment/:postID", Controller.createComment);
+router.delete("/deleteComment/:commentID", Controller.deleteComment);
+router.get("/showRelatedDonations", Controller.showRelatedDonations);
+router.get("/showRelatedMissingPosts", Controller.showRelatedMissingPosts);
+router.get("/showRelatedFoundPosts", Controller.showRelatedFoundPosts);
 
 
 /*
