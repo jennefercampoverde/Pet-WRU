@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Page</title>
+    <link rel="stylesheet" href="donation.css">
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <!--each icon on navigation bar should take you to respectable page-->
+    <div class="navbar" id="myNavbar" >
+        <!-- Logo -->
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
+        
+        <!-- Navigation Links -->
+        <!--each link references another html page-->
+        <div class="nav-links" id="navLinks">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a> <!--icon insert here-->
+                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a> <!--icon insert here-->        
+                </div>
+              </div> 
+            <a href="#"><i class="fa-solid fa-box"></i> Donations</a> <!--icon insert here-->
+            <a href="#" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
+            
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    </div>
+    
+    <!-- Search Container -->
+    <div class="search-container">
+        <form method="GET" action="#">
+            <input type="text" id="search" name = "search" placeholder="Search Item">
+            <button type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Side Navigation -->
+    <!--this will display type of filters
+    species, gender, size, time, and location-->
+    <!--format: label, types of filters, value-->
+    <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
+    <form method="GET" action="#" class="filters-form">
+        <div class="filter-group">
+            <label for="category">Category</label>
+            <select name="category" id="category">
+                <option value="">Choose an item category</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="condition">Condition</label>
+            <select name="condition" id="condition">
+                <option value="">Choose a condition</option>
+                <option value="new">New</option>
+                <option value="likeNew">Like New</option>
+                <option value="gentlyUsed">Gently Used</option>
+                <option value="used">Used</option>
+                <option value="worn">Worn</option>
+            </select>
+        </div>
+        <div class="filter-buttons">
+            <button type="submit" class="filter-apply-btn">Apply Filters</button>
+            <button type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
+        </div>
+    </form>
+</div>
+
+
+    <!-- Open Side Navigation Button -->
+     <!--Source: "Learn HTML in 1 hour"
+        Author: Bro Code
+        URL: https://www.youtube.com/watch?v=HD13eq_Pmp8
+        Date Created: Sept 1, 2021
+        Used for: <span> concept-->
+    <span onclick="openNav()" class="filter-button"><i class="fas fa-filter"></i> Filter</span>
+
+    <script>
+        
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
+        // populates the genre filter with options
+        function populateFilters() {
+            const category = ["Bedding","Clothing","Grooming Supplies","Leashes & Collars","Litter & Waste Supplies","Medical Supplies","Toys","Transport Supplies"];
+            const speciesSelect = document.getElementById("species");
+            const yearSelect = document.getElementById("release-year");
+            const currentYear = new Date().getFullYear();
+            const sortByTime = document.getElementById("sort-by-time");
+            const postContainer = document.getElementById("post-container");
+
+            species.forEach(species => {
+                const option = document.createElement("option");
+                option.value = species;
+                option.textContent = species;
+                speciesSelect.appendChild(option);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const sortByTime = document.getElementById("sort-by-time");
+            const postContainer = document.getElementById("post-container");
+
+            sortByTime.addEventListener("change", function () {
+                let posts = Array.from(document.querySelectorAll(".post"));
+
+                posts.sort((a, b) => {
+                    let dateA = new Date(a.getAttribute("data-time"));
+                    let dateB = new Date(b.getAttribute("data-time"));
+
+                    return sortByTime.value === "newest" ? dateB - dateA : dateA - dateB;
+                });
+
+                // Append sorted posts back to the container
+                postContainer.innerHTML = "";
+                posts.forEach(post => postContainer.appendChild(post));
+            });
+        });
+
+        // functions to open and close the navigation bar
+        function openNav() {
+            document.getElementById("mySidenav").style.height = "calc(100% - 110px)";
+            document.getElementById("mySidenav").style.top = "120px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.height = "0";
+            document.getElementById("mySidenav").style.top = "-250px"; // This removes the space at the top after closing
+        }
+
+
+        // clears any filters that were applied
+        function clearFilters() {
+            document.getElementById("species").value = "";
+            document.getElementById("zip-code").value = "";
+            document.getElementById("gender").value = "";
+            document.getElementById("size").value = "";
+            document.getElementById("sort-by-time").value = "";
+            document.forms[0].submit(); // Automatically submit the cleared form
+        }
+
+         // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
+       //source: HTML DOM querySelectorAll() method
+       //Author: GeeksforGeeks
+       //URL: https://www.geeksforgeeks.org/html-dom-queryselectorall-method/
+       //Date accessed: 11/30/2024
+        document.querySelectorAll('.navbar a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        window.onload = populateFilters;
+    </script>
+
+    <!-- Post grid section: to display the posts in rows of 3 -->
+    <div>
+           <!-- Post Container (Where posts are displayed) -->
+    <div id="post-container">
+        <div class="post" data-time="2025-01-30T12:00:00">
+            <img src="ProjectPictures2/DogCollar.jpg" alt="Dog Collar">
+            <div class="post-info">
+                <h3>Dog Collar</h3>
+                <p> Category: Collar</p>
+                <p> Condition: Like New</p>
+                <p> Quantity: 3</p>
+                <p> Desc: This is a mostly new dog collar.</p>
+                <small>Posted on: Jan 30, 2025</small>
+            </div>
+        </div>
+
+        <div class="post" data-time="20s25-01-25T08:30:00">
+            <img src="ProjectPictures2/CatToy.jpg" alt="Cat Toy">
+            <div class="post-info">
+                <h3>Cat Toy</h3>
+                <p> Category: Toy</p>
+                <p> Condition: New</p>
+                <p> Quantity: 1</p>
+                <p> Desc: A brand new cat toy!</p>
+                <small>Posted on: Jan 03, 2025</small>
+            </div>
+        </div>
+
+        <div class="post" data-time="2025-01-27T15:45:00">
+            <img src="ProjectPictures2/FerretMeds.jpg" alt="lizard">
+            <div class="post-info">
+                <h3>Ferret Medicine</h3>
+                <p> Category: Medicine</p>
+                <p> Condition: New</p>
+                <p> Quantity: 2</p>
+                <p> Desc: This is cat medicine that helps the stomach.</p>
+                <small>Posted on: Dec 4, 2024</small>
+            </div>
+        </div>
+        <div class="post" data-time="2025-01-27T15:45:00">
+            <img src="ProjectPictures2/DogBed.jpg" alt="cat">
+            <div class="post-info">
+                <h3>Dog Bedding</h3>
+                <p> Category: Bedding</p>
+                <p> Condition: Gently Used</p>
+                <p> Quantity: 1</p>
+                <p> Desc: Small bed for a small dog.</p>
+                <small>Posted on: Mar 29, 2024</small>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+
+</body>
+</html>

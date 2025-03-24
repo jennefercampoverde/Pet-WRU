@@ -527,7 +527,7 @@ exports.userSelectedPost = async (req,res)=>{
     const {postID}=req.params;
     try{
         const conn= await pool.getConnection();
-        const rows= await conn.query("SELECT usersInfo.userName, lostPets.lostID, lostPets.userID,lostPets.dateCreated, lostPets.dateLost, lostPets.lastZipcode,lostPets.lastCityID, lostPets.petName, lostPets.animalType, lostPets.animalSize, lostPets.animalColor, lostPets.animalGender, lostPets.animal_image_path, lostPets.description, lostPets.status FROM lostPets INNER JOIN usersInfo ON usersInfo.userID=lostPets.userID WHERE lostPets.lostID = ?",[postID]);
+        const rows= await conn.query("SELECT usersInfo.userName, lostPets.lostID, lostPets.userID,lostPets.dateCreated, lostPets.dateLost, lostPets.lastZipcode,lostPets.lastCityID, lostPets.petName, lostPets.animalType, lostPets.animalSize, lostPets.animalColor, lostPets.animalGender, lostPets.animal_image_path, lostPets.description, lostPets.status FROM lostPets INNER JOIN usersInfo ON usersInfo.userID=lostPets.userID WHERE lostPets.lostID = ?",[postID]);        
         res.json(rows);
         conn.release();
     }
@@ -546,7 +546,7 @@ exports.showComments = async (req,res)=>{
     
     try{
         const conn= await pool.getConnection();
-        const rows= await conn.query("SELECT usersInfo.userName, postComments.commentID, postComments.lostID, postComments.dateCreated, postComments.commentText, postComments.userID FROM postComments INNER JOIN usersInfo ON usersInfo.userID=postComments.userID WHERE postComments.lostID = ? ",[postID]);
+        const rows= await conn.query("SELECT usersInfo.userName, postComments.commentID, postComments.lostID, postComments.dateCreated, postComments.commentText, postComments.userID FROM postComments INNER JOIN usersInfo ON usersInfo.userID=postComments.userID WHERE postComments.lostID = ? ",[postID]);        
         res.json(rows);
         conn.release();
     }
@@ -737,18 +737,6 @@ exports.showRelatedFoundPosts = async(req, res) => {
         res.status(500).json({error:'Database error. Unable to grab information from foundPets table for this user.'});
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
