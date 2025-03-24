@@ -464,6 +464,37 @@
             navbar.classList.toggle("responsive");
         }
 
+        async function sendComment(postID, commentTextFinal) {
+                const infoSending = {
+                commentText:commentTextFinal,
+                
+                }
+                const finalInfo= JSON.stringify(infoSending);
+                
+
+                try {
+                    
+                    const response = await fetch(`http://localhost:3000/createComment/${postID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: finalInfo,
+                        
+                    });
+                    
+                    const result = await response.json();
+                    
+                    
+                    console.log('Comment successfully posted:',result);
+                    alert("Your comment has been Successfully posted!");
+
+                    window.location.href = `selectedPost.html?postID=${encodeURIComponent(postID)}`;
+                
+                } catch (error) {
+                    console.error('Error fetching selected post ID to next page:', error);
+                    return null;
+                }
+            }
+
 
         //function to create a comment 
         async function createComments(){
@@ -504,74 +535,39 @@
         //add eventclicker here to POST COMMENT
         commentButton.addEventListener('click', async function(event){
             event.preventDefault(); // Prevent default link behavior
-             //prevent page reload
-             commentButton.disabled = false; 
             console.log("Form submitted!"); 
+            //prevent page reload
+            try{
 
-            let userID= await getUserID();
+                const postID = await getPostID();
 
                 const commentTextFinal = document.getElementById("commentText").value.trim();
-                ///const postID = await getPostID();
-                const postID = new URLSearchParams(window.location.search).get('postID').toString();
+                
+                
                 console.log("PostID for creating comment:",postID)
-                //console.log("user id for creating comment:",userID)
+                
 
                 if (!postID){
                 console.error("PostID is missing");
                 return;
                 }
-            try{
-                await sendComment(postID, commentTextFinal, userID);
+            
+                await sendComment(postID, commentTextFinal);
     
-            async function sendComment(postID, commentTextFinal, userID) {
-                const infoSending = {
-                commentText:commentTextFinal.toString(),
-                userID:userID.toString(),
-                };
-
-                try {
-                    
-                    const response = await fetch(`http://localhost:3000/createComment/${postID}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(infoSending),
-                        
-                    });
-                    
-                    const result = await response.json();
-                    
-                    consol.log('json response:', result);
-                    if (!result.ok){
-
-                        console.error('Failed to send comment.', result.status);
-                        return;
-                    }
-                    console.log('Comment successfully posted:',result);
-                    alert("Your comment has been Successfully posted!");
-
-                    window.location.href = `selectedPost.html?postID=${encodeURIComponent(postID)}`;
-                
-                } catch (error) {
-                    console.error('Error fetching selected post ID to next page:', error);
-                    return null;
-                }
-            }
-            commentText.value = ''; //clearing the input textbox
+            
+                commentText.value = ''; //clearing the input textbox
    
-            window.location.href = `selectedPost.html?postID=${postID}`;
-        }
-         catch(error)
-         {
-            console.error('Error loading all missing comment entries:', error);
-            alert("An error occurred while creating the comment.");
-         }
+            }
+                catch(error)
+            {
+                console.error('Error loading all missing comment entries:', error);
+                alert("An error occurred while creating the comment.");
+            }
     })
 }
 
-
 async function deleteComment(commentID,postID) {
             try {
-                console.log("yooo :",commentID);
                 const response = await fetch(`http://localhost:3000/deleteComment/${commentID}`, 
                 {
                     method: "DELETE",
@@ -638,8 +634,8 @@ async function deleteComment(commentID,postID) {
                     const commentElement = document.createElement('div');
 
                     const commentID= `${comment.commentID}`;
-                    console.log("commentid passing through:",commentID);
-                    console.log("type",commentID.type);
+                    console.log("Comment ID posting:",commentID);
+                    
 
                     //creating inner div
                     const commentDiv= document.createElement('div');
@@ -674,10 +670,8 @@ async function deleteComment(commentID,postID) {
                         
                             event.preventDefault(); // Prevent default link behavior
                             
-                            //deleteButton.disabled = false; 
 
-                            console.log("Form was submitted!"); 
-                            console.log(commentID);
+                            console.log("Form was submitted to server!"); 
                             if(await deleteComment(commentID, postID)){
                              window.location.href = `selectedPost.html?postID=${postID}`;
                             console.log(commentID);
@@ -694,7 +688,7 @@ async function deleteComment(commentID,postID) {
                     commentDiv.appendChild(postHeader);
                     commentDiv.appendChild(commentDescription);
                     commentDiv.appendChild(dateCreated);
-                    //commentDiv.appendChild(deleteButton);
+
                     commentElement.appendChild(commentDiv);
                     
                     document.getElementById('post-comments').appendChild(commentElement);                         

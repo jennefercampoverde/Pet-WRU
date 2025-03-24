@@ -601,27 +601,22 @@ exports.createDonation = async (req, res) => {
 //route to create a comment on the selected post page
 
 exports.createComment = async(req,res) =>{
-    try{
-        const{postID}=req.params;
-        const{commentText} = req.body;
-
-        //Grabbing user ID from current session
-        const {userID}= req.body;
+    const{postID}=req.params;
+    const{commentText} = req.body;
+    const userID = req.session.userID;
         
-    if (!userID){
-        return res.status(401).json({error: "Unauthorized. Please log in."});
+    if (!userID) {
+           conn.release();
+           return res.status(401).json({ error: "Unauthorized. Please log in." });
     }
-        //console.log('comment Text type:', typeof commentText);
-        //console.log('postID type:', typeof postID);
-        //console.log('userID type:', typeof userID);
         
-
+    try{
+        
     
         const conn = await pool.getConnection();
-        //console.log("Executing query:", `INSERT INTO postComments(lostID, commentText, userID) VALUES (${postID}, ${commentText}, ${userID})`);
-        
         const rows = await conn.query("INSERT INTO postComments(lostID, commentText, userID) VALUES (?, ?, ?)",[postID,commentText,userID]);
-        res.json(rows);
+        console.log("Response data:", rows);
+        res.json({ message: "Comment created successfully!"});
         conn.release();
         console.log('Comment has been posted successfully.')
     }
@@ -704,7 +699,7 @@ exports.showRelatedMissingPosts = async(req, res) => {
 
         const conn = await pool.getConnection();
         const rows= await conn.query("SELECT * FROM lostPets WHERE userID = ?",[userID]);
-        res.json(rows);
+        //res.json(rows);
         conn.release();
     } 
     catch (err)
