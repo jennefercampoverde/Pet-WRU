@@ -50,7 +50,6 @@ exports.logout = async (req, res) => {
 
 
 //Route to register an account with a hashed password
-// Route to register an account with a hashed password
 exports.register = async (req, res) => {
     const { UserName, FirstName, LastName, DOB, emailAddress, userPassword, Zipcode, City } = req.body;
 
@@ -66,14 +65,14 @@ exports.register = async (req, res) => {
     try {
         const conn = await pool.getConnection();
 
-        // Check if the username already exists
-        const [existingUser] = await conn.query("SELECT * FROM usersInfo WHERE userName = ?", [UserName]);
+        const results = await conn.query("SELECT * FROM usersInfo WHERE userName = ?", [UserName]);
+        const existingUser = results[0]; // Extract the first element
 
-        if (existingUser.length > 0) {
-            // If the username already exists, return an error
+        if (existingUser && existingUser.length > 0) {
             conn.release();
             return res.status(400).json({ error: 'Username is already taken' });
         }
+
 
         // Insert the new user into the database
         const result = await conn.query("INSERT INTO usersInfo (userName, firstName, lastName, dob, emailAddress, userPassword, zipcode, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
