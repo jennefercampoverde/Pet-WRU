@@ -369,7 +369,7 @@
 
                 //creating section heading for comments form 
                 const commentsHeader= document.createElement('h2');
-                commentsHeader.textContent = 'Comments';
+                commentsHeader.textContent = 'Comment';
                 createCommentsSection.append(commentsHeader);
 
                 //creating form for posting comments
@@ -431,6 +431,7 @@
                 
                 postContainer.appendChild(postHeader);
                 postContainer.appendChild(detailsSection);
+                postContainer.appendChild(createCommentsSection);
 
             } catch (error) {
                 console.error("Error loading missing pet post:", error);
@@ -539,7 +540,7 @@
             } else {
                 commentPosts.forEach(comment => {
                     //new div for post 
-                    const commentElement = document.createElement('div');
+                    //const commentElement = document.createElement('div');
 
                     //creating inner div
                     const commentDiv= document.createElement('div');
@@ -567,9 +568,9 @@
                     commentDiv.appendChild(postHeader);
                     commentDiv.appendChild(commentDescription);
                     commentDiv.appendChild(dateCreated);
-                    commentElement.appendChild(commentDiv);
+                    //commentElement.appendChild(commentDiv);
                     
-                    document.getElementById('post-comments').appendChild(commentElement);                         
+                    document.getElementById('post-comments').appendChild(commentDiv);                         
 
                 });
             }
