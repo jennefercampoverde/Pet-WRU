@@ -88,7 +88,7 @@
             if (postID) {
                 showingSelectedPetPost(postID);
                 fetchLocationData(postID);
-                //createComments();
+                createComments();
                 
                 postComments(postID);
             }
@@ -224,8 +224,7 @@
                 //creating text for username & div that holds username
                 const usernameDiv= document.createElement('div');
                 const usernameText=document.createElement('h2');
-                // usernameText.textContent = `Created by: ${selectedPost.userName}`;
-                usernameText.textContent = `${selectedPost.userName}`;
+                usernameText.textContent = `Created by: ${selectedPost.userName}`;
                 usernameDiv.classList.add('post-actions');
                 usernameDiv.append(usernameText);
                 detailsSection.appendChild(usernameDiv);
@@ -401,44 +400,6 @@
                 postContainer.appendChild(postHeader);
                 postContainer.appendChild(detailsSection);
 
-                // comment section
-                //creating section for creating comments form
-                const createCommentsSection = document.getElementById('comments-section');
-                createCommentsSection.classList.add('post-feedback');
-
-                //creating section heading for comments form 
-                const commentsHeader= document.createElement('h2');
-                commentsHeader.textContent = 'Comment';
-                createCommentsSection.append(commentsHeader);
-
-                //creating form for posting comments
-                const createCommentsForm= document.createElement('form');
-                createCommentsForm.setAttribute("id","feedback-form");
-                //createCommentsForm.action('#');
-                //createCommentsForm.method("POST");
-                createCommentsSection.append(createCommentsForm);
-
-                //creating textbox
-                const createCommentsBox= document.createElement('textarea');
-                createCommentsBox.setAttribute("name","comment");
-                createCommentsBox.setAttribute("id","commentText");
-                createCommentsBox.setAttribute("maxlength","150");
-                createCommentsBox.setAttribute("rows","5");
-                createCommentsBox.setAttribute("required","true");
-                createCommentsBox.setAttribute("placeholder","Write your comment here...(max 150 characters)");
-                createCommentsForm.append(createCommentsBox);
-
-                
-                //creating submit button for creating a comment
-                const commentButton= document.createElement('button');
-                commentButton.textContent='Post';
-                commentButton.type="submit";
-                commentButton.classList.add('submit_button');
-                createCommentsForm.append(commentButton);
-                createComments(commentButton)
-
-                postContainer.appendChild(createCommentsSection);
-
             } catch (error) {
                 console.error("Error loading missing pet post:", error);
             }
@@ -539,9 +500,43 @@
 
 
         //function to create a comment 
-        async function createComments(button){             
+        async function createComments(){ 
+            //creating section for creating comments form
+            const createCommentsSection = document.getElementById('comments-section');
+            createCommentsSection.classList.add('post-feedback');
+
+            //creating section heading for comments form 
+            const commentsHeader= document.createElement('h2');
+            commentsHeader.textContent = 'Comment';
+            createCommentsSection.append(commentsHeader);
+
+            //creating form for posting comments
+            const createCommentsForm= document.createElement('form');
+            createCommentsForm.setAttribute("id","feedback-form");
+            //createCommentsForm.action('#');
+            //createCommentsForm.method("POST");
+            createCommentsSection.append(createCommentsForm);
+
+            //creating textbox
+            const createCommentsBox= document.createElement('textarea');
+            createCommentsBox.setAttribute("name","comment");
+            createCommentsBox.setAttribute("id","commentText");
+            createCommentsBox.setAttribute("maxlength","150");
+            createCommentsBox.setAttribute("rows","5");
+            createCommentsBox.setAttribute("required","true");
+            createCommentsBox.setAttribute("placeholder","Write your comment here...(max 150 characters)");
+            createCommentsForm.append(createCommentsBox);
+
+            
+            //creating submit button for creating a comment
+            const commentButton= document.createElement('button');
+            commentButton.textContent='Post';
+            commentButton.type="submit";
+            commentButton.classList.add('submit_button');
+            createCommentsForm.append(commentButton);
+            
             //add eventclicker here to POST COMMENT
-            button.addEventListener('click', async function(event){
+            commentButton.addEventListener('click', async function(event){
                 event.preventDefault(); // Prevent default link behavior
                 console.log("Form submitted!"); 
                 //prevent page reload
@@ -575,26 +570,22 @@
         }
 
         async function deleteComment(commentID,postID) {
-            if (confirm("Are you sure you want to delete your comment?")) {
-                // Proceed with deletion logic
-                //console.log("Comment deleted");
-                try {
-                    const response = await fetch(`http://localhost:3000/deleteComment/${commentID}`, 
-                    {
-                        method: "DELETE",
-                    });
-                    
-                    console.log("status :",response.status);
-                    console.log("Comment ID going to delete :",commentID);
-                    if (response.ok) {
-                        alert("Comment was deleted successfully.");
-                        window.location.href = `selectedPost.html?postID=${encodeURIComponent(postID)}`
-                    } else {
-                        alert("Failed to update post.");
-                    }
-                } catch (error) {
-                    console.error("Error deleting post:", error);
+            try {
+                const response = await fetch(`http://localhost:3000/deleteComment/${commentID}`, 
+                {
+                    method: "DELETE",
+                });
+                
+                console.log("status :",response.status);
+                console.log("Comment ID going to delete :",commentID);
+                if (response.ok) {
+                    alert("Comment was deleted successfully.");
+                    window.location.href = `selectedPost.html?postID=${encodeURIComponent(postID)}`
+                } else {
+                    alert("Failed to update post.");
                 }
+            } catch (error) {
+                console.error("Error deleting post:", error);
             }
         }
 
@@ -605,123 +596,112 @@
 
             //const postID= getPostID();
 
-            console.log("Loading comments Pets..."); // Start log
-            try {
+        console.log("Loading comments Pets..."); // Start log
+        try {
 
-                console.log(`Fetching comments post with ID: ${postID}`);
-                const response = await fetch(`http://localhost:3000/showComments/${postID}`);
-                
-                console.log("Received response:", response.status); // Log the response status
+            console.log(`Fetching comments post with ID: ${postID}`);
+            const response = await fetch(`http://localhost:3000/showComments/${postID}`);
+            
+            console.log("Received response:", response.status); // Log the response status
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch all comment pet data');
-                }
-                const commentPosts= await response.json(); //array
-
-
-                console.log('Fetched Comments array :', commentPosts); 
+            if (!response.ok) {
+                throw new Error('Failed to fetch all comment pet data');
+            }
+            const commentPosts= await response.json(); //array
 
 
-                if (commentPosts.length === 0) {
-                        console.error("No data found for the selected comments post.");
-                        return;
-                    }
-                // Get the first item from the array
+            console.log('Fetched Comments array :', commentPosts); 
 
-                    console.log('Fetched Comments:', commentPosts); 
 
-        
-                const commentPostsList = document.getElementById('post-comments');
-                commentPostsList.classList.add('post-comments');
-                if (!commentPostsList) {
-                    console.error("Element with ID 'post-comments' not found."); // Log if the element is not found
+            if (commentPosts.length === 0) {
+                    console.error("No data found for the selected comments post.");
                     return;
                 }
-                commentPostsList.innerHTML = ''; // Clear the list before adding new items
-        
-                if (commentPosts.length === 0) {
-                    commentPostsList.textContent = 'No missing pet entries.';
-                } else {
-                    commentPosts.forEach(comment => {
-                        //new div for post 
-                        //const commentElement = document.createElement('div');
+            // Get the first item from the array
 
-                        const commentID= `${comment.commentID}`;
-                        console.log("Comment ID posting:",commentID);
-                        
+                console.log('Fetched Comments:', commentPosts); 
 
-                        //creating inner div
-                        const commentDiv= document.createElement('div');
-                        commentDiv.classList.add('comment');
-
-                        //creating header element that holds user id of who made the comment 
-                        const postHeader = document.createElement('strong');
-                        // postHeader.textContent = `Posted by: ${comment.userName}`;
-                        postHeader.textContent = `${comment.userName}`;
-                        console.log("header",postHeader);
-
-                        //cleaning up comment date created from JSON
-                        const dateCreatedText=new Date(comment.dateCreated).toLocaleDateString("en-US",dateFormat);
-                        
-                        //creating a paragraph element that holds date of when the comment was made 
-                        const dateCreated= document.createElement('p');
-                        dateCreated.textContent=`Posted on: ${dateCreatedText}`;
-                        
-                        //creates element that holds comment text
-                        const commentDescription = document.createElement('p');
-                        commentDescription.textContent = `${comment.commentText}`;
-                        
-                        commentDiv.appendChild(postHeader);
-                        commentDiv.appendChild(commentDescription);
-                        commentDiv.appendChild(dateCreated);
-                       
-                        //const commentButton= document.createElement('button');
-                        //creates delete button
-                        if (currentUserID && currentUserID=== comment.userID) {
-                            const deleteButton = document.createElement('button');
-                            //deleteButton.textContent = "Delete this Comment";
-                            deleteButton.type="button";
-                            deleteButton.classList.add("delete-button");
-                        
-
-                            // Create the icon element
-                            const icon = document.createElement('i');
-                            icon.classList.add('fas', 'fa-trash-alt');  // Add the icon classes
-
-                            // Append the icon to the button
-                            deleteButton.appendChild(icon);
-                                        
-                            deleteButton.addEventListener('click', async function () {
-                                
-                                    event.preventDefault(); // Prevent default link behavior
-                                    
-
-                                    console.log("Form was submitted to server!"); 
-                                    if(await deleteComment(commentID, postID)){
-                                    window.location.href = `selectedPost.html?postID=${postID}`;
-                                    console.log(commentID);
-                                    }
-                                    else{
-                                        console.error("Failed to delete comment");
-                                    }   
-                            });
-                            commentDiv.appendChild(deleteButton);
-                        }
     
-                        //commentElement.classList.add('post-comments');
-
-
-                        //commentElement.appendChild(commentDiv);
-                        commentPostsList.appendChild(commentDiv);
-                        
-                        //document.getElementById('post-comments').appendChild(commentElement);                         
-
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading all missing comment entries:', error);
+            const commentPostsList = document.getElementById('post-comments');
+            if (!commentPostsList) {
+                console.error("Element with ID 'post-comments' not found."); // Log if the element is not found
+                return;
             }
-        };
+            commentPostsList.innerHTML = ''; // Clear the list before adding new items
+    
+            if (commentPosts.length === 0) {
+                commentPostsList.textContent = 'No missing pet entries.';
+            } else {
+                commentPosts.forEach(comment => {
+                    //new div for post 
+                    const commentElement = document.createElement('div');
+
+                    const commentID= `${comment.commentID}`;
+                    console.log("Comment ID posting:",commentID);
+                    
+
+                    //creating inner div
+                    const commentDiv= document.createElement('div');
+                    commentDiv.classList.add('comment-info');
+
+                    //creating header element that holds user id of who made the comment 
+                    const postHeader = document.createElement('h3');
+                    postHeader.textContent = `Posted by: ${comment.userName}`;
+                    console.log("header",postHeader);
+
+                    //cleaning up comment date created from JSON
+                    const dateCreatedText=new Date(comment.dateCreated).toLocaleDateString("en-US",dateFormat);
+                    
+                    //creating a paragraph element that holds date of when the comment was made 
+                    const dateCreated= document.createElement('p');
+                    dateCreated.textContent=`Posted on: ${dateCreatedText}`;
+                    
+                    //creates element that holds comment text
+                    const commentDescription = document.createElement('p');
+                    commentDescription.textContent = `${comment.commentText}`;
+                    
+                    //creates delete button
+                    const commentButton= document.createElement('button');
+        
+                    if (currentUserID && currentUserID=== comment.userID) {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = "Delete this Comment";
+                    //deleteButton.classList.add("delete-button");
+                    deleteButton.type="submit";
+                                  
+                    deleteButton.addEventListener('click', async function () {
+                        
+                            event.preventDefault(); // Prevent default link behavior
+                            
+
+                            console.log("Form was submitted to server!"); 
+                            if(await deleteComment(commentID, postID)){
+                             window.location.href = `selectedPost.html?postID=${postID}`;
+                            console.log(commentID);
+                            }
+                            else{
+                                console.error("Failed to delete comment");
+                            }   
+                    });
+                    commentDiv.appendChild(deleteButton);
+                }
+  
+                    commentElement.classList.add('post-comments');
+
+                    commentDiv.appendChild(postHeader);
+                    commentDiv.appendChild(commentDescription);
+                    commentDiv.appendChild(dateCreated);
+
+                    commentElement.appendChild(commentDiv);
+                    
+                    document.getElementById('post-comments').appendChild(commentElement);                         
+
+                });
+            }
+        } catch (error) {
+            console.error('Error loading all missing comment entries:', error);
+        }
+    };
     </script>
 
     
