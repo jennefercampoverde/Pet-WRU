@@ -691,6 +691,7 @@ exports.showRelatedMissingPosts = async(req, res) => {
         // Ensure user is logged in
         const userID = req.session.userID;
         
+        
         if (!userID) {
             conn.release();
             return res.status(401).json({ error: "Unauthorized. Please log in." });
@@ -699,7 +700,7 @@ exports.showRelatedMissingPosts = async(req, res) => {
 
         const conn = await pool.getConnection();
         const rows= await conn.query("SELECT * FROM lostPets WHERE userID = ?",[userID]);
-        //res.json(rows);
+        res.json(rows);
         conn.release();
     } 
     catch (err)
