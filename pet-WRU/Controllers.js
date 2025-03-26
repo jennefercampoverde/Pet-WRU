@@ -420,7 +420,7 @@ exports.showFoundPosts = async(req, res) => {
 
     try{ 
         const conn = await pool.getConnection();
-        const rows= await conn.query("SELECT foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID");
+        const rows= await conn.query("SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID");
         res.json(rows);
         conn.release();
     } 
@@ -714,7 +714,7 @@ exports.showRelatedMissingPosts = async(req, res) => {
 };
 
 
-//Route to show user related missing pet posts
+//Route to show user related found pet posts
 exports.showRelatedFoundPosts = async(req, res) => {
     
     try{ 
@@ -729,7 +729,7 @@ exports.showRelatedFoundPosts = async(req, res) => {
 
 
         const conn = await pool.getConnection();
-        const rows= await conn.query("SELECT foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID WHERE lostPets.userID = ?",[userID]);
+        const rows= await conn.query("SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID WHERE lostPets.userID = ?",[userID]);
         res.json(rows);
         conn.release();
     } 

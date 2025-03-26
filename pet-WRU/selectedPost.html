@@ -234,7 +234,12 @@
                 usernameDiv.append(usernameText);
                 detailsSection.appendChild(usernameDiv);
                 imgDiv .appendChild(usernameDiv);
-                
+
+                //creating element for lostID
+                const lostIdHeader= document.createElement('h4');
+                lostIdHeader.textContent = `Lost ID: ${selectedPost.lostID}`;
+                console.log(lostIdHeader);
+                usernameDiv.append(lostIdHeader);
                 //div to hold everything else
 
                 const infoDiv = document.createElement('div');

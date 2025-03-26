@@ -322,6 +322,11 @@
                     const postHeader = document.createElement('h3');
                     postHeader.textContent = `${post.petName}`;
                     console.log(postHeader);
+
+                    //creating element for lostID
+                    const lostIdHeader= document.createElement('h4');
+                    lostIdHeader.textContent = `Lost ID: ${post.lostID}`;
+                    console.log(lostIdHeader);
                     
                     //cleaning up date lost data from JSON
                     const dateLost=new Date(post.dateLost).toLocaleDateString("en-US",dateFormat);
@@ -348,6 +353,7 @@
                     postInfoElement.appendChild(postHeader); // then header and within post-info
                     innerPostElement.appendChild(postInfoElement);
 
+                    postInfoElement.appendChild(lostIdHeader); // lostid
                     postInfoElement.appendChild(postParagraph); // last dates and within post-info
                     innerPostElement.appendChild(postInfoElement);
 
