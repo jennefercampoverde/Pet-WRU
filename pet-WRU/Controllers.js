@@ -772,12 +772,12 @@ exports.deleteDonation = async (req, res) => {
             return res.status(400).json({ error: "No changes made to the donation post" });
         }
 
-        console.log(`Status updated for donation`);
-        res.json({ message: 'Donation updated successfully!', success: true });
+        console.log(`Donation deleted`);
+        res.json({ message: 'Donation deleted successfully!', success: true });
 
     } catch (err) {
         console.error("Database error:", err);
-        res.status(500).json({ error: 'Database error when updating donation' });
+        res.status(500).json({ error: 'Database error when deleting donation' });
     }
 };
 
