@@ -51,6 +51,10 @@ router.delete("/deleteComment/:commentID", Controller.deleteComment);
 router.get("/showRelatedDonations", Controller.showRelatedDonations);
 router.get("/showRelatedMissingPosts", Controller.showRelatedMissingPosts);
 router.get("/showRelatedFoundPosts", Controller.showRelatedFoundPosts);
+router.delete("/deleteDonation/:donationID", Controller.deleteDonation);
+router.post("/updateDonation/:donationID", Controller.updateDonation);
+
+
 
 
 /*

@@ -741,6 +741,95 @@ exports.showRelatedFoundPosts = async(req, res) => {
 };
 
 
+//Route to delete donation 
+exports.deleteDonation = async (req, res) => {
+    const { donationID } = req.params;
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if flyer exists
+        const [rows] = await conn.query("SELECT * FROM donations WHERE donationID = ?", [donationID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "Donation not found" });
+        }
+
+        // Delete the donation in the database
+        const result = await conn.query("DELETE FROM donations WHERE donationID = ?", [donationID]);
+
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the donation post" });
+        }
+
+        console.log(`Status updated for donation`);
+        res.json({ message: 'Donation updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating donation' });
+    }
+};
+
+
+//Route to update donation status
+exports.updateDonation = async (req, res) => {
+    const { donationID } = req.params;
+    const { status } = req.body;
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if donation exists
+        const [rows] = await conn.query("SELECT * FROM donations WHERE donationID = ?", [donationID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "Donation not found" });
+        }
+
+        // Update the donation in the database
+        const result = await conn.query("UPDATE donations SET itemStatus = ? WHERE donationID = ?", [status, donationID]);
+
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the donation post" });
+        }
+
+        console.log(`Status updated for donation`);
+        res.json({ message: 'Donation updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating donation' });
+    }
+};
+
+
+
+
+
+
+
+
 
 
 
