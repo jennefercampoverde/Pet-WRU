@@ -338,7 +338,7 @@ exports.editCity = async (req, res) => {
                                         //END OF ROUTES FOR EDITING ACCOUNT INFORMATION
 
 
-//Route to create a flyer
+//Route for creating flyer
 exports.createFlyer = async (req, res) => {
     try {
         const { dateLost, lastZipcode, lastCityID, 
@@ -359,16 +359,27 @@ exports.createFlyer = async (req, res) => {
 
         // Insert into database
         const conn = await pool.getConnection();
-        await conn.query(`INSERT INTO lostPets (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                                                [userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, fileInput, description, status]);
+        const result = await conn.query(`INSERT INTO lostPets 
+            (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
+            [userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, fileInput, description, status]
+        );
 
         conn.release();
 
-        console.log(`Flyer created successfully.`);
-        res.json({ message: "Flyer created successfully!" });
+        if (result.affectedRows > 0) {
+            console.log(`Flyer created successfully with ID: ${result.insertId}`);
+            return res.json({ 
+                success: true, 
+                message: "Flyer created successfully!", 
+                flyerID: Number(result.insertId) // Convert BigInt to Number
+            });
+        } else {
+            return res.status(500).json({ success: false, message: "Failed to create flyer." });
+        }
 
     } catch (err) {
-        console.error(err);
+        console.error("Error creating flyer:", err);
         res.status(500).json({ error: "Database error when creating a flyer" });
     }
 };
@@ -598,7 +609,6 @@ exports.createDonation = async (req, res) => {
 
 
 //route to create a comment on the selected post page
-
 exports.createComment = async(req,res) =>{
     const{postID}=req.params;
     const{commentText} = req.body;
@@ -610,8 +620,6 @@ exports.createComment = async(req,res) =>{
     }
         
     try{
-        
-    
         const conn = await pool.getConnection();
         const rows = await conn.query("INSERT INTO postComments(lostID, commentText, userID) VALUES (?, ?, ?)",[postID,commentText,userID]);
         console.log("Response data:", rows);
@@ -625,7 +633,6 @@ exports.createComment = async(req,res) =>{
     }
 
 };
-
 
 
 //Route to delete comments
@@ -654,7 +661,6 @@ exports.deleteComment = async (req, res) => {
 
 
 //Route to show user related donations
-
 exports.showRelatedDonations = async(req, res) => {
 
     try{ 
@@ -682,7 +688,6 @@ exports.showRelatedDonations = async(req, res) => {
 
 
 //Route to show user related missing pet posts
-
 exports.showRelatedMissingPosts = async(req, res) => {
 
     try{ 
@@ -695,7 +700,6 @@ exports.showRelatedMissingPosts = async(req, res) => {
             conn.release();
             return res.status(401).json({ error: "Unauthorized. Please log in." });
         }
-
 
         const conn = await pool.getConnection();
         const rows= await conn.query("SELECT * FROM lostPets WHERE userID = ?",[userID]);
@@ -710,9 +714,7 @@ exports.showRelatedMissingPosts = async(req, res) => {
 };
 
 
-
 //Route to show user related missing pet posts
-
 exports.showRelatedFoundPosts = async(req, res) => {
     
     try{ 
@@ -737,6 +739,8 @@ exports.showRelatedFoundPosts = async(req, res) => {
         res.status(500).json({error:'Database error. Unable to grab information from foundPets table for this user.'});
     }
 };
+
+
 
 
 
