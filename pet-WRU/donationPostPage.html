@@ -309,6 +309,9 @@
                     donationPosts.forEach(post => {
                         //new div for post 
                         const postElement = document.createElement('div');
+
+                        postElement.dataset.postId = post.donationID; //storing post ID in DOM
+                        console.log("Post ID:", post.donationID); //log post ID
      
                         //new div for post
                         const innerPostElement = document.createElement('div');
