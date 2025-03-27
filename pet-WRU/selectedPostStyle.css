@@ -306,45 +306,6 @@ html,body {
     
 }
 
-.post-comments{
-    
-    text-align: left;
-    margin: 30px auto; 
-    max-width: 700px;
-    align-items: baseline;
-    background: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #eaeaea;
-    border-bottom: 1px solid #eaeaea;
-    padding: 20px;
-    grid-template-columns: 150px 1fr;
-    gap: 80px;
-    
-    
-
-}
-
-.comment-info{
-    
-        
-
-        border-bottom: 1px solid #eaeaea;
-        padding: 10px 0;
-        text-align: left;
-        padding: 20px;
-        line-height: 1.6;
-        background-color: #f0f0f0;
-        box-shadow: 0 2px 4px rgba(50, 50, 50, 0.1);
-    
-}
-
-.postComments-header{
-    margin-bottom: 15px;
-    color: #2c3e50;
-    text-align: center;
-}
-
 .post-feedback h2 {
     margin-bottom: 15px;
     color: #2c3e50;
@@ -382,6 +343,103 @@ html,body {
 .post-feedback button:active {
     transform: scale(0.98);
 }
+
+/* new box for comments */
+.post-comments{
+    
+    /* text-align: left;
+    margin: 30px auto; 
+    max-width: 700px;
+    align-items: baseline;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    padding: 20px;
+    grid-template-columns: 150px 1fr;
+    gap: 80px; */
+    max-width: 700px;
+    margin: 20px auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    
+    
+
+}
+
+/* .comment-info{
+    
+        
+
+        border-bottom: 1px solid #eaeaea;
+        padding: 10px 0;
+        text-align: left;
+        padding: 20px;
+        line-height: 1.6;
+        background-color: #f0f0f0;
+        box-shadow: 0 2px 4px rgba(50, 50, 50, 0.1);
+    
+} */
+
+.postComments-header{
+    margin-bottom: 15px;
+    color: #2c3e50;
+    text-align: center;
+} 
+
+/* Style to comments */
+.comment {
+    max-width: 700px;
+    height: 30px auto;
+    margin: 20px auto;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 30px;
+    position: relative;
+    
+}
+
+.comment strong {
+    font-size: 16px;
+}
+
+.comment p {
+    margin: 5px 0;
+}
+
+.comment small {
+    display: block;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Style for comment delete button */
+.delete-button {
+    background: whitesmoke;
+    border: none;
+    color: #FF0000;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute; 
+    top: 15px;  
+    right: 10px; 
+    display: inline-block; 
+}
+
+.delete-button:hover {
+    color: #D50000;
+}
+
+.delete-button i {
+    font-size: 20px; /* Adjust icon size */
+}
+
 
 /* Flex container to align text and button */
 .location-container {
@@ -479,87 +537,14 @@ html,body {
 
 }
 
-/* Style to comments */
-.comment {
-    max-width: 700px;
-    margin: 20px auto;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-top: 70px;
-    
-        
 
-}
-
-.comment strong {
-    font-size: 16px;
-}
-
-.comment p {
-    margin: 5px 0;
-}
-
-.comment small {
-    display: block;
-    color: #888;
-    margin-top: 5px;
-}
-
-/* Style for comment delete button */
-.delete-button {
-    background: whitesmoke;
-    border: none;
-    color: #FF0000;
-    font-size: 16px;
-    cursor: pointer;
-    position: absolute; 
-    top: 10px;  
-    right: 10px; 
-    display: inline-block; 
-}
-
-.delete-button:hover {
-    color: #D50000;
-}
-
-.delete-button i {
-    font-size: 20px; /* Adjust icon size */
-}
 
 #map{
     width: 100%;
     height: 360px;
 }
 
-/*
-.review strong {
-    display: inline-block;
-    margin-right: -15px; 
-}
 
-.review small {
-    display: block; 
-    margin-bottom: 15px; 
-    font-size: 0.9em; 
-    color: #666; 
-}
-*/
-
-/* Style for post info row 
-.post-info-row.species {
-    display: flex;
-    padding: 0px 0;
-    align-items: baseline;
-    margin-left: -1px; 
-}
-
-.species {
-    display: flex;
-    align-items: center; 
-    margin-left: 17px;
-}*/
 
 /* footer */
 footer {
