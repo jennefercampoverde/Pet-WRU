@@ -18,6 +18,7 @@
             <div class="dropdown">
                 <button class="dropbtn">Posts <i class="fa fa-caret-down"></i></button>
                 <div class="dropdown-content">
+                    <a href="createFlier.html"><i class="fa-solid fa-file-pen"></i> Report Missing pet</a>
                     <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a>
                     <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>
                 </div>
@@ -237,7 +238,7 @@
 
                 //creating element for lostID
                 const lostIdHeader= document.createElement('h4');
-                lostIdHeader.textContent = `Lost ID: ${selectedPost.lostID}`;
+                lostIdHeader.textContent = `PetID: ${selectedPost.lostID}`;
                 console.log(lostIdHeader);
                 usernameDiv.append(lostIdHeader);
                 //div to hold everything else
