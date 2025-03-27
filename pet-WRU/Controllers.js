@@ -823,6 +823,23 @@ exports.updateDonation = async (req, res) => {
     }
 };
 
+// LOAD MISSING PET POSTS BASED ON SEARCH BAR 
+exports.searchBarMissing = async (req, res) => {
+    const {lostID}= req.params;
+    try {
+        const conn = await pool.getConnection();
+        const rows = await conn.query("SELECT * FROM lostPets WHERE lostID=?", [lostID]);
+        res.json(rows);
+        conn.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error. Unable to grab specific lostID information from lostPets table.' });
+    }
+}
+;
+
+
+
 
 
 

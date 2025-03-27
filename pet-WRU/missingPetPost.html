@@ -53,9 +53,9 @@
     
     <!-- Search Container -->
     <div class="search-container">
-        <form method="GET" action="#">
+        <form id="search-bar" method="GET" action="#">
             <input type="text" id="search" name = "search" placeholder="Search PetID">
-            <button type="submit">
+            <button id='submit-search-bar' type="submit">
                 <i class="fa fa-search"></i>
             </button>
         </form>
@@ -245,6 +245,26 @@
 
 <script>
 
+
+    async function searchBar(lostID){
+    console.log(lostID);
+
+        try{
+            const response = await fetch(`http://localhost:3000/searchBarMissing/${lostID}`);
+
+            console.log("Received response:", response.status);
+            
+            const searchResults= await response.json();
+            console.log("Search bar data:", searchResults);
+            
+        }
+        catch(error){
+            console.error('Error pulling from lostpets table with specific lostID input', error);
+            return null;
+        }
+
+    }
+
     // sign out
     document.addEventListener("DOMContentLoaded", () => {
         const signOutButton = document.getElementById("signOut");
@@ -261,6 +281,38 @@
                     console.error("Logout failed:", error);
                 }
             });
+        }
+
+
+        const searchBarButton = document.getElementById("submit-search-bar");
+        
+        //const searchBar= document.getElementById('search-bar');
+
+        //Searching for specific pet when lostID is given 
+        if(searchBarButton){
+            console.log('Search Bar was clicked');
+
+            searchBarButton.addEventListener('click', async function(event)
+            {
+                event.preventDefault();
+                const SearchBarEntry=document.getElementById('search').value.trim();
+                
+                console.log('lostID entered:', SearchBarEntry);
+                console.log('Search Bar was clicked');
+
+                try {
+                    await searchBar(SearchBarEntry);
+                    if (SearchBarEntry){
+                        
+                        console.log('love');
+                }}
+                catch(error){
+                    console.error("Search failed", error);
+                }
+            
+
+            });
+
         }
     });
 
