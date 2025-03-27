@@ -835,12 +835,22 @@ exports.searchBarMissing = async (req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Database error. Unable to grab specific lostID information from lostPets table.' });
     }
-}
-;
+};
 
 
-
-
+// LOAD FOUND PET POSTS BASED ON SEARCH BAR 
+exports.searchBarFound = async (req, res) => {
+    const {foundID}= req.params;
+    try {
+        const conn = await pool.getConnection();
+        const rows = await conn.query("SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID WHERE foundPets.foundID = ?",[foundID]);
+        res.json(rows);
+        conn.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error. Unable to grab specific foundID information from foundPets table.' });
+    }
+};
 
 
 

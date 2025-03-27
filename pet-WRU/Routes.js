@@ -55,6 +55,7 @@ router.delete("/deleteDonation/:donationID", Controller.deleteDonation);
 router.post("/updateDonation/:donationID", Controller.updateDonation);
 
 router.get("/searchBarMissing/:lostID",Controller.searchBarMissing);
+router.get("/searchBarFound/:foundID",Controller.searchBarFound);
 
 
 /*
