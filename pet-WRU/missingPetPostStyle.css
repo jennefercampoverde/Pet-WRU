@@ -230,6 +230,7 @@ span {
     font-weight: bold;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     margin-left: 20px;
+    width: 100px;
 }
 
 span i {
@@ -258,7 +259,7 @@ span:active {
     position: fixed;
     top: -250px;
     left: 0;
-    width: 0 auto; 
+    width: 300px; 
     height: 0;
     overflow-y: auto;
     background-color:rgb(94, 199, 231); 
