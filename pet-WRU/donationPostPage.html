@@ -338,9 +338,17 @@
                     const postParagraph = document.createElement('p');
                     postParagraph.textContent = `Condition: ${post.itemCondition}`;
 
-                     // Paragraph with status
+                    // Paragraph with status
                      const postStatus = document.createElement('p');
                      postStatus.textContent = `Status: ${post.itemStatus}`;
+
+                    // Paragraph with zipcode
+                    const postZipcode = document.createElement('p');
+                    postZipcode.textContent = `Zipcode: ${post.zipcode}`;
+
+                    // Paragraph with zipcode
+                    const postDescription = document.createElement('p');
+                    postDescription.textContent = `Description: ${post.itemDescription}`;
 
                     // Format date
                     const dateCreated = new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat);
@@ -353,6 +361,8 @@
                     postInfoElement.appendChild(postHeader);
                     postInfoElement.appendChild(postStatus);
                     postInfoElement.appendChild(postParagraph);
+                    postInfoElement.appendChild(postZipcode);
+                    postInfoElement.appendChild(postDescription);
                     
                     postInfoElement.appendChild(postSmall);
 
