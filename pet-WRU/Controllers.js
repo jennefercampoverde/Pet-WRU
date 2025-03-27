@@ -389,7 +389,7 @@ exports.createFlyer = async (req, res) => {
 exports.missingPosts = async (req, res) => {
     try {
         const conn = await pool.getConnection();
-        const rows = await conn.query("SELECT * FROM lostPets");
+        const rows = await conn.query("SELECT * FROM lostPets WHERE status = 'Lost'");
         res.json(rows);
         conn.release();
     } catch (err) {
