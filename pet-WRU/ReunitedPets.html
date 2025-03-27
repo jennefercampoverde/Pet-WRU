@@ -219,6 +219,10 @@
             
             const searchResults= await response.json();
             console.log("Search bar data:", searchResults);
+
+            const foundPostsList = document.getElementById('post-container');
+               
+                foundPostsList.innerHTML = ''; // Clear the list before adding new items
             
         }
         catch(error){
@@ -256,6 +260,10 @@
             {
                 event.preventDefault();
                 const SearchBarEntry=document.getElementById('search').value.trim();
+                event.preventDefault(); // Prevent default link behavior
+                cons
+
+                
                 
                 console.log('FoundID entered:', SearchBarEntry);
                 console.log('Search Bar was clicked');
