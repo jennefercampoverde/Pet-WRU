@@ -166,6 +166,11 @@ html,body {
     }
 }
 
+.pageTitle h1 {
+    justify-content: center;
+    text-align: center;
+}
+
 .search-container {
     display: flex;
     justify-content: center;

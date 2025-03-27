@@ -328,6 +328,11 @@ span:active {
     color: white;
 }
 
+.pageTitle h1 {
+    justify-content: center;
+    text-align: center;
+}
+
 /*Post grid*/
         /* Container for the post grid */
 #post-container {

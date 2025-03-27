@@ -167,11 +167,9 @@ html,body {
 }
 
 
-h1 {
-    color: #252424;
+.pageTitle h1 {
+    justify-content: center;
     text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 15px;
 }
 
 #tabs {

@@ -50,6 +50,9 @@
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
+
+    <div class="pageTitle"><h1>Missing Pet Posts</h1></div>
+    
     
     <!-- Search Container -->
     <div class="search-container">
@@ -66,52 +69,52 @@
     species, gender, size, time, and location-->
     <!--format: label, types of filters, value-->
     <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
-    <form method="GET" action="#" class="filters-form">
-        <div class="filter-group">
-            <label for="species">Species</label>
-            <select name="species" id="species">
-                <option value="">Choose an Animal</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="gender">Gender</label>
-            <select name="gender" id="gender">
-                <option value="">Choose a Sex</option>
-                <option value="F">Female</option>
-                <option value="M">Male</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="size">Size of Animal</label>
-            <select name="size" id="size">
-                <option value="">Choose a Size</option>
-                <option value="xs">XS</option>
-                <option value="s">S</option>
-                <option value="m">M</option>
-                <option value="l">L</option>
-                <option value="xl">XL</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="sort-by-time">Sort by Date</label>
-            <select id="sort-by-time">
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="zip-code">Zip Code</label>
-            <input type="number" name="zipcode" id="zip-code" placeholder="Enter Zip Code" 
-                pattern="\d{5}" maxlength="5">
-        </div>
-        <div class="filter-buttons">
-            <button type="submit" class="filter-apply-btn">Apply Filters</button>
-            <button type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
-        </div>
-    </form>
-</div>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
+        <form method="GET" action="#" class="filters-form">
+            <div class="filter-group">
+                <label for="species">Species</label>
+                <select name="species" id="species">
+                    <option value="">Choose an Animal</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="gender">Gender</label>
+                <select name="gender" id="gender">
+                    <option value="">Choose a Sex</option>
+                    <option value="F">Female</option>
+                    <option value="M">Male</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="size">Size of Animal</label>
+                <select name="size" id="size">
+                    <option value="">Choose a Size</option>
+                    <option value="xs">XS</option>
+                    <option value="s">S</option>
+                    <option value="m">M</option>
+                    <option value="l">L</option>
+                    <option value="xl">XL</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="sort-by-time">Sort by Date</label>
+                <select id="sort-by-time">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="zip-code">Zip Code</label>
+                <input type="number" name="zipcode" id="zip-code" placeholder="Enter Zip Code" 
+                    pattern="\d{5}" maxlength="5">
+            </div>
+            <div class="filter-buttons">
+                <button type="submit" class="filter-apply-btn">Apply Filters</button>
+                <button type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
+            </div>
+        </form>
+    </div>
     <!-- Open Side Navigation Button -->
      <!--Source: "Learn HTML in 1 hour"
         Author: Bro Code
