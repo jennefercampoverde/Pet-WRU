@@ -57,7 +57,7 @@
     <!-- Search Container -->
     <div class="search-container">
         <form id="search-bar" method="GET" action="#">
-            <input type="text" id="search" name = "search" placeholder="Search PetID">
+            <input type="text" id="search" name = "search" placeholder="Search Found Pet ID">
             <button id='submit-search-bar' type="submit">
                 <i class="fa fa-search"></i>
             </button>
@@ -424,7 +424,7 @@
 
                         //creating element for FoundID
                         const foundIdHeader= document.createElement('h4');
-                        foundIdHeader.textContent = `PetID: ${post.foundID}`;
+                        foundIdHeader.textContent = `Found Pet ID: ${post.foundID}`;
                         console.log(foundIdHeader);
                         
                         //cleaning up date lost data from JSON
