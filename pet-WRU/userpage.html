@@ -296,6 +296,14 @@
                         // Paragraph with status
                         const postStatus = document.createElement('p');
                         postStatus.textContent = `Status: ${post.itemStatus}`;
+
+                        // Paragraph with zipcode
+                        const postZipcode = document.createElement('p');
+                        postZipcode.textContent = `Zipcode: ${post.zipcode}`;
+
+                        // Paragraph with zipcode
+                        const postDescription = document.createElement('p');
+                        postDescription.textContent = `Description: ${post.itemDescription}`;
     
                         //cleaning up date created data from JSON
                         const dateCreated=new Date(post.dateCreated).toLocaleDateString("en-US",dateFormat);
@@ -315,6 +323,9 @@
                         postInfoElement.appendChild(postStatus); //adding status 
                         postInfoElement.appendChild(postParagraph); // last dates and within post-info
                         innerPostElement.appendChild(postInfoElement);
+                        
+                        postInfoElement.appendChild(postZipcode);
+                        postInfoElement.appendChild(postDescription);
     
                         postInfoElement.appendChild(postSmall);
                         innerPostElement.appendChild(postInfoElement);
