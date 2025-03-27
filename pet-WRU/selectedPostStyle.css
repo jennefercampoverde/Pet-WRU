@@ -174,6 +174,7 @@ html,body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-top: 70px;
+    position: relative;
 }
 
 .post-header {
@@ -283,14 +284,14 @@ html,body {
 }
 
 /* Style for trash icon */
-.btn.remove {
+/* .btn.remove {
     background-color: #e74c3c;
     color: #fff;
 }
 
 .btn.remove:hover {
     background-color: #c0392b;
-}
+} */
 
 
 /* Style for post feedback*/
@@ -326,7 +327,7 @@ html,body {
 
 .post-feedback button {
     width: 100%;
-    background-color: goldenrod;
+    background-color: rgb(94, 199, 231);
     color: #fff;
     border: none;
     padding: 10px;
@@ -337,7 +338,7 @@ html,body {
 }
 
 .post-feedback button:hover {
-    background-color: #E3B100;
+    background-color:  rgb(32, 177, 221);
 }
 
 .post-feedback button:active {
@@ -438,6 +439,48 @@ html,body {
 
 .delete-button i {
     font-size: 20px; /* Adjust icon size */
+}
+
+/* button container for status and delete buttons */
+.buttonContainer {
+    position: absolute;
+    top: 10px;
+    right: 10px; 
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px; /* Add spacing between the buttons */
+    margin-bottom: 50px;
+}
+
+/* update status button  */
+.status-button, .delete-post-button{
+    padding: 10px 20px;
+    border: none;
+    background-color: #839ebb;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.status-button:hover {
+    color: #00d50b;
+}
+
+/* delete post button  */
+/* .delete-post-button{
+    padding: 10px 20px;
+    border: none;
+    background-color:  #839ebb;;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s; 
+    border-radius: 5px;
+} */
+
+.delete-post-button:hover {
+    color: #D50000;
 }
 
 

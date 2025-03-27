@@ -46,6 +46,7 @@
 
      <!-- The selected Post-->
     <div id="post-container">
+        <!-- <div id="button-Container"></div> -->
     </div>
 
     <!-- Creating comments textbox-->
@@ -378,19 +379,11 @@
 
                 let currentUserID = await getUserID();
                 
-                //delete button for post creator
-                if (currentUserID && currentUserID === selectedPost.userID) {
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = "Delete Post";
-                    deleteButton.classList.add('delete-button');
-                    deleteButton.onclick = async function () {
-                        if (confirm("Are you sure you want to delete this post?")) {
-                            await deletePost(postID);
-                            window.location.href = "missingPetPost.html";
-                        }
-                    };
-                    postContainer.appendChild(deleteButton);
-                }
+                // add button container into post container
+                const buttonContainerDiv = document.createElement('div');
+                buttonContainerDiv.classList.add('buttonContainer');
+
+                postContainer.appendChild(buttonContainerDiv);
 
                 //update button for post creator
                 if (currentUserID && currentUserID === selectedPost.userID) {
@@ -404,8 +397,25 @@
                         }
                     };
                 
-                    postContainer.appendChild(statusButton);
+                    //postContainer.appendChild(statusButton);
+                    buttonContainerDiv.appendChild(statusButton);
                 }
+                
+                //delete button for post creator
+                if (currentUserID && currentUserID === selectedPost.userID) {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = "Delete Post";
+                    deleteButton.classList.add('delete-post-button');
+                    deleteButton.onclick = async function () {
+                        if (confirm("Are you sure you want to delete this post?")) {
+                            await deletePost(postID);
+                            window.location.href = "missingPetPost.html";
+                        }
+                    };
+                    //postContainer.appendChild(deleteButton);
+                    buttonContainerDiv.appendChild(deleteButton);
+                }
+
                 
                 
                 postContainer.appendChild(postHeader);
