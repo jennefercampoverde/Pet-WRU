@@ -338,7 +338,7 @@ exports.editCity = async (req, res) => {
                                         //END OF ROUTES FOR EDITING ACCOUNT INFORMATION
 
 
-//Route to create a flyer
+//Route for creating flyer
 exports.createFlyer = async (req, res) => {
     try {
         const { dateLost, lastZipcode, lastCityID, 
@@ -359,16 +359,27 @@ exports.createFlyer = async (req, res) => {
 
         // Insert into database
         const conn = await pool.getConnection();
-        await conn.query(`INSERT INTO lostPets (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                                                [userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, fileInput, description, status]);
+        const result = await conn.query(`INSERT INTO lostPets 
+            (userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, animal_image_path, description, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
+            [userID, dateLost, lastZipcode, lastCityID, petName, animalType, animalSize, animalColor, animalGender, fileInput, description, status]
+        );
 
         conn.release();
 
-        console.log(`Flyer created successfully.`);
-        res.json({ message: "Flyer created successfully!" });
+        if (result.affectedRows > 0) {
+            console.log(`Flyer created successfully with ID: ${result.insertId}`);
+            return res.json({ 
+                success: true, 
+                message: "Flyer created successfully!", 
+                flyerID: Number(result.insertId) // Convert BigInt to Number
+            });
+        } else {
+            return res.status(500).json({ success: false, message: "Failed to create flyer." });
+        }
 
     } catch (err) {
-        console.error(err);
+        console.error("Error creating flyer:", err);
         res.status(500).json({ error: "Database error when creating a flyer" });
     }
 };
@@ -409,7 +420,7 @@ exports.showFoundPosts = async(req, res) => {
 
     try{ 
         const conn = await pool.getConnection();
-        const rows= await conn.query("SELECT foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID");
+        const rows= await conn.query("SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID");
         res.json(rows);
         conn.release();
     } 
@@ -598,7 +609,6 @@ exports.createDonation = async (req, res) => {
 
 
 //route to create a comment on the selected post page
-
 exports.createComment = async(req,res) =>{
     const{postID}=req.params;
     const{commentText} = req.body;
@@ -610,8 +620,6 @@ exports.createComment = async(req,res) =>{
     }
         
     try{
-        
-    
         const conn = await pool.getConnection();
         const rows = await conn.query("INSERT INTO postComments(lostID, commentText, userID) VALUES (?, ?, ?)",[postID,commentText,userID]);
         console.log("Response data:", rows);
@@ -625,7 +633,6 @@ exports.createComment = async(req,res) =>{
     }
 
 };
-
 
 
 //Route to delete comments
@@ -654,7 +661,6 @@ exports.deleteComment = async (req, res) => {
 
 
 //Route to show user related donations
-
 exports.showRelatedDonations = async(req, res) => {
 
     try{ 
@@ -682,7 +688,6 @@ exports.showRelatedDonations = async(req, res) => {
 
 
 //Route to show user related missing pet posts
-
 exports.showRelatedMissingPosts = async(req, res) => {
 
     try{ 
@@ -695,7 +700,6 @@ exports.showRelatedMissingPosts = async(req, res) => {
             conn.release();
             return res.status(401).json({ error: "Unauthorized. Please log in." });
         }
-
 
         const conn = await pool.getConnection();
         const rows= await conn.query("SELECT * FROM lostPets WHERE userID = ?",[userID]);
@@ -710,9 +714,7 @@ exports.showRelatedMissingPosts = async(req, res) => {
 };
 
 
-
-//Route to show user related missing pet posts
-
+//Route to show user related found pet posts
 exports.showRelatedFoundPosts = async(req, res) => {
     
     try{ 
@@ -727,7 +729,7 @@ exports.showRelatedFoundPosts = async(req, res) => {
 
 
         const conn = await pool.getConnection();
-        const rows= await conn.query("SELECT foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID WHERE lostPets.userID = ?",[userID]);
+        const rows= await conn.query("SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID WHERE lostPets.userID = ?",[userID]);
         res.json(rows);
         conn.release();
     } 
@@ -737,6 +739,124 @@ exports.showRelatedFoundPosts = async(req, res) => {
         res.status(500).json({error:'Database error. Unable to grab information from foundPets table for this user.'});
     }
 };
+
+
+//Route to delete donation 
+exports.deleteDonation = async (req, res) => {
+    const { donationID } = req.params;
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if flyer exists
+        const [rows] = await conn.query("SELECT * FROM donations WHERE donationID = ?", [donationID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "Donation not found" });
+        }
+
+        // Delete the donation in the database
+        const result = await conn.query("DELETE FROM donations WHERE donationID = ?", [donationID]);
+
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the donation post" });
+        }
+
+        console.log(`Donation deleted`);
+        res.json({ message: 'Donation deleted successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when deleting donation' });
+    }
+};
+
+
+//Route to update donation status
+exports.updateDonation = async (req, res) => {
+    const { donationID } = req.params;
+    const { status } = req.body;
+
+    try {
+        const conn = await pool.getConnection();
+
+        // Ensure user is logged in
+        const userID = req.session.userID;
+        if (!userID) {
+            conn.release();
+            return res.status(401).json({ error: "Unauthorized. Please log in." });
+        }
+
+        // Check if donation exists
+        const [rows] = await conn.query("SELECT * FROM donations WHERE donationID = ?", [donationID]);
+
+        if (rows.length === 0) {
+            conn.release();
+            return res.status(404).json({ error: "Donation not found" });
+        }
+
+        // Update the donation in the database
+        const result = await conn.query("UPDATE donations SET itemStatus = ? WHERE donationID = ?", [status, donationID]);
+
+        conn.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made to the donation post" });
+        }
+
+        console.log(`Status updated for donation`);
+        res.json({ message: 'Donation updated successfully!', success: true });
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: 'Database error when updating donation' });
+    }
+};
+
+// LOAD MISSING PET POSTS BASED ON SEARCH BAR 
+exports.searchBarMissing = async (req, res) => {
+    const {lostID}= req.params;
+    try {
+        const conn = await pool.getConnection();
+        const rows = await conn.query("SELECT * FROM lostPets WHERE lostID=?", [lostID]);
+        res.json(rows);
+        conn.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error. Unable to grab specific lostID information from lostPets table.' });
+    }
+};
+
+
+// LOAD FOUND PET POSTS BASED ON SEARCH BAR 
+exports.searchBarFound = async (req, res) => {
+    const {foundID}= req.params;
+    try {
+        const conn = await pool.getConnection();
+        const rows = await conn.query("SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID WHERE foundPets.foundID = ?",[foundID]);
+        res.json(rows);
+        conn.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error. Unable to grab specific foundID information from foundPets table.' });
+    }
+};
+
+
+
+
+
+
 
 
 

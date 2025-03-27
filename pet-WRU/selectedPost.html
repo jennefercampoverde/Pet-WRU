@@ -31,8 +31,15 @@
                     <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
                 </div>
             </div>
-            <a href="login&signup.html" class="signout"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-        </div>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>        </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 
@@ -160,7 +167,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ status: 'found' }),
+                body: JSON.stringify({ status: 'Found' }),
             });
 
                 if (response.ok) {
@@ -227,7 +234,12 @@
                 usernameDiv.append(usernameText);
                 detailsSection.appendChild(usernameDiv);
                 imgDiv .appendChild(usernameDiv);
-                
+
+                //creating element for lostID
+                const lostIdHeader= document.createElement('h4');
+                lostIdHeader.textContent = `Lost ID: ${selectedPost.lostID}`;
+                console.log(lostIdHeader);
+                usernameDiv.append(lostIdHeader);
                 //div to hold everything else
 
                 const infoDiv = document.createElement('div');
@@ -461,8 +473,12 @@
 
         
         function myFunction() {
-            const navbar = document.getElementById("navLinks");
-            navbar.classList.toggle("responsive");
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
         }
 
         async function sendComment(postID, commentTextFinal) {
@@ -700,6 +716,26 @@ async function deleteComment(commentID,postID) {
             console.error('Error loading all missing comment entries:', error);
         }
     };
+
+    // sign out
+    document.addEventListener("DOMContentLoaded", () => {
+        const signOutButton = document.getElementById("signOut");
+
+        if (signOutButton) {
+            signOutButton.addEventListener("click", async (event) => {
+                event.preventDefault(); // Prevent default link behavior
+
+                try {
+                    await fetch('/logout', { method: 'POST' });
+                    sessionStorage.removeItem("userID"); // Clear cache
+                    window.location.href = 'loginPage.html'; // Redirect to login
+                } catch (error) {
+                    console.error("Logout failed:", error);
+                }
+            });
+        }
+    });
+
     </script>
 
     

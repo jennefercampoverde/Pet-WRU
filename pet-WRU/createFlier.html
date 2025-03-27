@@ -291,8 +291,8 @@
                     
                             // Check if signup was successful and redirect
                             if (result.success) {
-                                alert("Flyer created successfully");
-                                //window.location.href = '';
+                                alert(`Flyer created successfully! Your post's ID # is ${result.flyerID}`);
+                                window.location.href = 'missingPetPost.html'; // Redirect to the page with the new flyer details
                             } else {
                                 alert(result.message || 'Failed to create flyer');
                             }

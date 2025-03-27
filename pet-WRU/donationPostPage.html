@@ -52,11 +52,7 @@
     
     <!-- Search Container -->
     <div class="search-container">
-        <form method="GET" action="#">
-            <input type="text" id="search" name = "search" placeholder="Search Item">
-            <button type="submit">
-                <i class="fa fa-search"></i>
-            </button>
+        <h1> Donations</h1>
         </form>
     </div>
 
@@ -101,8 +97,28 @@
         Used for: <span> concept-->
     <span onclick="openNav()" class="filter-button"><i class="fas fa-filter"></i> Filter</span>
 
-    <script>
+    
 
+    <!-- Post grid section: to display the posts in rows of 3 -->
+    <div>
+           <!-- Post Container (Where posts are displayed) -->
+        <div id="post-container">
+            
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resource.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+        </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
+
+
+    
+    <script>
         async function getUserID() {
             try {
                 const response = await fetch('/getUserID');
@@ -133,6 +149,7 @@
                 navbar.classList.add("responsive");
             }
         }
+
 
          // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
        //source: HTML DOM querySelectorAll() method
@@ -219,27 +236,6 @@
         });
 
         window.onload = populateFilters;
-    </script>
-
-    <!-- Post grid section: to display the posts in rows of 3 -->
-    <div>
-           <!-- Post Container (Where posts are displayed) -->
-        <div id="post-container">
-            
-        </div>
-    </div>
-    
-    <footer>
-        <div class="footer-links">
-            <a href="aboutUs.html">About us</a>
-            <a href="resource.html">Resources</a>
-            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
-        </div>
-        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
-    </footer>
-    
-    
-    <script>
 
         // sign out
         document.addEventListener("DOMContentLoaded", () => {
@@ -282,97 +278,158 @@
          
         // LOAD DONATIONS LIST FUNCTION
         async function showDonations() {
-            console.log("Loading donations..."); // Start log
-            try {
-                const response = await fetch('http://localhost:3000/showDonations');
-                
-                console.log("Received response:", response.status); // Log the response status
-                if (!response.ok) {
-                    throw new Error('Failed to fetch all donations data');
-                }
-        
-                const donationPosts= await response.json();
-                console.log("Donation data:", donationPosts); // Log the donations data received
-        
-                //get role from local storage 
-        
-                const donationPostsList = document.getElementById('post-container');
-                if (!donationPostsList) {
-                    console.error("Element with ID 'post-container' not found."); // Log if the element is not found
-                    return;
-                }
-                donationPostsList.innerHTML = ''; // Clear the list before adding new items
-        
-                if (donationPosts.length === 0) {
-                    donationPostsList.textContent = 'No donations entries.';
-                } else {
-                    donationPosts.forEach(post => {
-                        //new div for post 
-                        const postElement = document.createElement('div');
-     
-                        //new div for post
-                        const innerPostElement = document.createElement('div');
-    
-                        const pathFolder="donationsImages/"
-                        
-                        //grabbing item image
-                        const postImg= document.createElement('img');
-                        postImg.src=pathFolder + `${post.item_image_path}`;
-    
-                        console.log(postImg)
-                        //creating div to hold a post
-                        const postInfoElement = document.createElement('div');
+        console.log("Loading donations..."); // Start log
+        const userID = await getUserID();
+        try {
+            const response = await fetch('http://localhost:3000/showDonations');
+            console.log("Received response:", response.status); // Log the response status
+            if (!response.ok) {
+                throw new Error('Failed to fetch all donations data');
+            }
+
+            const donationPosts = await response.json();
+            // Loop through each post and log the details individually
+            donationPosts.forEach(post => {
+                console.log(`Post ID: ${post.donationID}`);
+                console.log(`User ID: ${post.userID}`);
+                console.log(`Item Name: ${post.itemName}`);
+                console.log(`Item Condition: ${post.itemCondition}`);
+                console.log(`Date Created: ${new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat)}`);
+                console.log(`Image Path: ${post.item_image_path}`);
+                console.log('-------------------------------');
+            });
+
+            const donationPostsList = document.getElementById('post-container');
+            if (!donationPostsList) {
+                console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                return;
+            }
+            donationPostsList.innerHTML = ''; // Clear the list before adding new items
+
+            if (donationPosts.length === 0) {
+                donationPostsList.textContent = 'No donations entries.';
+            } else {
+                donationPosts.forEach(post => {
+                    // Create wrapper div for post
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('post-container'); 
+                    postElement.dataset.postId = post.donationID; 
+                    postElement.dataset.postUserId = post.userID;
+
+                    // Create inner post content div
+                    const innerPostElement = document.createElement('div');
+                    innerPostElement.classList.add('post');
+
+                    const pathFolder = "donationsImages/";
+
+                    // Grab item image
+                    const postImg = document.createElement('img');
+                    postImg.src = pathFolder + post.item_image_path;
+
+                    // Creating div to hold post details
+                    const postInfoElement = document.createElement('div');
+                    postInfoElement.classList.add('post-info');
+
+                    // Header with item name
+                    const postHeader = document.createElement('h3');
+                    postHeader.textContent = post.itemName;
+
+                    // Paragraph with item condition
+                    const postParagraph = document.createElement('p');
+                    postParagraph.textContent = `Condition: ${post.itemCondition}`;
+
+                     // Paragraph with status
+                     const postStatus = document.createElement('p');
+                     postStatus.textContent = `Status: ${post.itemStatus}`;
+
+                    // Format date
+                    const dateCreated = new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat);
+
+                    // Small tag for date
+                    const postSmall = document.createElement('small');
+                    postSmall.textContent = `Date Posted: ${dateCreated}`;
+
+                    // Append elements in order
+                    postInfoElement.appendChild(postHeader);
+                    postInfoElement.appendChild(postStatus);
+                    postInfoElement.appendChild(postParagraph);
                     
-                        //creating header element that holds item name
-                        const postHeader = document.createElement('h3');
-                        postHeader.textContent = `${post.itemName}`;
-                        console.log(postHeader);
-                        
-                        
-                        //creating a paragraph element that holds condition 
-                        const postParagraph = document.createElement('p');
-                        postParagraph.textContent=`Condition: ${post.itemCondition}`;
-                        console.log(postParagraph);
-    
-                        //cleaning up date created data from JSON
-                        const dateCreated=new Date(post.dateCreated).toLocaleDateString("en-US",dateFormat);
-    
-                        //creating a small element that holds the date when the post was created
-                        const postSmall = document.createElement('small');
-                        postSmall.textContent = `Date Posted: ${dateCreated}`;
-                        console.log(postSmall);
-                        
-                        // Adding all elements to front end by nesting the divs
-    
-                        innerPostElement.appendChild(postImg); // image goes first and within post
-    
-                        postInfoElement.appendChild(postHeader); // then header and within post-info
-                        innerPostElement.appendChild(postInfoElement);
-    
-                        postInfoElement.appendChild(postParagraph); // last dates and within post-info
-                        innerPostElement.appendChild(postInfoElement);
-    
-                        postInfoElement.appendChild(postSmall);
-                        innerPostElement.appendChild(postInfoElement);
-    
-                        postElement.appendChild(innerPostElement);
-            
-                        
-                        postElement.classList.add('post-container'); 
-                        innerPostElement.classList.add('post');
-                        postInfoElement.classList.add('post-info');
+                    postInfoElement.appendChild(postSmall);
+
+                    innerPostElement.appendChild(postImg);
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postElement.appendChild(innerPostElement);
+
+                    // Create action buttons (initially visible if the user created the post)
+                    if (post.userID === userID) {
+                        const actionButtons = document.createElement('div');
+                        actionButtons.classList.add('post-actions');
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete Donation';
+                        deleteButton.onclick = () => deleteDonation(post.donationID);
+
+                        const markUnavailableButton = document.createElement('button');
+                        markUnavailableButton.textContent = 'Mark as Unavailable';
+                        markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
+
+                        actionButtons.appendChild(deleteButton);
+                        actionButtons.appendChild(markUnavailableButton);
+
+                        postElement.appendChild(actionButtons); // Append action buttons to post container
+                    }
+
+                    donationPostsList.appendChild(postElement); // Append postElement instead of innerPostElement
+                });
+            }
+
+        } catch (error) {
+            console.error('Error loading all donations post entries:', error);
+        }
+    }
+
         
-                        // document.getElementById('post-container').appendChild(postElement);
-                        // document.getElementById('post-container').appendChild(postInfoElement);
-                        document.getElementById('post-container').appendChild(innerPostElement);
-                        
-    
-                    });
+        // Function to delete a donation
+        async function deleteDonation(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/deleteDonation/${postID}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("Post deleted successfully.");
+                    //window.location.href = "mainpage.html"; // Redirect after deletion
+                } else {
+                    alert("Failed to delete post.");
                 }
             } catch (error) {
-                console.error('Error loading all donations post entries:', error);
+                console.error("Error deleting post:", error);
             }
-        } 
+        }
+
+        // Function to mark a donation as unavailable
+        async function markDonationUnavailable(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/updateDonation/${postID}`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: 'Claimed' }),
+            });
+
+                if (response.ok) {
+                    alert("Post updated successfully.");
+                    //window.location.href = "mainpage.html"; // Redirect 
+                } else {
+                    alert("Failed to update post.");
+                }
+            } catch (error) {
+                console.error("Error updating post:", error);
+            }
+        }
+
     </script>
 </body>
 </html>
