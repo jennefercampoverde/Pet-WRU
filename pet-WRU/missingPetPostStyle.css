@@ -167,14 +167,20 @@ html,body {
 }
 
 .pageTitle h1 {
+    font-size: 50px;
+    font-weight: bold;
     justify-content: center;
     text-align: center;
+    color: rgb(58, 193, 235);
+    /* outline: 3px solid rgb(94, 199, 231);; */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(255, 255, 255);
 }
 
 .search-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: -10px;
     margin-left: 40px;
     margin-bottom: 20px;
 }
@@ -252,10 +258,10 @@ span:active {
     position: fixed;
     top: -250px;
     left: 0;
-    width: 300px; 
+    width: 0 auto; 
     height: 0;
     overflow-y: auto;
-    background-color: #4db4f8ec; 
+    background-color:rgb(94, 199, 231); 
     transition: 0.5s;
     z-index: 1000;
     padding: 10px; 

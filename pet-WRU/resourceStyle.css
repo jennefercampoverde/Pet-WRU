@@ -168,8 +168,14 @@ html,body {
 
 
 .pageTitle h1 {
+    font-size: 50px;
+    font-weight: bold;
     justify-content: center;
     text-align: center;
+    color: rgb(58, 193, 235);
+    /* outline: 3px solid rgb(94, 199, 231);; */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(255, 255, 255);
 }
 
 #tabs {
