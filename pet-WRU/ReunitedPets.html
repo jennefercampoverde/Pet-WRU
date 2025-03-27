@@ -217,12 +217,87 @@
 
             console.log("Received response:", response.status);
             
-            const searchResults= await response.json();
-            console.log("Search bar data:", searchResults);
+            const foundPosts= await response.json();
+            console.log("Search bar data:", foundPosts);
 
             const foundPostsList = document.getElementById('post-container');
-               
+                if (!foundPostsList) {
+                    console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                    return;
+                }
                 foundPostsList.innerHTML = ''; // Clear the list before adding new items
+        
+                if (foundPosts.length === 0) {
+                    foundPostsList.textContent = 'No found pet entries.';
+                } else {
+                    foundPosts.forEach(post => {
+                        //new div for post 
+                        const postElement = document.createElement('div');
+     
+                        //new div for post
+                        const innerPostElement = document.createElement('div');
+
+                        const pathFolder="projectImages/"
+                        
+                        //take in image
+                        const postImg= document.createElement('img');
+                        postImg.src=pathFolder + `${post.animal_image_path}`;
+    
+                        console.log(postImg)
+                        //creating div to hold a post
+                        const postInfoElement = document.createElement('div');
+                    
+                        //creating header element that holds pet name
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = `${post.petName}`;
+                        console.log(postHeader);
+
+                        //creating element for FoundID
+                        const foundIdHeader= document.createElement('h4');
+                        foundIdHeader.textContent = `Found ID: ${post.foundID}`;
+                        console.log(foundIdHeader);
+                        
+                        //cleaning up date lost data from JSON
+                        const dateFound=new Date(post.dateFound).toLocaleDateString("en-US",dateFormat);
+                        console.log(dateFound);
+                        
+                        //creating a paragraph element that holds date of when the pet was lost 
+                        const postParagraph = document.createElement('p');
+                        postParagraph.textContent=`Date Found: ${dateFound}`;
+                        console.log(postParagraph);
+  
+    
+                        //creating a small element that holds the status when the post was created
+                        const postSmall = document.createElement('small');
+                        postSmall.textContent = `Status: ${post.status}`;
+                        console.log(postSmall);
+                        
+                        // Adding all elements to front end by nesting the divs
+    
+                        innerPostElement.appendChild(postImg); // image goes first and within post
+    
+                        postInfoElement.appendChild(postHeader); // then header and within post-info
+                        postInfoElement.appendChild(foundIdHeader); // then header and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+
+    
+                        postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postInfoElement.appendChild(postSmall);
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postElement.appendChild(innerPostElement);
+            
+                        postElement.classList.add('post-container'); 
+                        innerPostElement.classList.add('post');
+                        postInfoElement.classList.add('post-info');
+        
+                        document.getElementById('post-container').appendChild(innerPostElement);
+                        
+    
+                    });
+                }
             
         }
         catch(error){
@@ -260,10 +335,6 @@
             {
                 event.preventDefault();
                 const SearchBarEntry=document.getElementById('search').value.trim();
-                event.preventDefault(); // Prevent default link behavior
-                cons
-
-                
                 
                 console.log('FoundID entered:', SearchBarEntry);
                 console.log('Search Bar was clicked');
@@ -271,6 +342,7 @@
                 try {
                     await searchBar(SearchBarEntry);
                     if (SearchBarEntry){
+                        
                         
                         console.log('test');
                 }}
@@ -313,7 +385,6 @@
                 const foundPosts= await response.json();
                 console.log("Found Pet data:", foundPosts); // Log the found pet data received
         
-                //get role from local storage 
         
                 const foundPostsList = document.getElementById('post-container');
                 if (!foundPostsList) {

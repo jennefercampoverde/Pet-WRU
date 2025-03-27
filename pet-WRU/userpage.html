@@ -292,6 +292,10 @@
                         const postParagraph = document.createElement('p');
                         postParagraph.textContent=`Condition: ${post.itemCondition}`;
                         console.log(postParagraph);
+
+                        // Paragraph with status
+                        const postStatus = document.createElement('p');
+                        postStatus.textContent = `Status: ${post.itemStatus}`;
     
                         //cleaning up date created data from JSON
                         const dateCreated=new Date(post.dateCreated).toLocaleDateString("en-US",dateFormat);
@@ -307,7 +311,8 @@
     
                         postInfoElement.appendChild(postHeader); // then header and within post-info
                         innerPostElement.appendChild(postInfoElement);
-    
+                        
+                        postInfoElement.appendChild(postStatus); //adding status 
                         postInfoElement.appendChild(postParagraph); // last dates and within post-info
                         innerPostElement.appendChild(postInfoElement);
     

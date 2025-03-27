@@ -338,6 +338,10 @@
                     const postParagraph = document.createElement('p');
                     postParagraph.textContent = `Condition: ${post.itemCondition}`;
 
+                     // Paragraph with status
+                     const postStatus = document.createElement('p');
+                     postStatus.textContent = `Status: ${post.itemStatus}`;
+
                     // Format date
                     const dateCreated = new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat);
 
@@ -347,7 +351,9 @@
 
                     // Append elements in order
                     postInfoElement.appendChild(postHeader);
+                    postInfoElement.appendChild(postStatus);
                     postInfoElement.appendChild(postParagraph);
+                    
                     postInfoElement.appendChild(postSmall);
 
                     innerPostElement.appendChild(postImg);
