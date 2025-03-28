@@ -449,54 +449,52 @@ exports.showDonations = async(req, res) => {
 };
 
 
-//Route to update missing pet post status
 exports.updateStatus = async (req, res) => {
     const { postID } = req.params;
     const { status } = req.body;
-   
+
     try {
         const conn = await pool.getConnection();
-
-        // Ensure user is logged in
         const userID = req.session.userID;
         if (!userID) {
             conn.release();
             return res.status(401).json({ error: "Unauthorized. Please log in." });
         }
 
-        // Check if flyer exists
-        const [rows] = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [postID]);
-
+        const rows = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [postID]);
         if (rows.length === 0) {
             conn.release();
             return res.status(404).json({ error: "Flyer not found" });
         }
 
-        // Update the flyer in the database
         const result = await conn.query("UPDATE lostpets SET status = ? WHERE lostID = ?", [status, postID]);
 
-        //add flyer to found pets table
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-        const result2 = await conn.query("INSERT INTO foundPets (lostID, dateFound, status) VALUES (?, ?, ?)", [postID, currentDate, status]);
+        const currentDate = new Date().toISOString().split('T')[0];
+        const result2 = await conn.query(
+            "INSERT INTO foundPets (lostID, dateFound, status) VALUES (?, ?, ?)",
+            [postID, currentDate, status]
+        );
 
         conn.release();
 
-        if (result.affectedRows === 0) {
-            return res.status(400).json({ error: "No changes made to the flyer" });
+        if (result.affectedRows === 0 || result2.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made or flyer not added" });
         }
 
-        if (result2.affectedRows === 0) {
-            return res.status(400).json({ error: "Flyer not added to found pets table" });
-        }
-
-        console.log(`Status updated for flyer`);
-        res.json({ message: 'Flyer updated successfully!', success: true });
+        console.log(`Flyer updated successfully. FoundID: ${result2.insertId}`);
+        return res.json({
+            success: true,
+            message: "Flyer updated successfully!",
+            foundID: Number(result2.insertId)
+        });
 
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).json({ error: 'Database error when updating flyer' });
     }
 };
+
+
 
 
 //Route to delete missing pet posts
