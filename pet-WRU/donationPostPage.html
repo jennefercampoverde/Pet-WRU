@@ -410,7 +410,7 @@
 
                 if (response.ok) {
                     alert("Post deleted successfully.");
-                    //window.location.href = "mainpage.html"; // Redirect after deletion
+                    window.location.reload(); //refresh page after update
                 } else {
                     alert("Failed to delete post.");
                 }
@@ -432,7 +432,7 @@
 
                 if (response.ok) {
                     alert("Post updated successfully.");
-                    //window.location.href = "mainpage.html"; // Redirect 
+                    window.location.reload(); //refresh page after update
                 } else {
                     alert("Failed to update post.");
                 }
