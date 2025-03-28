@@ -57,6 +57,7 @@ router.post("/updateDonation/:donationID", Controller.updateDonation);
 router.get("/searchBarMissing/:lostID",Controller.searchBarMissing);
 router.get("/searchBarFound/:foundID",Controller.searchBarFound);
 
+router.get("/filterDonations",Controller.filterDonations); //when calling use" /filterDonations?category=Clothes&condition=New&sortBy=newest
 
 /*
 router.get("/inventory", Controller.inventory);

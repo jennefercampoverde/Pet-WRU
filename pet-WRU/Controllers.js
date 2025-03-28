@@ -851,6 +851,43 @@ exports.searchBarFound = async (req, res) => {
 };
 
 
+// Route for donation filtering
+exports.filterDonations = async (req, res) => {
+    const { category, condition, sortBy } = req.query; // Access query params from req.query
+
+    let query = 'SELECT * FROM donations';
+    const params = [];
+    const conditions = [];
+  
+    if (category) {
+      conditions.push('itemCategory = ?');
+      params.push(category);
+    }
+  
+    if (condition) {
+      conditions.push('itemCondition = ?');
+      params.push(condition);
+    }
+  
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+  
+    if (sortBy === 'oldest') {
+      query += ' ORDER BY dateCreated ASC';
+    } else if (sortBy === 'newest') {
+      query += ' ORDER BY dateCreated DESC';
+    }
+
+    try {
+        const results = await pool.query(query, params);
+        console.log(results);
+        res.json(results); // Send back the results as JSON
+    } catch (error) {
+        res.status(500).json({ error: 'Database query failed' });
+    }
+};
+
 
 
 
