@@ -27,7 +27,6 @@ async function testFilterDonations(category, condition, sortBy) {
     }
 
     try {
-        // Execute the query using pool.query() (for mariadb)
         const results = await pool.query(query, params); // Execute query with params
         console.log("Filtered Results:", results); // Print the results to the console for debugging
     } catch (error) {
