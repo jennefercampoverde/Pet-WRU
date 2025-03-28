@@ -1,7 +1,6 @@
 const pool = require("./Database"); // Import the database connection
 
-// Route for testing donation filtering
-// Route for testing donation filtering (server-side debugging)
+// Route for testing donation filtering (server-side only debugging)
 async function testFilterDonations(category, condition, sortBy) {
     let query = 'SELECT * FROM donations';
     const params = [];
