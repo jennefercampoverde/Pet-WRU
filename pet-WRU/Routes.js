@@ -59,7 +59,7 @@ router.get("/getUserInfo", Controller.getUserInfo);
 router.get("/searchBarMissing/:lostID",Controller.searchBarMissing);
 router.get("/searchBarFound/:foundID",Controller.searchBarFound);
 
-router.get("/filterDonations",Controller.filterDonations); //when calling use" /filterDonations?category=Clothes&condition=New&sortBy=newest
+router.get("/filterDonations",Controller.filterDonations); //when calling use: /filterDonations?category=Clothes&condition=New&sortBy=newest
 
 /*
 router.get("/inventory", Controller.inventory);
