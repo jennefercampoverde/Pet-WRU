@@ -59,8 +59,8 @@ router.get("/getUserInfo", Controller.getUserInfo);
 router.get("/searchBarMissing/:lostID",Controller.searchBarMissing);
 router.get("/searchBarFound/:foundID",Controller.searchBarFound);
 
-router.get("/filterDonations",Controller.filterDonations); //when calling use: /filterDonations?category=Clothes&condition=New&sortBy=newest
-
+router.get("/filterDonations",Controller.filterDonations);  // when calling use the format: /filterDonations?category=XXX&condition=YYY&sortBy=ZZZ
+                                                            // XXX , YYY, and ZZZ should be replaced with an actual value (e.g., Bedding, New, Oldest, etc.)
 /*
 router.get("/inventory", Controller.inventory);
 router.post("/add-item", Controller.addItem);
