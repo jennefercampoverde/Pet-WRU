@@ -851,7 +851,7 @@ exports.searchBarFound = async (req, res) => {
 };
 
 
-// Route for donation filtering
+// Route for donation filtering (SHOULD WORK AS IS, MAY REQUIRE SLIGHT DEBUGGING)
 exports.filterDonations = async (req, res) => {
     const { category, condition, sortBy } = req.query; // Access query params from req.query
 
@@ -887,6 +887,28 @@ exports.filterDonations = async (req, res) => {
         res.status(500).json({ error: 'Database query failed' });
     }
 };
+
+
+//Get user information
+exports.getUserInfo = async (req, res) => {
+    try {
+        const userID = req.session.userID;
+        const conn = await pool.getConnection();
+        const rows = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+        res.json(rows);
+        conn.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error when getting user information.' });
+    }
+};
+
+
+
+
+
+
+
 
 
 

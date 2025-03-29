@@ -58,35 +58,40 @@
         <div class="UserInformation">
 
             <form id="editUsername" action="/editUsername" method="POST">
-                <label for="Username">Username:</label>
+                <p id="currentUsername">Current: </p>
+                <label for="Username">Change Your Username:</label>
                 <input type="text" id="Username" name="userName" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
             <form id="editPassword" action="/editPassword" method="POST">
-                <label for="Password">Password:</label>
+                <p id="currentPassword">Current: </p>
+                <label for="Password">Change Your Password:</label>
                 <input type="text" id="Password" name="userPassword" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
             <form id="editEmail" action='/editEmail' method="POST">
-                <label for="Email">Email Address:</label>
+                <p id="currentEmail">Current: </p>
+                <label for="Email">Change Your Email Address:</label>
                 <input type="text" id="Email" name="emailAddress" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
             <form id="editZip" action="/editZip" method="POST">
-                <label for="Zip">Zip Code:</label>
+                <p id="currentZip">Current: </p>
+                <label for="Zip">Change Your Zip Code:</label>
                 <input type="text" id="Zip" name="zipcode" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
             <form id="editCity" action="/editCity" method="POST">
-                <label for="City">City:</label>
+                <p id="currentCity">Current: </p>
+                <label for="City">Change Your City:</label>
                 <input type="text" id="City" name="city" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
         </div>
     </section>
 
@@ -142,34 +147,64 @@
     </section>
 
     <script>
-        // Function to handle form submission for updating fields
-        async function updateAccount(event) {
-        event.preventDefault();
+        //load current user info
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/getUserInfo')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user information');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.length > 0) {
+                        const user = data[0];
 
-        const form = event.target;
-        const submitButton = form.querySelector('input[type="submit"]');
-        submitButton.disabled = true;  // Disable submit button
+                        // Display current info
+                        document.getElementById('currentUsername').textContent = `Current Username: ${user.userName}`;
+                        document.getElementById('currentPassword').textContent = `Current Password: Not Displayed for Security Reasons`;
+                        document.getElementById('currentEmail').textContent = `Current Email Address: ${user.emailAddress}`;
+                        document.getElementById('currentZip').textContent = `Current Zip Code: ${user.zipcode}`;
+                        document.getElementById('currentCity').textContent = `Current City: ${user.city}`;
 
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
-
-        const response = await fetch(form.action, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
+                        } else {
+                        console.error('No user data found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
 
-        const result = await response.json();
+        // Function to handle form submission for updating fields
+        async function updateAccount(event) {
+            event.preventDefault();
 
-        submitButton.disabled = false;  // Re-enable the submit button
+            const form = event.target;
+            const submitButton = form.querySelector('input[type="submit"]');
+            submitButton.disabled = true;  // Disable submit button
 
-        if (result.success) {
-            alert(result.message);  // Or update the DOM with the message
-            form.reset(); 
-        } else {
-            alert(result.message || 'Error updating account.');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            submitButton.disabled = false;  // Re-enable the submit button
+
+            if (result.success) {
+                alert(result.message); 
+                window.location.reload(); //refresh page 
+                form.reset();
+            } else {
+                alert(result.message || 'Error updating account.');
+            }
         }
-    }
 
     document.getElementById("editUsername").addEventListener("submit", updateAccount);
     document.getElementById("editPassword").addEventListener("submit", updateAccount);
@@ -621,7 +656,7 @@
 
                 if (response.ok) {
                     alert("Post deleted successfully.");
-                    //window.location.href = "userpage.html"; // Redirect after deletion
+                    window.location.reload(); //refresh page 
                 } else {
                     alert("Failed to delete post.");
                 }
@@ -643,7 +678,7 @@
 
                 if (response.ok) {
                     alert("Post updated successfully.");
-                    //window.location.href = "userpage.html";
+                    window.location.reload(); //refresh page 
                 } else {
                     alert("Failed to update post.");
                 }

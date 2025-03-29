@@ -53,6 +53,8 @@ router.get("/showRelatedMissingPosts", Controller.showRelatedMissingPosts);
 router.get("/showRelatedFoundPosts", Controller.showRelatedFoundPosts);
 router.delete("/deleteDonation/:donationID", Controller.deleteDonation);
 router.post("/updateDonation/:donationID", Controller.updateDonation);
+router.get("/getUserInfo", Controller.getUserInfo);
+
 
 router.get("/searchBarMissing/:lostID",Controller.searchBarMissing);
 router.get("/searchBarFound/:foundID",Controller.searchBarFound);
