@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Pets</title>
+    <link rel="stylesheet" href="selectedPostStyle.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="navbar" id="myNavbar">
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
+        <div class="nav-links" id="navLinks">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Posts <i class="fa fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="createFlier.html"><i class="fa-solid fa-file-pen"></i> Report Missing pet</a>
+                    <a href="missingPetPost.html"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html"><i class="fa-solid fa-paw"></i> Reunited pets</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Donations 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-box"></i> Donate Today</a>
+                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    </div>
+
+     <!-- The selected Post-->
+    <div id="post-container">
+        <!-- <div id="button-Container"></div> -->
+    </div>
+
+    <!-- Creating comments textbox-->
+    <section id="comments-section">      
+        
+    </section>
+
+    <!-- Showing current Comments-->
+    <h2 class="postComments-header"> View Comments Below </h2>
+    
+    <div id="post-comments"> </div>  
+
+    <!--Page footer-->
+    <footer id="page_footer">
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resource.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+        </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
+
+
+    <script>
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+       // add unauthorized restriction 
+        document.addEventListener("DOMContentLoaded", async function () {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+
+            const postID = await getPostID();
+            if (postID) {
+                showingSelectedPetPost(postID);
+                fetchLocationData(postID);
+                //createComments();
+                
+                postComments(postID);
+            }
+            else{
+                console.error("No postID found.");
+            }
+            
+        });
+
+        //specific renderings for formatting date
+        var dateFormat = {month: 'short', day:'numeric', year:'numeric'};
+
+        async function openPopup() {
+                popup.classList.add("open-popup");
+                // If the map exists, invalidate its size after the popup is opened
+                if (map) {
+                    setTimeout(() => {
+                        map.invalidateSize();
+                    }, 300); // Allow time for popup to render
+                }
+            }
+        
+            async function closePopup() {
+                popup.classList.remove("open-popup");
+            }
+
+        //get postID
+        async function getPostID() {
+            try {
+                // Get the postID from the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const postID = urlParams.get('postID');  // Get the value of the postID parameter
+
+                if (!postID) {
+                    throw new Error("Post ID is missing in the URL.");
+                }
+                console.log("Current URL:", window.location.href);
+                console.log('Post ID from URL:', postID);  // Log for debugging
+
+                return postID;
+            } catch (error) {
+                console.error('Error getting post ID:', error);
+            }
+        }
+        
+        //deleting post
+        async function deletePost(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/deleteFlyer/${postID}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("Post deleted successfully.");
+                    window.location.reload(); //refresh page after deletion
+                } else {
+                    alert("Failed to delete post.");
+                }
+            } catch (error) {
+                console.error("Error deleting post:", error);
+            }
+        }
+
+        //updating post status
+        async function updateStatus(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/updateStatus/${postID}`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: 'Found' }),
+            });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`Your post's Found Pet ID # is ${result.foundID}`);
+                    window.location.href = "ReunitedPets.html"; // Redirect 
+                } else {
+                    alert("Failed to update post.");
+                }
+            } catch (error) {
+                console.error("Error updating post:", error);
+            }
+        }
+        
+        //showing the specific post with details from database
+        async function showingSelectedPetPost(postID) {
+            console.log("Loading clicked missing pet information...");
+            try {
+                const response = await fetch(`http://localhost:3000/userSelectedPost/${postID}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch post data");
+                }
+
+                const selectedPostArray = await response.json();  // Expecting an array here
+                console.log("User Selected Missing Pet data:", selectedPostArray);
+
+                if (selectedPostArray.length === 0) {
+                    console.error("No data found for the selected post.");
+                    return;
+                }
+
+                const selectedPost = selectedPostArray[0];  // Get the first item from the array
+                const postContainer = document.getElementById('post-container');
+                if (!postContainer) {
+                    console.error("Element with ID 'post-container' not found.");
+                    return;
+                }
+                postContainer.innerHTML = "";  // Clear any previous content
+
+                //creating selected post using data
+                postContainer.classList.add('post-container');
+
+                //Adding Missing Pet Name
+                const postHeader = document.createElement('h1');
+                postHeader.textContent = selectedPost.petName;
+                postHeader.classList.add('post-header');
+
+                //Adding section to hold post details
+                const detailsSection= document.createElement('section');
+                detailsSection.classList.add('post-details');
+
+                //creating img and div inside the section for image 
+                const imgDiv = document.createElement('div');
+                const img = document.createElement('img');
+                img.src = 'projectImages/' + selectedPost.animal_image_path;
+                imgDiv.classList.add('post-image');
+                imgDiv.append(img);
+                detailsSection.appendChild(imgDiv);
+
+                //creating text for username & div that holds username
+                const usernameDiv= document.createElement('div');
+                const usernameText=document.createElement('h2');
+                usernameText.textContent = `Created by: ${selectedPost.userName}`;
+                usernameDiv.classList.add('post-actions');
+                usernameDiv.append(usernameText);
+                detailsSection.appendChild(usernameDiv);
+                imgDiv .appendChild(usernameDiv);
+
+                //creating element for lostID
+                const lostIdHeader= document.createElement('h4');
+                lostIdHeader.textContent = `LostID: ${selectedPost.lostID}`;
+                console.log(lostIdHeader);
+                usernameDiv.append(lostIdHeader);
+                //div to hold everything else
+
+                const infoDiv = document.createElement('div');
+                infoDiv.classList.add('post-info');
+                detailsSection.appendChild(infoDiv);
+
+                //creating title, text for description & div that holds the description
+                const descriptionDiv= document.createElement('div');
+                const descriptionTitle=document.createElement('strong');
+                descriptionTitle.textContent = 'Description:';
+                descriptionDiv.append(descriptionTitle);
+                infoDiv.appendChild(descriptionDiv);
+                const descriptionText=document.createElement('p');
+                descriptionText.textContent = `${selectedPost.description}`;
+                descriptionDiv.classList.add('post-info-row.description');
+                descriptionDiv.append(descriptionText);
+
+                //creating title, text for Type of Animal & div that holds the Type of Animal
+                const typeDiv= document.createElement('div');
+                const typeTitle=document.createElement('strong');
+                typeTitle.textContent = 'Type of Animal:';
+                typeDiv.append(typeTitle);
+                infoDiv.appendChild(typeDiv);
+                const typeText=document.createElement('p');
+                typeText.textContent = `${selectedPost.animalType}`;
+                typeDiv.classList.add('post-info-row');
+                typeDiv.append(typeText);
+
+                //creating title, text for color & div that holds the color
+                const colorDiv= document.createElement('div');
+                const colorTitle=document.createElement('strong');
+                colorTitle.textContent = 'Color:';
+                colorDiv.append(colorTitle);
+                infoDiv.appendChild(colorDiv);
+                const colorText=document.createElement('p');
+                colorText.textContent = `${selectedPost.animalColor}`;
+                console.log(colorText);
+                colorDiv.classList.add('post-info-row');
+                colorDiv.append(colorText);
+
+                //creating title, text for size & div that holds the size
+                const sizeDiv= document.createElement('div');
+                const sizeTitle= document.createElement('strong');
+                sizeTitle.textContent = 'Size:';
+                sizeDiv.append(sizeTitle);
+                infoDiv.appendChild(sizeDiv);
+                const sizeText=document.createElement('p');
+                sizeText.textContent = `${selectedPost.animalSize}`;
+                console.log(sizeText);
+                sizeDiv.classList.add('post-info-row');
+                sizeDiv.append(sizeText);
+
+                //creating title, text for gender & div that holds the gender
+                const genderDiv= document.createElement('div');
+                const genderTitle= document.createElement('strong');
+                genderTitle.textContent = 'Gender:';
+                genderDiv.append(genderTitle);
+                infoDiv.appendChild(genderDiv);
+                const genderText=document.createElement('p');
+                genderText.textContent = `${selectedPost.animalGender}`;
+                console.log(genderText);
+                genderDiv.classList.add('post-info-row');
+                genderDiv.append(genderText);
+
+                //creating title, text for last known location & div that holds the last known location 
+                const lastLocDiv= document.createElement('div');
+                lastLocDiv.classList.add('post-info-row');
+                const lastLocTitle= document.createElement('strong');
+                lastLocTitle.textContent = 'Last Known Location:';
+                lastLocDiv.append(lastLocTitle);
+                infoDiv.appendChild(lastLocDiv);
+
+                //creating div for to hold all map stuff
+                const locationDiv= document.createElement('div');
+                locationDiv.classList.add('location-container');
+
+                lastLocDiv.appendChild(locationDiv);
+
+                //adding last city data
+                const lastLocText=document.createElement('p');
+                lastLocText.textContent = `${selectedPost.lastCityID}`;
+                console.log(lastLocText);
+                locationDiv.append(lastLocText);
+
+                //adding map button to open
+                const mapButton= document.createElement('button');
+                mapButton.type='submit';
+                mapButton.classList.add('btn.location-btn');
+                mapButton.addEventListener('click',openPopup);
+
+                //adding i element in button 
+                const buttonText=document.createElement('i');
+                buttonText.textContent = 'View Map';
+                //buttonText.classList.add('popup button');
+                //mapButton.onclick=openPopup; not working 
+                mapButton.appendChild(buttonText);
+                locationDiv.appendChild(mapButton);
+
+                //adding div for the popup
+                const popupDiv= document.createElement('div');
+                lastLocDiv.appendChild(popupDiv);
+                popupDiv.classList.add('popup');
+                popupDiv.setAttribute("id","popup");
+
+                //div for map
+                const mapDiv= document.createElement('div');
+                mapDiv.setAttribute("id","map");
+                popupDiv.appendChild(mapDiv);
+
+                //adding map button to close
+                const closeButton= document.createElement('button');
+                closeButton.type='submit';
+                closeButton.classList.add('btn.close-location-btn');
+                closeButton.addEventListener('click',closePopup);
+
+                //adding i element in button 
+                const closeButtonText=document.createElement('i');
+                closeButtonText.textContent = 'Close Map';
+                //closeButtonText.classList.add('fa-solid fa-xmark');
+                
+                closeButton.append(closeButtonText);
+                locationDiv.appendChild(closeButton);
+
+                //creating title, text for date missing & div that holds the date missing
+                const dateDiv= document.createElement('div');
+                const dateTitle= document.createElement('strong');
+                dateTitle.textContent = 'Date Missing:';
+                dateDiv.append(dateTitle);
+                infoDiv.appendChild(dateDiv);
+                const dateText=document.createElement('p');
+                dateText.textContent = `${new Date(selectedPost.dateLost).toLocaleDateString("en-US",dateFormat)}`;;
+                console.log(dateText);
+                dateDiv.classList.add('post-info-row');
+                dateDiv.append(dateText);
+
+                let currentUserID = await getUserID();
+                
+                // add button container into post container
+                const buttonContainerDiv = document.createElement('div');
+                buttonContainerDiv.classList.add('buttonContainer');
+
+                postContainer.appendChild(buttonContainerDiv);
+
+                //update button for post creator
+                if (currentUserID && currentUserID === selectedPost.userID) {
+                    const statusButton = document.createElement('button');
+                    statusButton.textContent = "Mark as Found";
+                    statusButton.classList.add('status-button');
+                    statusButton.onclick = async function () {
+                        if (confirm("Are you sure you want mark this post as found?")) {
+                            await updateStatus(postID);
+                            window.location.href = "ReunitedPets.html";
+                        }
+                    };
+                
+                    //postContainer.appendChild(statusButton);
+                    buttonContainerDiv.appendChild(statusButton);
+                }
+                
+                //delete button for post creator
+                if (currentUserID && currentUserID === selectedPost.userID) {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = "Delete Post";
+                    deleteButton.classList.add('delete-post-button');
+                    deleteButton.onclick = async function () {
+                        if (confirm("Are you sure you want to delete this post?")) {
+                            await deletePost(postID);
+                            window.location.href = "missingPetPost.html";
+                        }
+                    };
+                    //postContainer.appendChild(deleteButton);
+                    buttonContainerDiv.appendChild(deleteButton);
+                }
+
+                
+                
+                postContainer.appendChild(postHeader);
+                postContainer.appendChild(detailsSection);
+
+                // comment section
+                //creating section for creating comments form
+                const createCommentsSection = document.getElementById('comments-section');
+                createCommentsSection.classList.add('post-feedback');
+            
+
+                //creating section heading for comments form 
+                const commentsHeader= document.createElement('h2');
+                commentsHeader.textContent = 'Comments';
+                createCommentsSection.append(commentsHeader);
+
+                //creating form for posting comments
+                const createCommentsForm= document.createElement('form');
+                createCommentsForm.setAttribute("id","feedback-form");
+                //createCommentsForm.action('#');
+                //createCommentsForm.method("POST");
+                createCommentsSection.append(createCommentsForm);
+
+                //creating textbox
+                const createCommentsBox= document.createElement('textarea');
+                createCommentsBox.setAttribute("name","comment");
+                createCommentsBox.setAttribute("id","commentText");
+                createCommentsBox.setAttribute("maxlength","150");
+                createCommentsBox.setAttribute("rows","5");
+                createCommentsBox.setAttribute("required","true");
+                createCommentsBox.setAttribute("placeholder","Write your comment here...(max 150 characters)");
+                createCommentsForm.append(createCommentsBox);
+
+                //creating submit button for creating a comment
+                const commentButton= document.createElement('button');
+                commentButton.textContent='Post';
+                commentButton.type="submit";
+                commentButton.classList.add('submit_button');
+                createCommentsForm.append(commentButton);
+                createComments(commentButton)
+
+                postContainer.appendChild(createCommentsSection);
+
+            } catch (error) {
+                console.error("Error loading missing pet post:", error);
+            }
+        }
+        //getting location information from database
+
+        async function fetchLocationData(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/selectedPostMap/${postID}`);
+                if (!response.ok) throw new Error("Failed to fetch location data");
+
+                const geoInfo = await response.json();
+                console.log("GeoLoc Pet data:", geoInfo);
+
+                if (geoInfo.length > 0) {
+                    getCoordinates(geoInfo[0].lastZipcode, geoInfo[0].lastCityID);
+                }
+            } catch (error) {
+                console.error("Error fetching location data:", error);
+            }
+        }
+        //getting map coordinates
+
+        async function getCoordinates(zipcode, city) {
+            const query = `${zipcode}, ${city}`;
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.length > 0) {
+                    updateMap(data[0].lat, data[0].lon);
+                } else {
+                    console.error("Location not found");
+                }
+            } catch (error) {
+                console.error("Error fetching coordinates:", error);
+            }
+        }
+
+        //updating the map
+        let map;
+        function updateMap(lat, lon) {
+            if (!map) {
+                map = L.map("map").setView([lat, lon], 15);
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: "&copy; OpenStreetMap contributors"
+                }).addTo(map);
+                var circle = L.circle([lat, lon], { // Center coordinates ([51.505, -0.09],
+                    color: 'red',
+                    fillColor: 'red',
+                    fillOpacity: 0.15,
+                    radius: 150 // Radius in meters
+                }).addTo(map);
+                //L.marker).addTo(map);
+            } else {
+                map.setView([lat, lon], 15);
+            }
+        }
+
+        
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
+        async function sendComment(postID, commentTextFinal) {
+                const infoSending = {
+                commentText:commentTextFinal,
+                
+                }
+                const finalInfo= JSON.stringify(infoSending);
+                
+
+                try {
+                    
+                    const response = await fetch(`http://localhost:3000/createComment/${postID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: finalInfo,
+                        
+                    });
+                    
+                    const result = await response.json();
+                    
+                    
+                    console.log('Comment successfully posted:',result);
+                    alert("Your comment has been Successfully posted!");
+
+                    window.location.href = `selectedPost.html?postID=${encodeURIComponent(postID)}`;
+                
+                } catch (error) {
+                    console.error('Error fetching selected post ID to next page:', error);
+                    return null;
+                }
+            }
+
+
+        //function to create a comment 
+        async function createComments(button){
+
+            //add eventclicker here to POST COMMENT
+            button.addEventListener('click', async function(event){
+                event.preventDefault(); // Prevent default link behavior
+                console.log("Form submitted!"); 
+                //prevent page reload
+                try{
+
+                    const postID = await getPostID();
+
+                    const commentTextFinal = document.getElementById("commentText").value.trim();
+                    
+                    
+                    console.log("PostID for creating comment:",postID)
+                    
+
+                    if (!postID){
+                    console.error("PostID is missing");
+                    return;
+                    }
+                
+                    await sendComment(postID, commentTextFinal);
+        
+                
+                    commentText.value = ''; //clearing the input textbox
+    
+                }
+                    catch(error)
+                {
+                    console.error('Error loading all missing comment entries:', error);
+                    alert("An error occurred while creating the comment.");
+                }
+        })
+    }
+
+        async function deleteComment(commentID,postID) {
+            if (confirm("Are you sure you want to delete your comment?")) {
+                try {
+                    const response = await fetch(`http://localhost:3000/deleteComment/${commentID}`, 
+                    {
+                        method: "DELETE",
+                    });
+                    
+                    console.log("status :",response.status);
+                    console.log("Comment ID going to delete :",commentID);
+                    if (response.ok) {
+                        alert("Comment was deleted successfully.");
+                        window.location.href = `selectedPost.html?postID=${encodeURIComponent(postID)}`
+                    } else {
+                        alert("Failed to update post.");
+                    }
+                } catch (error) {
+                    console.error("Error deleting post:", error);
+                }
+            }
+        }
+
+        //function to show the comments for the post
+        async function postComments(postID)
+        { 
+            let currentUserID = await getUserID();
+
+            //const postID= getPostID();
+
+            console.log("Loading comments Pets..."); // Start log
+            try {
+
+                console.log(`Fetching comments post with ID: ${postID}`);
+                const response = await fetch(`http://localhost:3000/showComments/${postID}`);
+                
+                console.log("Received response:", response.status); // Log the response status
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch all comment pet data');
+                }
+                const commentPosts= await response.json(); //array
+
+
+                console.log('Fetched Comments array :', commentPosts); 
+
+
+                if (commentPosts.length === 0) {
+                        console.error("No data found for the selected comments post.");
+                        return;
+                    }
+                // Get the first item from the array
+
+                    console.log('Fetched Comments:', commentPosts); 
+
+        
+                const commentPostsList = document.getElementById('post-comments');
+                commentPostsList.classList.add('post-comments');
+                if (!commentPostsList) {
+                    console.error("Element with ID 'post-comments' not found."); // Log if the element is not found
+                    return;
+                }
+                commentPostsList.innerHTML = ''; // Clear the list before adding new items
+        
+                if (commentPosts.length === 0) {
+                    commentPostsList.textContent = 'No missing pet entries.';
+                } else {
+                    commentPosts.forEach(comment => {
+                        //new div for post 
+                        //const commentElement = document.createElement('div');
+
+                        const commentID= `${comment.commentID}`;
+                        console.log("Comment ID posting:",commentID);
+                        
+
+                        //creating inner div
+                        const commentDiv= document.createElement('div');
+                        commentDiv.classList.add('comment');
+
+                        //creating header element that holds user id of who made the comment 
+                        const postHeader = document.createElement('strong');
+                        // postHeader.textContent = `Posted by: ${comment.userName}`;
+                        postHeader.textContent = `${comment.userName}`;
+                        console.log("header",postHeader);
+
+                        //cleaning up comment date created from JSON
+                        const dateCreatedText=new Date(comment.dateCreated).toLocaleDateString("en-US",dateFormat);
+                        
+                        //creating a paragraph element that holds date of when the comment was made 
+                        const dateCreated= document.createElement('p');
+                        dateCreated.textContent=`Posted on: ${dateCreatedText}`;
+                        
+                        //creates element that holds comment text
+                        const commentDescription = document.createElement('p');
+                        commentDescription.textContent = `${comment.commentText}`;
+                        
+                        commentDiv.appendChild(postHeader);
+                        commentDiv.appendChild(commentDescription);
+                        commentDiv.appendChild(dateCreated);
+                       
+                        //const commentButton= document.createElement('button');
+                        //creates delete button
+                        if (currentUserID && currentUserID=== comment.userID) {
+                            const deleteButton = document.createElement('button');
+                            //deleteButton.textContent = "Delete this Comment";
+                            deleteButton.type="button";
+                            deleteButton.classList.add("delete-button");
+                        
+
+                            // Create the icon element
+                            const icon = document.createElement('i');
+                            icon.classList.add('fas', 'fa-trash-alt');  // Add the icon classes
+
+                            // Append the icon to the button
+                            deleteButton.appendChild(icon);
+                                        
+                            deleteButton.addEventListener('click', async function () {
+                                
+                                    event.preventDefault(); // Prevent default link behavior
+                                    
+
+                                    console.log("Form was submitted to server!"); 
+                                    if(await deleteComment(commentID, postID)){
+                                    window.location.href = `selectedPost.html?postID=${postID}`;
+                                    console.log(commentID);
+                                    }
+                                    else{
+                                        console.error("Failed to delete comment");
+                                    }   
+                            });
+                            commentDiv.appendChild(deleteButton);
+                        }
+    
+                        //commentElement.classList.add('post-comments');
+
+
+                        //commentElement.appendChild(commentDiv);
+                        commentPostsList.appendChild(commentDiv);
+                        
+                        //document.getElementById('post-comments').appendChild(commentElement);                         
+
+                    });                         
+
+                }
+            } catch (error) {
+                console.error('Error loading all missing comment entries:', error);
+            }
+    };
+
+    // sign out
+    document.addEventListener("DOMContentLoaded", () => {
+        const signOutButton = document.getElementById("signOut");
+
+        if (signOutButton) {
+            signOutButton.addEventListener("click", async (event) => {
+                event.preventDefault(); // Prevent default link behavior
+
+                try {
+                    await fetch('/logout', { method: 'POST' });
+                    sessionStorage.removeItem("userID"); // Clear cache
+                    window.location.href = 'loginPage.html'; // Redirect to login
+                } catch (error) {
+                    console.error("Logout failed:", error);
+                }
+            });
+        }
+    });
+
+    </script>
+
+    
+
+</body>
+</html>

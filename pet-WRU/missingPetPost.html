@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,32 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Missing Pets</title>
     <link rel="stylesheet" href="missingPetPostStyle.css">
+    <!-- <link rel="stylesheet" href="mainpageStyle.css"> -->
     <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Top Navigation Bar -->
     <!--each icon on navigation bar should take you to respectable page-->
-    <div class="navbar">
+    <div class="navbar" id="myNavbar" >
         <!-- Logo -->
         <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
         
         <!-- Navigation Links -->
         <!--each link references another html page-->
-        <div class="nav-links">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
-            <a href="missingPetPost.html"><i class="fa fa-fw fa-user"></i> Missing pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Reunited pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Donations</a> <!--icon insert here-->
-            <a href="signout.php" class="signout"><i class="fa fa-fw fa-user"></i> Account </a> <!--icon insert here-->
-            <!--<a href="watchlist.php"><i class="fa-solid fa-bookmark"></i> WatchList </a> -->
+        <div class="nav-links" id="navLinks">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createFlier.html"><i class="fa-solid fa-file-pen"></i> Report Missing pet</a>
+                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Donations 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-box"></i> Donate Today</a>
+                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>
         </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
+
+    <div class="pageTitle"><h1>Missing Pets</h1></div>
+    
     
     <!-- Search Container -->
     <div class="search-container">
-        <form method="GET" action="main.php">
-            <input type="text" id="search" name = "search" placeholder="Search PetID">
-            <button type="submit">
+        <form id="search-bar" method="GET" action="#">
+            <input type="text" id="search" name = "search" placeholder="Search Pet ID">
+            <button id='submit-search-bar' type="submit">
                 <i class="fa fa-search"></i>
             </button>
         </form>
@@ -39,57 +66,55 @@
 
     <!-- Side Navigation -->
     <!--this will display type of filters
-    genre, release year, MPAA, and rating-->
+    species, gender, size, time, and location-->
     <!--format: label, types of filters, value-->
     <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
-    <form method="GET" action="main.php" class="filters-form">
-        <div class="filter-group">
-            <label for="species">Species</label>
-            <select name="species" id="species">
-                <option value="">Choose an Animal</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="gender">Gender</label>
-            <select name="gender" id="gender">
-                <option value="">Choose a Sex</option>
-                <option value="F">Female</option>
-                <option value="M">Male</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="size">Size of Animal</label>
-            <select name="size" id="size">
-                <option value="">Choose a Size</option>
-                <option value="xs">XS</option>
-                <option value="s">S</option>
-                <option value="m">M</option>
-                <option value="l">L</option>
-                <option value="xl">XL</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="sort-by-time">Sort by Date</label>
-            <select id="sort-by-time">
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="zip-code">Zip Code</label>
-            <input type="number" name="zipcode" id="zip-code" placeholder="Enter Zip Code" 
-                pattern="\d{5}" maxlength="5">
-        </div>
-        <div class="filter-buttons">
-            <button type="submit" class="filter-apply-btn">Apply Filters</button>
-            <button type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
-        </div>
-    </form>
-</div>
-
-
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
+        <form method="GET" action="#" class="filters-form">
+            <div class="filter-group">
+                <label for="species">Species</label>
+                <select name="species" id="species">
+                    <option value="">Choose an Animal</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="gender">Gender</label>
+                <select name="gender" id="gender">
+                    <option value="">Choose a Sex</option>
+                    <option value="F">Female</option>
+                    <option value="M">Male</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="size">Size of Animal</label>
+                <select name="size" id="size">
+                    <option value="">Choose a Size</option>
+                    <option value="xs">XS</option>
+                    <option value="s">S</option>
+                    <option value="m">M</option>
+                    <option value="l">L</option>
+                    <option value="xl">XL</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="sort-by-time">Sort by Date</label>
+                <select id="sort-by-time">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="zip-code">Zip Code</label>
+                <input type="number" name="zipcode" id="zip-code" placeholder="Enter Zip Code" 
+                    pattern="\d{5}" maxlength="5">
+            </div>
+            <div class="filter-buttons">
+                <button type="submit" class="filter-apply-btn">Apply Filters</button>
+                <button type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
+            </div>
+        </form>
+    </div>
     <!-- Open Side Navigation Button -->
      <!--Source: "Learn HTML in 1 hour"
         Author: Bro Code
@@ -99,6 +124,37 @@
     <span onclick="openNav()" class="filter-button"><i class="fas fa-filter"></i> Filter</span>
 
     <script>
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+        });
+        
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
         // populates the genre filter with options
         function populateFilters() {
             const species = ["Dog", "Cat", "Bird", "Rabbit", "Snake", "Horse", "Goat", "Guinea Pig", "Lizard", "Sheep"];
@@ -171,49 +227,341 @@
         });
 
         window.onload = populateFilters;
-    </script>
+    </script>    
 
-    <!-- Movie grid section: to display the movies in rows of 4 -->
+
+    <!-- Post grid section: to display the posts in rows of 3 -->
     <div>
            <!-- Post Container (Where posts are displayed) -->
-    <div id="post-container">
-        <div class="post" data-time="2025-01-30T12:00:00">
-            <img src="projectImages/Ferret.png" alt="Ferret">
-            <div class="post-info">
-                <h3>Rocky</h3>
-                <p> Date missing: 1/30/2025</p>
-                <small>Posted on: Jan 30, 2025</small>
-            </div>
-        </div>
-
-        <div class="post" data-time="20s25-01-25T08:30:00">
-            <img src="projectImages/Golden ret.jpeg" alt="Dog">
-            <div class="post-info">
-                <h3>Sunny</h3>
-                <p> Date missing: 1/03/2025</p>
-                <small>Posted on: Jan 03, 2025</small>
-            </div>
-        </div>
-
-        <div class="post" data-time="2025-01-27T15:45:00">
-            <img src="projectImages/lizard.jpg" alt="lizard">
-            <div class="post-info">
-                <h3>Greeny</h3>
-                <p> Date missing: 12/01/2024</p>
-                <small>Posted on: Dec 4, 2024</small>
-            </div>
-        </div>
-        <div class="post" data-time="2025-01-27T15:45:00">
-            <img src="projectImages/orange cat.jpg" alt="cat">
-            <div class="post-info">
-                <h3>Blaze</h3>
-                <p> Date missing: 03/28/2024</p>
-                <small>Posted on: Mar 29, 2024</small>
-            </div>
+        <div id="post-container">
         </div>
     </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resources.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+        </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
+
+<script>
+
+
+    async function searchBar(lostID){
+    console.log(lostID);
+
+        try{
+            const response = await fetch(`http://localhost:3000/searchBarMissing/${lostID}`);
+
+            console.log("Received response:", response.status);
+            
+            const lostPosts= await response.json();
+            console.log("Search bar data:", lostPosts);
+
+            //reload page to have only the specific pet post
+            const lostPostsList = document.getElementById('post-container');
+                lostPostsList.innerHTML = ''; // Clear the list before adding new items
+            
+            if (lostPosts.length === 0) {
+                lostPostsList.textContent = 'No missing pet entries.';
+            } else { 
+                
+                lostPosts.forEach(post => {
+                    
+                    //new div for post 
+                    const postElement = document.createElement('div');
+
+ 
+                    //new div for post
+                    const innerPostElement = document.createElement('div');
+
+                    const pathFolder="projectImages/"
+                    
+                    //pulling animal image
+                    const postImg= document.createElement('img');
+                    postImg.src=pathFolder + `${post.animal_image_path}`;
+
+                    console.log(postImg)
+                    //creating div to hold a post
+                    const postInfoElement = document.createElement('div');
+                
+                    //creating header element that holds pet name
+                    const postHeader = document.createElement('h3');
+                    postHeader.textContent = `${post.petName}`;
+                    console.log(postHeader);
+
+                    //creating element for lostID
+                    const lostIdHeader= document.createElement('h4');
+                    lostIdHeader.textContent = `Lost ID: ${post.lostID}`;
+                    console.log(lostIdHeader);
+                    
+                    //cleaning up date lost data from JSON
+                    const dateLost=new Date(post.dateLost).toLocaleDateString("en-US",dateFormat);
+                    console.log(dateLost);
+                    
+                    //creating a paragraph element that holds date of when the pet was lost 
+                    const postParagraph = document.createElement('p');
+                    postParagraph.textContent=`Date Missing: ${dateLost}`;
+                    console.log(postParagraph);
+
+                    //cleaning up date created data from JSON
+                    const dateCreated=new Date(post.dateCreated).toLocaleDateString("en-US",dateFormat);
+                    console.log(dateLost);
+
+                    //creating a small element that holds the date when the post was created
+                    const postSmall = document.createElement('small');
+                    postSmall.textContent = `Date Posted: ${dateCreated}`;
+                    console.log(postSmall);
+                    
+                    // Adding all elements to front end by nesting the divs
+
+                    innerPostElement.appendChild(postImg); // image goes first and within post
+
+                    postInfoElement.appendChild(postHeader); // then header and within post-info
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postInfoElement.appendChild(lostIdHeader); // lostid
+                    postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postInfoElement.appendChild(postSmall);
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postElement.appendChild(innerPostElement);
+        
+                    //have to confirm these css ids/classes
+                    postElement.classList.add('post-container'); 
+                    innerPostElement.classList.add('post');
+                    postInfoElement.classList.add('post-info');
     
-    </div>
+                    document.getElementById('post-container').appendChild(innerPostElement);
+                    innerPostElement.addEventListener('click',function(){
+                        lostPetID=post.lostID;
+                        console.log(post.lostID);
+                        
+                        
+                        console.log(lostPetID);
+                        sendPostID();
+                        async function sendPostID(lostPetID) {
+                try {
+                    const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        
+                    });
+                    const result = await response.json();
+                
+                } catch (error) {
+                    console.error('Error fetching selected post ID to next page:', error);
+                    return null;
+                }
+            }
+            window.location.href = `selectedPost.html?postID=${lostPetID}`;
 
+                    });             
+                });
+
+            }
+        }
+        catch(error){
+            console.error('Error pulling from lostpets table with specific lostID input', error);
+            return null;
+        }
+
+    }
+
+    // sign out
+    document.addEventListener("DOMContentLoaded", () => {
+        const signOutButton = document.getElementById("signOut");
+
+        if (signOutButton) {
+            signOutButton.addEventListener("click", async (event) => {
+                event.preventDefault(); // Prevent default link behavior
+
+                try {
+                    await fetch('/logout', { method: 'POST' });
+                    sessionStorage.removeItem("userID"); // Clear cache
+                    window.location.href = 'loginPage.html'; // Redirect to login
+                } catch (error) {
+                    console.error("Logout failed:", error);
+                }
+            });
+        }
+
+
+        const searchBarButton = document.getElementById("submit-search-bar");
+
+        //Searching for specific pet when lostID is given 
+        if(searchBarButton){
+            console.log('Search Bar was clicked');
+
+            searchBarButton.addEventListener('click', async function(event)
+            {
+                event.preventDefault();
+                const SearchBarEntry=document.getElementById('search').value.trim();
+                
+                
+                console.log('lostID entered:', SearchBarEntry);
+                console.log('Search Bar was clicked');
+
+                try {
+                    await searchBar(SearchBarEntry);
+                    if (SearchBarEntry){
+                        
+                        console.log('test');
+                }}
+                catch(error){
+                    console.error("Search failed", error);
+                }
+            
+
+            });
+
+        }
+    });
+
+    //date formating
+    const dateFormat= {month:'short', day:'numeric',year:'numeric' }
+    //CALLING MISSING PETS LIST FUNCTION
+    if (document.getElementById('post-container')) {
+        console.log("Missing pet list element found. Calling loadMissingPetsEntries()...");
+        missingPosts(); // Load users when the page is ready
+    } else {
+        console.error("Missing pet list element not found in the DOM."); // Log if the missing pets list is missing
+    }
+     
+    // LOAD MISSING PETS LIST FUNCTION
+    async function missingPosts() {
+        console.log("Loading missing Pets..."); // Start log
+        try {
+            const response = await fetch('http://localhost:3000/missingPosts');
+            
+            console.log("Received response:", response.status); // Log the response status
+            if (!response.ok) {
+                throw new Error('Failed to fetch all missing pet data');
+            }
+    
+            const lostPosts= await response.json();
+            console.log("Missing Pet data:", lostPosts); // Log the missing pet data received
+    
+    
+            const lostPostsList = document.getElementById('post-container');
+            if (!lostPostsList) {
+                console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                return;
+            }
+            lostPostsList.innerHTML = ''; // Clear the list before adding new items
+    
+            if (lostPosts.length === 0) {
+                lostPostsList.textContent = 'No missing pet entries.';
+            } else {
+                lostPosts.forEach(post => {
+                    
+                    //new div for post 
+                    const postElement = document.createElement('div');
+
+ 
+                    //new div for post
+                    const innerPostElement = document.createElement('div');
+
+                    const pathFolder="projectImages/"
+                    
+                    //pulling animal image
+                    const postImg= document.createElement('img');
+                    postImg.src=pathFolder + `${post.animal_image_path}`;
+
+                    console.log(postImg)
+                    //creating div to hold a post
+                    const postInfoElement = document.createElement('div');
+                
+                    //creating header element that holds pet name
+                    const postHeader = document.createElement('h3');
+                    postHeader.textContent = `${post.petName}`;
+                    console.log(postHeader);
+
+                    //creating element for lostID
+                    const lostIdHeader= document.createElement('h4');
+                    lostIdHeader.textContent = `Pet ID: ${post.lostID}`;
+                    console.log(lostIdHeader);
+                    
+                    //cleaning up date lost data from JSON
+                    const dateLost=new Date(post.dateLost).toLocaleDateString("en-US",dateFormat);
+                    console.log(dateLost);
+                    
+                    //creating a paragraph element that holds date of when the pet was lost 
+                    const postParagraph = document.createElement('p');
+                    postParagraph.textContent=`Date Missing: ${dateLost}`;
+                    console.log(postParagraph);
+
+                    //cleaning up date created data from JSON
+                    const dateCreated=new Date(post.dateCreated).toLocaleDateString("en-US",dateFormat);
+                    console.log(dateLost);
+
+                    //creating a small element that holds the date when the post was created
+                    const postSmall = document.createElement('small');
+                    postSmall.textContent = `Date Posted: ${dateCreated}`;
+                    console.log(postSmall);
+                    
+                    // Adding all elements to front end by nesting the divs
+
+                    innerPostElement.appendChild(postImg); // image goes first and within post
+
+                    postInfoElement.appendChild(postHeader); // then header and within post-info
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postInfoElement.appendChild(lostIdHeader); // lostid
+                    postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postInfoElement.appendChild(postSmall);
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postElement.appendChild(innerPostElement);
+        
+                    //have to confirm these css ids/classes
+                    postElement.classList.add('post-container'); 
+                    innerPostElement.classList.add('post');
+                    postInfoElement.classList.add('post-info');
+    
+                    // document.getElementById('post-container').appendChild(postElement);
+                    // document.getElementById('post-container').appendChild(postInfoElement);
+                    document.getElementById('post-container').appendChild(innerPostElement);
+                    innerPostElement.addEventListener('click',function(){
+                        lostPetID=post.lostID;
+                        console.log(post.lostID);
+                        
+                        
+                        console.log(lostPetID);
+                        sendPostID();
+                        async function sendPostID(lostPetID) {
+                try {
+                    const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        
+                    });
+                    const result = await response.json();
+                
+                } catch (error) {
+                    console.error('Error fetching selected post ID to next page:', error);
+                    return null;
+                }
+            }
+            window.location.href = `selectedPost.html?postID=${lostPetID}`;
+
+                    });             
+
+                });
+            }
+        } catch (error) {
+            console.error('Error loading all missing pet post entries:', error);
+        }
+    } 
+        
+        </script>
+
+        
 </body>
 </html>

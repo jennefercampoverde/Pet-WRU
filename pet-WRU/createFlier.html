@@ -3,52 +3,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="mainpageStyle.css">
+    <title>Create Missing Pet Flier</title>
+    <link rel="stylesheet" href="createFlierStyle.css">
+    <!-- <link rel="stylesheet" href="mainpageStyle.css"> -->
     <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Top Navigation Bar -->
     <!--each icon on navigation bar should take you to respectable page-->
-    <div class="navbar">
+    <div class="navbar" id="myNavbar" >
         <!-- Logo -->
         <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
         
         <!-- Navigation Links -->
         <!--each link references another html page-->
-        <div class="nav-links">
-            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a> <!--icon insert here-->
-            <a href="missingPetPost.html"><i class="fa fa-fw fa-user"></i> Missing pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Reunited pets</a> <!--icon insert here-->
-            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Donations</a> <!--icon insert here-->
-            <a href="signout.php" class="signout"><i class="fa-solid fa-right-from-bracket"></i> login </a> <!--icon insert here-->
-            <!--<a href="watchlist.php"><i class="fa-solid fa-bookmark"></i> WatchList </a> -->
-        </div>
-    </div>
-
-    <h1>Create a Missing Pet Flier</h1>
-
-    <div class="container">
-        
-        <!-- Add request to report missing pet Form -->
-        <h2>Need help finding a missing pet? <br>
-            Create a flier and post it on our website <br>
-            by clicking the "report" button below</h2>
-     
-        <!-- Image in the bottom-right corner -->
-        <img src="projectImages/cat.png" alt="Decorative Image" class="bottom-right">
-  
-    </div>
-    <div class = "footer-container">
-        <div class="footer">
-                <div class="footer-heading footer1">
-                    <h2> :P </h2>
-                    <a href="#">About us</a>
-                    <a href="#">Resources</a>
-                    <a href="#">GitHub</a>
+        <div class="nav-links" id="navLinks">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createFlier.html"><i class="fa-solid fa-file-pen"></i> Report Missing pet</a>
+                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
                 </div>
-                
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Donations 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-box"></i> Donate Today</a>
+                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>
         </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
+    
+    <h1>Create a Missing Pet Flier</h1>
+    
+    <div class="container">
+        <div class="flier-header">
+            <div class="image-upload">
+                <label>Upload Pet <br>Image</label>
+                <input type="file" name="animal_image_path" accept="image/*" class="upload-button" required>
+
+            </div>
+            <div class="flier-title">
+                <h2>Missing Pet</h2>
+                <p>Created by: <span id="username">Current User</span></p>
+            </div>
+        </div>
+        
+        <form class="flier-details" id="flierForm" enctype="multipart/form-data">            
+            <div class="details-grid">
+                <div>
+                    <label for="petName">Pet Name:</label>
+                    <input type="text" id="petName" required>
+                </div>
+                <div>
+                    <label for="animalGender">Sex:</label>
+                    <select id="animalGender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="animalType">Type of Animal:</label>
+                    <select id="animalType" required>
+                        <option value="Bird">Bird</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Chickens">Chickens</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Ferrets">Ferrets</option>
+                        <option value="Gerbils">Gerbils</option>
+                        <option value="Guinea Pigs">Guinea Pigs</option>
+                        <option value="Hamster">Hamster</option>
+                        <option value="Mice">Mice</option>
+                        <option value="Turtles">Turtles</option>
+                        <option value="Reptiles">Reptiles</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="animalColor">Color:</label>
+                    <select id="animalColor" required>
+                        <option value="Black">Black</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Brown">Brown</option>
+                        <option value="Gray">Gray</option>
+                        <option value="Green">Green</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Red">Red</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Tan">Tan</option>
+                        <option value="White">White</option>
+                        <option value="Yellow">Yellow</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="animalSize">Size:</label>
+                    <select id="animalSize" required>
+                        <option value="XS">Extra Small</option>
+                        <option value="S">Small</option>
+                        <option value="M">Medium</option>
+                        <option value="L">Large</option>
+                        <option value="XL">Extra Large</option>
+                        <option value="XXL">Extra Extra Large</option>
+
+                    </select>
+                </div>
+                <div>
+                    <label for="lastCityID">Last Seen Location: (Street, Town)</label>
+                    <input type="text" id="lastCityID" required>
+                </div>
+                <div>
+                    <label for="lastZipcode">Area Zipcode:</label>
+                    <input type="text" id="lastZipcode" required>
+                </div>
+                <div>
+                    <label for="dateLost">Date Lost:</label>
+                    <input type="date" id="dateLost" required>
+                </div>
+            </div>
+            <div class="description-container">
+                <label for="description">Description:</label>
+                <textarea id="description" required></textarea>
+            </div>
+            <button class="post-button" type="submit">Post</button>
+            
+        </form>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resources.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+        </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", async () => {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+        });
+
+        // Function to check if the ZIP code is valid
+        async function isValidZipCode(zip) {
+            try {
+                const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    // Check if the data contains location info (success)
+                    return data;
+                } else {
+                    // Invalid ZIP code
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error checking ZIP code:', error);
+                return null;
+            }
+        }
+        
+        // Function to check if the address entered by the user is valid
+        async function isValidAddress(street, town, zip) {
+            const geoUrl = `https://nominatim.openstreetmap.org/search?street=${encodeURIComponent(street)}&city=${encodeURIComponent(town)}&postalcode=${zip}&country=US&format=json`;
+            
+            try {
+                const response = await fetch(geoUrl);
+                const data = await response.json();
+                return data.length > 0; // If results exist, it's a valid address
+            } catch (error) {
+                console.error('Error checking address:', error);
+                return false;
+            }
+        }
+        
+
+        // Create Flyer form submission
+        document.querySelector(".flier-details").addEventListener("submit", async function(event) { 
+            event.preventDefault(); // Prevent page reload
+                        
+                    // Wait for the userID from the server
+                    let userID = await getUserID();
+
+                    if (userID == null) {  
+                        alert("Please log in to report a missing pet.");
+                        window.location.href = "loginPage.html"; // Redirect to login page
+                    } else {
+                        try {
+                            // Use FormData for file (img) uploads
+                            const formData = new FormData();
+
+                            const lastZipcode = document.getElementById("lastZipcode").value.trim();
+                            const zipData = await isValidZipCode(lastZipcode);
+
+                            if (!zipData) {
+                                alert('Invalid ZIP code. Please enter a valid ZIP code.');
+                                return; // Stop form submission
+                            }
+
+                            // to check if the format of the last known location is valid (Street, Town)
+                            const input = document.getElementById("lastCityID").value;
+                            const regex = /^[^,]+,\s*[^,]+$/; // Ensures there is a comma with text before and after it
+
+                            if (!regex.test(input)) {
+                                alert("Invalid format! Please enter the last known location in the format: Street, Town.");
+                                return; // stop form submission
+                            }
+
+                            // split up street and town
+                            const lastCityID = document.getElementById("lastCityID").value.trim();
+                            let [lastStreet, lastCity] = lastCityID.split(",").map(s => s.trim());
+                            
+                            // debug
+                            console.log(`Street: ${lastStreet}, City: ${lastCity}, Zipcode: ${lastZipcode}`);
+
+                            // Check if the town is valid for the ZIP code
+                            const validTown = zipData.places.some(place => place["place name"].toLowerCase() === lastCity.toLowerCase());
+                            if (!validTown) {
+                                alert(`The town '${lastCity}' does not match ZIP code ${lastZipcode}. Please try again.`);
+                                return; // Stop form submission
+                            }
+
+                            // Check if the full address exists
+                            const validAddress = await isValidAddress(lastStreet, lastCity, lastZipcode);
+                            if (!validAddress) {
+                                alert(`The street '${lastStreet}' in '${lastCity}, ${lastZipcode}' does not exist. Please try again.`);
+                                return; // Stop form submission
+                            }
+
+
+                            // Append form fields to FormData
+                            formData.append("dateLost", document.getElementById("dateLost").value);
+                            formData.append("lastZipcode", document.getElementById("lastZipcode").value);
+                            formData.append("lastCityID", document.getElementById("lastCityID").value);
+                            formData.append("petName", document.getElementById("petName").value);
+                            formData.append("animalType", document.getElementById("animalType").value);
+                            formData.append("animalSize", document.getElementById("animalSize").value);
+                            formData.append("animalColor", document.getElementById("animalColor").value);
+                            formData.append("animalGender", document.getElementById("animalGender").value);
+                            formData.append("description", document.getElementById("description").value);
+                            
+                            // Get the file input
+                            const fileInput = document.querySelector('input[type="file"]').files[0];
+                            if (fileInput) {
+                                formData.append("animal_image_path", fileInput);
+                            }
+
+                            // Send a POST request to the backend registration route
+                            const response = await fetch("/createFlyer", {
+                                method: "POST",
+                                body: formData 
+                            });
+                    
+                            // Parse the JSON response from the server
+                            const result = await response.json();
+                    
+                            // Check if signup was successful and redirect
+                            if (result.success) {
+                                alert(`Flyer created successfully!`);
+                                alert(`Your post's Pet ID # is ${result.flyerID}`);
+                                window.location.href = 'missingPetPost.html'; // Redirect to the page with the new flyer details
+                            } else {
+                                alert(result.message || 'Failed to create flyer');
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('An error occurred. Please try again later.');
+                        }        
+                    }
+                });
+            
+
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
+        // sign out
+        document.addEventListener("DOMContentLoaded", () => {
+            const signOutButton = document.getElementById("signOut");
+
+            if (signOutButton) {
+                signOutButton.addEventListener("click", async (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    try {
+                        await fetch('/logout', { method: 'POST' });
+                        sessionStorage.removeItem("userID"); // Clear cache
+                        window.location.href = 'loginPage.html'; // Redirect to login
+                    } catch (error) {
+                        console.error("Logout failed:", error);
+                    }
+                });
+            }
+        });
+    </script>
+
+        
 </body>
 </html>
