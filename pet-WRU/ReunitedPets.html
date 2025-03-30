@@ -80,7 +80,7 @@
         </div>
         <div class="filter-buttons">
             <button id= "the-filter-button" type="submit" class="filter-apply-btn">Apply Filters</button>
-            <button type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
+            <button id=  "clear-filters" type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
         </div>
     </form>
 </div>
@@ -143,10 +143,11 @@
 
         // clears any filters that were applied
         function clearFilters() {
-            document.getElementById("species").value = "";
-            document.getElementById("zip-code").value = "";
-            document.getElementById("gender").value = "";
-            document.getElementById("size").value = "";
+
+            //document.getElementById("species").value = "";
+            //document.getElementById("zip-code").value = "";
+            //document.getElementById("gender").value = "";
+            //document.getElementById("size").value = "";
             document.getElementById("sort-by-time").value = "";
             document.forms[0].submit(); // Automatically submit the cleared form
         }
@@ -445,10 +446,9 @@
 
         //filters
         const filterButton= document.getElementById("the-filter-button");
-        //const newestOption=document.getElementById("newest");
-        //const oldestOption=document.getElementById("oldest");
         const selectOption=document.getElementById("sort-by-time-selection");
-        //selectOption.attribute("onchange", updatingOptionSelect());
+        const clearFilterBtn=document.getElementById("clear-filters");
+
         async function updatingOptionSelect(){
             const userOption= document.getElementById("sort-by-time-selection").value;
             console.log("user picked:", userOption);
@@ -473,7 +473,6 @@
 
                     await filterResult(userOption);
                     
-
                 }
                 catch(error){
                     console.error("Filter Search failed:",error);
@@ -481,8 +480,24 @@
 
               
             })
+            } 
+            
+            if (clearFilterBtn){
+                console.log("Clear filters button was clicked");
+
+                clearFilterBtn.addEventListener('click', async function (event) {
+                    event.preventDefault();
+                    try{
+                    await showfoundPosts();
+                    }
+                    catch(error){
+                        console.error("Clear filters failed", error);
+                    }
+                    
+                })
+
+
             }
-        
 
         });
 
@@ -493,8 +508,7 @@
         if (document.getElementById('post-container')) {
             console.log("Found pet list element found. Calling showfoundPosts()...");
             showfoundPosts(); // Load users when the page is ready
-        } 
-        
+        }   
         else 
         {
             console.error("Found pet list element not found in the DOM."); // Log if the missing pets list is missing
