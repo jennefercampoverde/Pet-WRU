@@ -903,6 +903,33 @@ exports.getUserInfo = async (req, res) => {
     }
 };
 
+exports.reunitedFilter = async (req, res) => {
+    const {userOption}= req.params;
+    console.log("user selection:", userOption);
+    let filter='';
+    
+    if (userOption=="newest"){
+        filter= 'ORDER BY dateCreated ASC';
+    }
+    else if (userOption=="oldest"){
+        filter='ORDER BY dateCreated DESC';
+    }
+    
+    const startQuery = "SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID";
+    const finalQuery= startQuery +" " +filter;
+    //console.log(finalQuery);
+    
+    try{
+        const conn = await pool.getConnection();
+        const rows = await conn.query(finalQuery);
+        res.json(rows);
+        conn.release();
+    }
+    catch(error){
+        console.error(err);
+        res.status(500).json({error: 'Database error when getting found posts using filter'});
+    }
+};
 
 
 
