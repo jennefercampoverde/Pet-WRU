@@ -50,43 +50,46 @@
             </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
-    </div>
-	<h1 id="UserHeading"> Welcome to your page! </h1>
+    </div >
 	
-    <section>
-        <h3> Account Information </h3>
-        <div class="UserInformation">
+	
+    <section id="account-info">
+        <div id="UserHeading">
+        </div>
+        <div id="userInformation" class="userInformation">
+            <h3>
+                My Profile
+            </h3>
+        </div>
+        
+        <div class="userInformation-Form">
+            <h3> Update Your Current Account Information </h3>
 
             <form id="editUsername" action="/editUsername" method="POST">
-                <p id="currentUsername">Current: </p>
                 <label for="Username">Change Your Username:</label>
                 <input type="text" id="Username" name="userName" />
                 <input type="submit" value="Edit" />
             </form>
             <br>
             <form id="editPassword" action="/editPassword" method="POST">
-                <p id="currentPassword">Current: </p>
                 <label for="Password">Change Your Password:</label>
                 <input type="text" id="Password" name="userPassword" />
                 <input type="submit" value="Edit" />
             </form>
             <br>
             <form id="editEmail" action='/editEmail' method="POST">
-                <p id="currentEmail">Current: </p>
                 <label for="Email">Change Your Email Address:</label>
                 <input type="text" id="Email" name="emailAddress" />
                 <input type="submit" value="Edit" />
             </form>
             <br>
             <form id="editZip" action="/editZip" method="POST">
-                <p id="currentZip">Current: </p>
                 <label for="Zip">Change Your Zip Code:</label>
                 <input type="text" id="Zip" name="zipcode" />
                 <input type="submit" value="Edit" />
             </form>
             <br>
             <form id="editCity" action="/editCity" method="POST">
-                <p id="currentCity">Current: </p>
                 <label for="City">Change Your City:</label>
                 <input type="text" id="City" name="city" />
                 <input type="submit" value="Edit" />
@@ -160,12 +163,65 @@
                     if (data.length > 0) {
                         const user = data[0];
 
-                        // Display current info
-                        document.getElementById('currentUsername').textContent = `Current Username: ${user.userName}`;
-                        document.getElementById('currentPassword').textContent = `Current Password: Not Displayed for Security Reasons`;
-                        document.getElementById('currentEmail').textContent = `Current Email Address: ${user.emailAddress}`;
-                        document.getElementById('currentZip').textContent = `Current Zip Code: ${user.zipcode}`;
-                        document.getElementById('currentCity').textContent = `Current City: ${user.city}`;
+                    //create welcome page headear
+                    const headerDiv= document.getElementById("UserHeading");
+                    
+                    const welcomeHeader = document.createElement('h1');
+                    welcomeHeader.textContent = `Welcome to your page, ${user.firstName}!`;
+                    welcomeHeader.classList.add('UserHeading');
+                    headerDiv.appendChild(welcomeHeader);
+
+                    // Display current user info from database
+
+                    const infoDiv= document.getElementById("userInformation");
+
+                    const imgAvatar= document.createElement("img");
+                    imgAvatar.src= 'serverImages/userAvatar.png';
+                    //imgAvatar.classList.add('user-avatar');
+                    infoDiv.appendChild(imgAvatar);
+                    
+
+                    //creating username text
+                    const textUsername = document.createElement('strong');
+                    textUsername.textContent = `Current Username: `;
+                    
+                    //Adding userName
+                    const infoUsername = document.createElement('p');
+                    infoUsername.textContent = `${user.userName}`;
+                    infoDiv.appendChild(textUsername);
+                    infoDiv.appendChild(infoUsername);
+
+
+                    //creating email text
+                    const textEmail = document.createElement('strong');
+                    textEmail.textContent = `Current Email: `;
+                    infoDiv.appendChild(textEmail);
+
+                    //Adding email
+                    const infoEmail = document.createElement('p');
+                    infoEmail.textContent = `${user.emailAddress}`;
+                    infoDiv.appendChild(infoEmail);
+
+                    //creating zipcode text
+                    const textZipcode = document.createElement('strong');
+                    textZipcode.textContent = `Current Zipcode: `;
+                    infoDiv.appendChild(textZipcode);
+
+                    //Adding zipcode
+                    const infoZipcode = document.createElement('p');
+                    infoZipcode.textContent = `${user.zipcode}`;
+                    infoDiv.appendChild(infoZipcode);
+
+                    //creating city text
+                    const textCity = document.createElement('strong');
+                    textCity.textContent = `Current City: `;
+                    infoDiv.appendChild(textCity);
+
+                    //Adding City 
+                    const infoCity = document.createElement('p');
+                    infoCity.textContent = `${user.city}`;
+                    infoDiv.appendChild(infoCity);
+
 
                         } else {
                         console.error('No user data found.');
@@ -377,17 +433,24 @@
         
                         document.getElementById('post-container').appendChild(innerPostElement);
 
+                        //div for buttons
+                        const buttonDiv=  document.createElement('div');
+                        buttonDiv.classList.add('btnDiv');
 
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'Delete Donation';
+                        deleteButton.classList.add('deleteButton');
                         deleteButton.onclick = () => deleteDonation(post.donationID);
 
                         const markUnavailableButton = document.createElement('button');
                         markUnavailableButton.textContent = 'Mark as Unavailable';
+                        markUnavailableButton.classList.add('updateButton');
                         markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
 
-                        innerPostElement.appendChild(deleteButton);
-                        innerPostElement.appendChild(markUnavailableButton);
+                        buttonDiv.appendChild(deleteButton);
+                        buttonDiv.appendChild(markUnavailableButton);
+
+                        innerPostElement.appendChild(buttonDiv);
 
                     
             

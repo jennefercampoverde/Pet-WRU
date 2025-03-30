@@ -295,33 +295,134 @@ h5 {
 
 /* Start of userpage */
 
-.UserInformation {
-    text-align: center; /* Center all form elements */
+#account-info{
+    padding: 30px;
+    margin: 20px;
 }
 
-.UserInformation label {
-    font-size: 20px;
+/* My Profile current Information  */
+
+.userInformation{
+    text-align: center;
+    float:left;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 850px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    flex: 1; /* Allows it to take available space */
+    min-width: 250px; /* Prevents it from getting too small */
+    max-width: 100%; /* Ensures it doesn't overflow */
+
+}
+.userInformation div{
+    padding:50px;
+}
+
+.userInformation img{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 30px;
+    margin-left: 160px;
+}
+
+
+.userInformation h3{
+    text-align: center;
+    padding: 35px;
+    color: #0d6efd;
+    margin-top: 15px;
+}
+.userInformation p{
+    text-align: center;
+    display: grid;
+    border-bottom: 1px solid #eaeaea;
+    padding: 20px 0;
+}
+.userInformation strong{
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+
+/* Update Current Account Info. Form */
+
+.userInformation-Form {
+    text-align: center;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    height: 850px;
+    width: 65%;
+    float: right;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    flex: 1; /* Allows it to take available space */
+    min-width: 250px; /* Prevents it from getting too small */
+    max-width: 100%; /* Ensures it doesn't overflow */
+    
+}
+
+
+.userInformation-Form h3{
+    text-align: center;
+    padding-top: 35px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 10 px;
+    color: #0d6efd;
+    margin-top: 10px;
+    
+    
+}
+
+
+.userInformation-Form label {
+    font-size: 16px;
     display: block;
     margin-bottom: 5px;
+    font-weight: bold;
+
 }
 
-.UserInformation input[type="text"], 
-.UserInformation textarea {
-    font-size: 18px;
+.userInformation-Form  input[type="text"], 
+.userInformation-Form textarea {
+    font-size: 15px;
     padding: 5px 10px;
     display: block;
     margin: 0 auto;
 }
 
-.UserInformation input[type="submit"] {
-    font-size: 18px;
+.userInformation-Form  input[type="submit"] {
+    font-size: 16px;
     padding: 5px 10px;
     margin-top: 5px;
     cursor: pointer;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    width: auto; /* Ensures the button only takes up necessary space */
+    
 }
 
-.UserInformation form {
-    margin-bottom: 15px; /* Add spacing between forms */
+.userInformation-Form form {
+    margin-top: 5px; /* Add spacing between forms */
+    margin-bottom: 10px; /* Add spacing between forms */
+    border-bottom: 1px solid #eaeaea;
+    padding: 5px 0;
 }
 
 .relatedPosts {
@@ -336,10 +437,41 @@ h5 {
     text-align: center;
     font-size: 1em;
     margin-bottom: 10px;
-
 }
 
+.deleteButton {
+    font-size: 16px;
+    padding: 10px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    width: auto; /* Ensures the button only takes up necessary space */
+}
 
+.updateButton {
+    font-size: 16px;
+    padding: 10px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    width: auto; /* Ensures the button only takes up necessary space */
+}
+
+.btnDiv{
+    padding: 30px;
+}
 /* End of userpage */
 
 /* Start of Donation Post */
