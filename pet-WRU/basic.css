@@ -504,6 +504,9 @@ h5 {
     margin-bottom: 50px;
 
 }
+#post-container-missing, #post-container-found, #post-container-donations h4 {
+    text-align:center;
+}
 
 
 /* Individual post card */

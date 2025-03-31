@@ -102,12 +102,21 @@
 		<h3> Related Posts: </h3>
         <!--Add section to pull posts based on the userID associated with current account-->
         <div class="relatedPosts">
-            <div id="post-container">
+            <div id="relatedHeading">
+
+            </div>
+                <div id="post-container">
                 
                 </div>
+            <div id="relatedHeading-Missing">
+
+            </div>
                 <div id="post-container-missing">
                 
                 </div>
+            <div id="relatedHeading-Found">
+
+            </div>
 
 
                 <div id="post-container-found">
@@ -353,9 +362,10 @@
                     document.getElementById('post-container').appendChild(textDisplay);*/
                     console.log('No related donations posts for this user');
                 } else {
-                    /*const donationTitle= document.createElement('H3');
+
+                    const donationTitle= document.createElement('h3');
                     donationTitle.textContent= 'Your Current Donation Posts';
-                    document.getElementById('post-container').appendChild(donationTitle);*/
+                    document.getElementById('relatedHeading').appendChild(donationTitle);
 
                     donationPosts.forEach(post => {
                         //new div for post 
@@ -491,10 +501,9 @@
                         document.getElementById('post-container-missing').appendChild(textDisplay);*/
                         console.log('No related missing pet posts for this user');
                     } else {
-                        console.log("progress");
-                        /*const missingTitle= document.createElement('H3');
+                        const missingTitle= document.createElement('h3');
                         missingTitle.textContent= 'Your Current Missing Posts';
-                        document.getElementById('post-container-missing').appendChild(missingTitle);*/
+                        document.getElementById('relatedHeading-Missing').appendChild(missingTitle);
                     
                         missingPosts.forEach(post => {
                     
@@ -629,9 +638,9 @@
                         document.getElementById('post-container-found').appendChild(textDisplay);*/
                         console.log('No related found pet posts for this user');
                     } else {
-                        /*const missingTitle= document.createElement('H3');
-                        missingTitle.textContent= 'Your Found Posts';
-                        document.getElementById('post-container-found').appendChild(missingTitle);*/
+                        const foundTitle= document.createElement('h3');
+                        foundTitle.textContent= 'Your Found Posts';
+                        document.getElementById('relatedHeading-Found').appendChild(foundTitle);
 
                         foundPosts.forEach(post => {
                         //new div for post 
