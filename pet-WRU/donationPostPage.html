@@ -400,15 +400,18 @@
                         deleteButton.classList.add('deleteButton');
                         deleteButton.onclick = () => deleteDonation(post.donationID);
 
+                        const currentStatus= `${post.itemStatus}`;
+                        buttonDiv.appendChild(deleteButton);
+
+                        if( currentStatus== 'Available'){
                         const markUnavailableButton = document.createElement('button');
-                        markUnavailableButton.textContent = 'Mark as Claimed';
+                        markUnavailableButton.textContent = 'Mark as Unavailable';
                         markUnavailableButton.classList.add('updateButton');
                         markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
-
-                        buttonDiv.appendChild(deleteButton);
                         buttonDiv.appendChild(markUnavailableButton);
+                    }
 
-                        innerPostElement.appendChild(buttonDiv); // Append action buttons to post container
+                        innerPostElement.appendChild(buttonDiv);
                     }
 
                     donationPostsList.appendChild(postElement); // Append postElement instead of innerPostElement

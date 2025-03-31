@@ -437,7 +437,7 @@ exports.showDonations = async(req, res) => {
 
     try{
         const conn= await pool.getConnection();
-        const rows= await conn.query("SELECT * FROM donations WHERE itemStatus='Available'");
+        const rows= await conn.query("SELECT * FROM donations");
         res.json(rows);
         conn.release();
     }

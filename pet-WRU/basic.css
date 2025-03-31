@@ -483,7 +483,7 @@ h5 {
 
 /*Post grid*/
     /* Container for the post grid */
-#post-container, #post-container-missing, #post-container-found {
+#post-container{
     display: flex;
     flex-wrap: wrap; /* Allow wrapping of rows */
     gap: 20px; /* Add spacing between items */
@@ -491,6 +491,17 @@ h5 {
     margin-top: 20px;
     margin-left: 20px;
     margin-bottom: 50px;
+}
+
+#post-container-missing, #post-container-found, #post-container-donations{
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping of rows */
+    gap: 20px; /* Add spacing between items */
+    justify-content: center; /* Center the rows */
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 50px;
+
 }
 
 
