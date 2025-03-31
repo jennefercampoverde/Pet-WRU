@@ -353,36 +353,53 @@
                     postHeader.textContent = post.itemName;
 
                     // Paragraph with item condition
+                    const conditionText= document.createElement('strong');
+                    conditionText.textContent=`Condition:`
                     const postParagraph = document.createElement('p');
-                    postParagraph.textContent = `Condition: ${post.itemCondition}`;
+                    postParagraph.textContent = `${post.itemCondition}`;
 
                     // Paragraph with status
-                     const postStatus = document.createElement('p');
-                     postStatus.textContent = `Status: ${post.itemStatus}`;
+                    const statusText= document.createElement('strong');
+                    statusText.textContent=`Status:`
+                    const postStatus = document.createElement('p');
+                    postStatus.textContent = `${post.itemStatus}`;
 
                     // Paragraph with zipcode
+                    const zipcodeText= document.createElement('strong');
+                    zipcodeText.textContent=` Zipcode:`
                     const postZipcode = document.createElement('p');
-                    postZipcode.textContent = `Zipcode: ${post.zipcode}`;
+                    postZipcode.textContent = `${post.zipcode}`;
 
                     // Paragraph with zipcode
+                    const descriptionText= document.createElement('strong');
+                    descriptionText.textContent=` Description:`
                     const postDescription = document.createElement('p');
-                    postDescription.textContent = `Description: ${post.itemDescription}`;
+                    postDescription.textContent = ` ${post.itemDescription}`;
 
                     // Format date
+                    const dateText= document.createElement('strong');
+                    dateText.textContent=`Date Posted: `
                     const dateCreated = new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat);
 
                     // Small tag for date
                     const postSmall = document.createElement('small');
-                    postSmall.textContent = `Date Posted: ${dateCreated}`;
+                    postSmall.textContent = ` ${dateCreated}`;
 
                     // Append elements in order
                     postInfoElement.appendChild(postHeader);
+                    postInfoElement.appendChild(dateText);
+                    postInfoElement.appendChild(postSmall);
+                    postInfoElement.appendChild(statusText);
                     postInfoElement.appendChild(postStatus);
+                    postInfoElement.appendChild(conditionText)
                     postInfoElement.appendChild(postParagraph);
+                    postInfoElement.appendChild(zipcodeText);
                     postInfoElement.appendChild(postZipcode);
+                    postInfoElement.appendChild(postZipcode);
+                    postInfoElement.appendChild(descriptionText);
                     postInfoElement.appendChild(postDescription);
                     
-                    postInfoElement.appendChild(postSmall);
+                    
 
                     innerPostElement.appendChild(postImg);
                     innerPostElement.appendChild(postInfoElement);

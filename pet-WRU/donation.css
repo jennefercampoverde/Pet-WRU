@@ -339,6 +339,7 @@ span:active {
     margin-top: 20px;
     margin-left: 20px;
     margin-bottom: 50px;
+    padding-left: 10px;
 }
         
 /* Individual post card */
@@ -364,11 +365,11 @@ span:active {
     border-radius: 8px; /* Optional: Round image corners */
 }
 
-/* Movie info section */
+/* Post info section */
 .post-info {
     text-align: center;
     color: #333;
-    margin-top: 10px;
+    margin-top: 10px; 
 }
 
 /* Title styling */
@@ -376,16 +377,32 @@ span:active {
     font-size: 1.2em; /* Smaller title */
     color: rgb(0, 0, 0);
     margin-bottom: 5px;
+    padding-bottom: 8px;
 }
 
 /* General text styling */
-.post-info p, small {
+.post-info p {
     font-size: 0.9em; /* Adjust text size for info */
     margin: 3px 0;
+    display:flex;
+    text-align: left;
+    padding-bottom: 10px; 
 }
 
-/*                                                    */
+.post-info small{
+    font-size: 0.9em; /* Adjust text size for info */
+    margin: 3px 0;
+    display:flex;
+    padding-bottom: 10px;
+}
 
+
+.post-info strong{
+    font-size: 0.9em; /* Adjust text size for info */
+    margin: 3px 0;
+    display:flex;
+    text-align: center;
+}
 .container {
     background: white;
     max-width: 800px;
@@ -508,7 +525,7 @@ textarea {
 
 .deleteButton {
     
-    font-size: 16px;
+    font-size: 15px;
     padding: 10px 10px;
     margin-top: 5px;
     cursor: pointer;
@@ -523,7 +540,7 @@ textarea {
 }
 
 .updateButton {
-    font-size: 16px;
+    font-size: 15px;
     padding: 10px 10px;
     margin-top: 5px;
     cursor: pointer;
