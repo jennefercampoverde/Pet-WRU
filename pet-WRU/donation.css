@@ -332,14 +332,11 @@ span:active {
 /*Post grid*/
 /* Container for the post grid */
 #post-container {
-    display: flex;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
-    gap: 20px; /* Add spacing between items */
+    display: grid; /* Change to grid */
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px; /* Add spacing */
     justify-content: center; /* Center the grid */
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 50px;
+    margin: 20px;
 }
         
 /* Individual post card */
@@ -350,6 +347,8 @@ span:active {
     padding: 10px;
     border-radius: 8px;
     transition: transform 0.3s ease;
+    min-height: 300px; /* Adjust based on content length */
+    overflow: hidden;
 }
 
 .post:hover {
@@ -360,8 +359,8 @@ span:active {
 .post img {
     width: 100%; /* Make image fill the width of the card */
     height: auto; /* Set a fixed height */
+    max-height: 300px; /* Adjust based on design */
     object-fit: contain; /* Ensures the image fills the space without stretching */
-    
     border-radius: 8px; /* Optional: Round image corners */
 }
 
@@ -369,12 +368,12 @@ span:active {
 .post-info {
     text-align: center;
     color: #333;
-    margin-top: 10px; 
+    margin-top: 5px; 
 }
 
 /* Title styling */
 .post-info h3 {
-    font-size: 1.2em; /* Smaller title */
+    font-size: 1.4em; /* Smaller title */
     color: rgb(0, 0, 0);
     margin-bottom: 5px;
     padding-bottom: 8px;
@@ -386,14 +385,14 @@ span:active {
     margin: 3px 0;
     display:flex;
     text-align: left;
-    padding-bottom: 10px; 
+    padding-bottom: 5px; 
 }
 
 .post-info small{
     font-size: 0.7em; /* Adjust text size for info */
     margin: 3px 0;
     display:flex;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 
@@ -409,7 +408,7 @@ span:active {
     margin: 20px auto;
     padding: 100px 130px 40px;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
 
 .flier-header {
@@ -509,9 +508,9 @@ textarea {
     padding: 10px 20px;
     background: #ff6600;
     color: white;
-    font-size: 20px;
+    font-size: 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
 }
 
