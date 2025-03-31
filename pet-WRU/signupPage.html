@@ -44,41 +44,43 @@
     </div>
 	<h1 id="PageHeading"> Please create an account. </h1>
         <section>
-		    <h5> Sign Up </h5>
 		    <form id="signupForm">
-                <div class='parent'>
-                    <div class ='child' Signup1>
-                        <label for="signupUsername">Username: </label><br>
-                        <input type="text" id="signupUsername" required><br><br>
+                <div class ='postSignup'>
+                    <div class='parent'>
+                        <h5> Sign Up </h5>
+                        <div class ='child' Signup1>
+                            <label for="signupUsername">Username: </label><br>
+                            <input type="text" id="signupUsername" required><br><br>
             
-                        <label for="firstName">First Name: </label><br>
-                        <input type="text" id="firstName" required><br><br>
+                            <label for="firstName">First Name: </label><br>
+                            <input type="text" id="firstName" required><br><br>
 
-                        <label for="lastName">Last Name: </label><br>
-                        <input type="text" id="lastName" required><br><br>
+                            <label for="lastName">Last Name: </label><br>
+                            <input type="text" id="lastName" required><br><br>
 
-                        <label for="DOB">Date of Birth: </label><br>
-                        <input type="date" id="DOB" required><br><br>
+                            <label for="DOB">Date of Birth: </label><br>
+                            <input type="date" id="DOB" required><br><br>
 
+                        </div>
+
+                        <div class ='child' Signup2>
+                            <label for="emailAddress">Email Address: </label><br>
+                            <input type="email" id="emailAddress" required><br><br>
+
+                            <label for="signupPassword">Password (8 characters min): </label><br>
+                            <input type="password" id="signupPassword" minlength="8" required><br><br>
+
+                            <label for="ZipCode">Zip Code: </label><br>
+                            <input type="text" id="ZipCode" required><br><br>
+
+                            <label for="city">City: </label><br>
+                            <input type="text" id="city" required><br><br>
+                        </div>
                     </div>
-
-                    <div class ='child' Signup2>
-                        <label for="emailAddress">Email Address: </label><br>
-                        <input type="email" id="emailAddress" required><br><br>
-
-                        <label for="signupPassword">Password (8 characters min): </label><br>
-                        <input type="password" id="signupPassword" minlength="8" required><br><br>
-
-                        <label for="ZipCode">Zip Code: </label><br>
-                        <input type="text" id="ZipCode" required><br><br>
-
-                        <label for="city">City: </label><br>
-                        <input type="text" id="city" required><br><br>
+                    <div class="signupSubmit">
+                        <button type="submit">Create Account</button>
                     </div>
-                </div>
-                <div class="signupSubmit">
-                    <button type="submit">Create Account</button>
-                </div>
+                </div>    
             </form>
         </section>   
     <script>

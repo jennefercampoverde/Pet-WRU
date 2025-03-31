@@ -69,7 +69,16 @@
             <label for="category">Category</label>
             <select name="category" id="category">
                 <option value="">Choose an item category</option>
+                <option value="Bedding">Bedding</option> 
+                <option value="Clothing">Clothing</option> 
+                <option value="GroomingSupplies">Grooming Supplies</option> 
+                <option value="Leashes&Collars">Leashes & Collars</option> 
+                <option value="Litter&Waste Supplies">Litter & Waste Supplies</option> 
+                <option value="MedicalSupplies">Medical Supplies</option> 
+                <option value="Toys"> Toys</option> 
+                <option value="Transport Supplies">Transport Supplies</option> 
             </select>
+                
         </div>
         <div class="filter-group">
             <label for="condition">Condition</label>
@@ -80,6 +89,14 @@
                 <option value="gentlyUsed">Gently Used</option>
                 <option value="used">Used</option>
                 <option value="worn">Worn</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="dateOrder">Order</label>
+            <select name="dateOrder" id="dateOrder">
+                <option value="">Sort by Time</option>
+                <option value="newest">Newest Post</option>
+                <option value="oldest">Oldest Post</option>
             </select>
         </div>
         <div class="filter-buttons">
@@ -336,36 +353,53 @@
                     postHeader.textContent = post.itemName;
 
                     // Paragraph with item condition
+                    const conditionText= document.createElement('strong');
+                    conditionText.textContent=`Condition:`
                     const postParagraph = document.createElement('p');
-                    postParagraph.textContent = `Condition: ${post.itemCondition}`;
+                    postParagraph.textContent = `${post.itemCondition}`;
 
                     // Paragraph with status
-                     const postStatus = document.createElement('p');
-                     postStatus.textContent = `Status: ${post.itemStatus}`;
+                    const statusText= document.createElement('strong');
+                    statusText.textContent=`Status:`
+                    const postStatus = document.createElement('p');
+                    postStatus.textContent = `${post.itemStatus}`;
 
                     // Paragraph with zipcode
+                    const zipcodeText= document.createElement('strong');
+                    zipcodeText.textContent=` Zipcode:`
                     const postZipcode = document.createElement('p');
-                    postZipcode.textContent = `Zipcode: ${post.zipcode}`;
+                    postZipcode.textContent = `${post.zipcode}`;
 
                     // Paragraph with zipcode
+                    const descriptionText= document.createElement('strong');
+                    descriptionText.textContent=` Description:`
                     const postDescription = document.createElement('p');
-                    postDescription.textContent = `Description: ${post.itemDescription}`;
+                    postDescription.textContent = ` ${post.itemDescription}`;
 
                     // Format date
+                    const dateText= document.createElement('strong');
+                    dateText.textContent=`Date Posted: `
                     const dateCreated = new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat);
 
                     // Small tag for date
                     const postSmall = document.createElement('small');
-                    postSmall.textContent = `Date Posted: ${dateCreated}`;
+                    postSmall.textContent = ` ${dateCreated}`;
 
                     // Append elements in order
                     postInfoElement.appendChild(postHeader);
+                    postInfoElement.appendChild(dateText);
+                    postInfoElement.appendChild(postSmall);
+                    postInfoElement.appendChild(statusText);
                     postInfoElement.appendChild(postStatus);
+                    postInfoElement.appendChild(conditionText)
                     postInfoElement.appendChild(postParagraph);
+                    postInfoElement.appendChild(zipcodeText);
                     postInfoElement.appendChild(postZipcode);
+                    postInfoElement.appendChild(postZipcode);
+                    postInfoElement.appendChild(descriptionText);
                     postInfoElement.appendChild(postDescription);
                     
-                    postInfoElement.appendChild(postSmall);
+                    
 
                     innerPostElement.appendChild(postImg);
                     innerPostElement.appendChild(postInfoElement);
@@ -374,21 +408,27 @@
 
                     // Create action buttons (initially visible if the user created the post)
                     if (post.userID === userID) {
-                        const actionButtons = document.createElement('div');
-                        actionButtons.classList.add('post-actions');
+                        //div for buttons
+                        const buttonDiv=  document.createElement('div');
+                        buttonDiv.classList.add('btnDiv');
 
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'Delete Donation';
+                        deleteButton.classList.add('deleteButton');
                         deleteButton.onclick = () => deleteDonation(post.donationID);
 
+                        const currentStatus= `${post.itemStatus}`;
+                        buttonDiv.appendChild(deleteButton);
+
+                        if( currentStatus== 'Available'){
                         const markUnavailableButton = document.createElement('button');
                         markUnavailableButton.textContent = 'Mark as Unavailable';
+                        markUnavailableButton.classList.add('updateButton');
                         markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
+                        buttonDiv.appendChild(markUnavailableButton);
+                    }
 
-                        actionButtons.appendChild(deleteButton);
-                        actionButtons.appendChild(markUnavailableButton);
-
-                        postElement.appendChild(actionButtons); // Append action buttons to post container
+                        innerPostElement.appendChild(buttonDiv);
                     }
 
                     donationPostsList.appendChild(postElement); // Append postElement instead of innerPostElement
@@ -410,7 +450,7 @@
 
                 if (response.ok) {
                     alert("Post deleted successfully.");
-                    //window.location.href = "mainpage.html"; // Redirect after deletion
+                    window.location.reload(); //refresh page after update
                 } else {
                     alert("Failed to delete post.");
                 }
@@ -432,7 +472,7 @@
 
                 if (response.ok) {
                     alert("Post updated successfully.");
-                    //window.location.href = "mainpage.html"; // Redirect 
+                    window.location.reload(); //refresh page after update
                 } else {
                     alert("Failed to update post.");
                 }

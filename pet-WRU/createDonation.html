@@ -184,10 +184,10 @@
                         // Parse the JSON response from the server
                         const result = await response.json();
                    
-                        // Check if signup was successful and redirect
+                        // Check if post was successful and redirect
                         if (result.success) {
                             alert("Donation listed successfully");
-                            //window.location.href = '';
+                            window.location.href = 'donationPostPage.html';
                         } else {
                             alert(result.message || 'Failed to list donation');
                         }

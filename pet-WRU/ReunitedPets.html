@@ -70,17 +70,17 @@
     <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
-    <form method="GET" action="#" class="filters-form">
+    <form  id="the-filter" method="GET" action="#" class="filters-form">
         <div class="filter-group">
             <label for="sort-by-time">Sort by Date</label>
-            <select id="sort-by-time">
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
+            <select id="sort-by-time-selection">
+                <option id="newest" value="newest">Newest First</option>
+                <option id="oldest" value="oldest">Oldest First</option>
             </select>
         </div>
         <div class="filter-buttons">
-            <button type="submit" class="filter-apply-btn">Apply Filters</button>
-            <button type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
+            <button id= "the-filter-button" type="submit" class="filter-apply-btn">Apply Filters</button>
+            <button id=  "clear-filters" type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
         </div>
     </form>
 </div>
@@ -127,25 +127,7 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const sortByTime = document.getElementById("sort-by-time");
-            const postContainer = document.getElementById("post-container");
-
-            sortByTime.addEventListener("change", function () {
-                let posts = Array.from(document.querySelectorAll(".post"));
-
-                posts.sort((a, b) => {
-                    let dateA = new Date(a.getAttribute("data-time"));
-                    let dateB = new Date(b.getAttribute("data-time"));
-
-                    return sortByTime.value === "newest" ? dateB - dateA : dateA - dateB;
-                });
-
-                // Append sorted posts back to the container
-                postContainer.innerHTML = "";
-                posts.forEach(post => postContainer.appendChild(post));
-            });
-        });
+        
 
         // functions to open and close the navigation bar
         function openNav() {
@@ -161,10 +143,11 @@
 
         // clears any filters that were applied
         function clearFilters() {
-            document.getElementById("species").value = "";
-            document.getElementById("zip-code").value = "";
-            document.getElementById("gender").value = "";
-            document.getElementById("size").value = "";
+
+            //document.getElementById("species").value = "";
+            //document.getElementById("zip-code").value = "";
+            //document.getElementById("gender").value = "";
+            //document.getElementById("size").value = "";
             document.getElementById("sort-by-time").value = "";
             document.forms[0].submit(); // Automatically submit the cleared form
         }
@@ -311,6 +294,107 @@
 
     }
 
+    async function filterResult(userOption){
+        
+        console.log("The user selected", userOption);
+
+        
+        try{
+            const response = await fetch(`http://localhost:3000/reunitedFilter/${userOption}`);
+            console.log(userOption);
+
+            console.log("Received response:", response.status);
+
+            const foundPosts= await response.json();
+            console.log("Search bar data:", foundPosts);
+
+            const foundPostsList = document.getElementById('post-container');
+                if (!foundPostsList) {
+                    console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                    return;
+                }
+                foundPostsList.innerHTML = ''; // Clear the list before adding new items
+        
+                if (foundPosts.length === 0) {
+                    foundPostsList.textContent = 'No found pet entries.';
+                } else {
+                    foundPosts.forEach(post => {
+                        //new div for post 
+                        const postElement = document.createElement('div');
+     
+                        //new div for post
+                        const innerPostElement = document.createElement('div');
+
+                        const pathFolder="projectImages/"
+                        
+                        //take in image
+                        const postImg= document.createElement('img');
+                        postImg.src=pathFolder + `${post.animal_image_path}`;
+    
+                        console.log(postImg)
+                        //creating div to hold a post
+                        const postInfoElement = document.createElement('div');
+                    
+                        //creating header element that holds pet name
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = `${post.petName}`;
+                        console.log(postHeader);
+
+                        //creating element for FoundID
+                        const foundIdHeader= document.createElement('h4');
+                        foundIdHeader.textContent = `Found ID: ${post.foundID}`;
+                        console.log(foundIdHeader);
+                        
+                        //cleaning up date lost data from JSON
+                        const dateFound=new Date(post.dateFound).toLocaleDateString("en-US",dateFormat);
+                        console.log(dateFound);
+                        
+                        //creating a paragraph element that holds date of when the pet was lost 
+                        const postParagraph = document.createElement('p');
+                        postParagraph.textContent=`Date Found: ${dateFound}`;
+                        console.log(postParagraph);
+  
+    
+                        //creating a small element that holds the status when the post was created
+                        const postSmall = document.createElement('small');
+                        postSmall.textContent = `Status: ${post.status}`;
+                        console.log(postSmall);
+                        
+                        // Adding all elements to front end by nesting the divs
+    
+                        innerPostElement.appendChild(postImg); // image goes first and within post
+    
+                        postInfoElement.appendChild(postHeader); // then header and within post-info
+                        postInfoElement.appendChild(foundIdHeader); // then header and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+
+    
+                        postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postInfoElement.appendChild(postSmall);
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postElement.appendChild(innerPostElement);
+            
+                        postElement.classList.add('post-container'); 
+                        innerPostElement.classList.add('post');
+                        postInfoElement.classList.add('post-info');
+        
+                        document.getElementById('post-container').appendChild(innerPostElement);
+                        
+                    });
+                }
+
+            
+            
+        }
+        catch(error){
+            console.error('Error pulling from found pets table with specific filter', error);
+            return null;
+        }
+    }
+
         // sign out
         document.addEventListener("DOMContentLoaded", () => {
             const signOutButton = document.getElementById("signOut");
@@ -348,8 +432,9 @@
                     if (SearchBarEntry){
                         
                         
-                        console.log('test');
-                }}
+                        console.log('Search Bar has been triggered in the back-end.');
+                }
+            }
                 catch(error){
                     console.error("Search failed", error);
                 }
@@ -358,6 +443,61 @@
             });
 
         }
+
+        //filters
+        const filterButton= document.getElementById("the-filter-button");
+        const selectOption=document.getElementById("sort-by-time-selection");
+        const clearFilterBtn=document.getElementById("clear-filters");
+
+        async function updatingOptionSelect(){
+            const userOption= document.getElementById("sort-by-time-selection").value;
+            console.log("user picked:", userOption);
+        }
+  
+        if (filterButton){
+            console.log("Filter Button was clicked");
+
+            filterButton.addEventListener('click', async function(event){
+                event.preventDefault();
+                const userOption= document.getElementById("sort-by-time-selection").value;
+                console.log("Filter Button was clicked again");
+
+              //add event listener to the select to pick the choice that the user selected
+              if (selectOption.onchange){
+                const userOption= document.getElementById("sort-by-time-selection").value;
+                console.log("user picked:", userOption);
+              }
+
+                console.log("user picked:", userOption);
+                try{
+
+                    await filterResult(userOption);
+                    
+                }
+                catch(error){
+                    console.error("Filter Search failed:",error);
+                }
+
+              
+            })
+            } 
+            
+            if (clearFilterBtn){
+                console.log("Clear filters button was clicked");
+
+                clearFilterBtn.addEventListener('click', async function (event) {
+                    event.preventDefault();
+                    try{
+                    await showfoundPosts();
+                    }
+                    catch(error){
+                        console.error("Clear filters failed", error);
+                    }
+                    
+                })
+
+
+            }
 
         });
 
@@ -368,8 +508,7 @@
         if (document.getElementById('post-container')) {
             console.log("Found pet list element found. Calling showfoundPosts()...");
             showfoundPosts(); // Load users when the page is ready
-        } 
-        
+        }   
         else 
         {
             console.error("Found pet list element not found in the DOM."); // Log if the missing pets list is missing

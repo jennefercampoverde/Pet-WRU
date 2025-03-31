@@ -449,54 +449,52 @@ exports.showDonations = async(req, res) => {
 };
 
 
-//Route to update missing pet post status
 exports.updateStatus = async (req, res) => {
     const { postID } = req.params;
     const { status } = req.body;
-   
+
     try {
         const conn = await pool.getConnection();
-
-        // Ensure user is logged in
         const userID = req.session.userID;
         if (!userID) {
             conn.release();
             return res.status(401).json({ error: "Unauthorized. Please log in." });
         }
 
-        // Check if flyer exists
-        const [rows] = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [postID]);
-
+        const rows = await conn.query("SELECT * FROM lostpets WHERE lostID = ?", [postID]);
         if (rows.length === 0) {
             conn.release();
             return res.status(404).json({ error: "Flyer not found" });
         }
 
-        // Update the flyer in the database
         const result = await conn.query("UPDATE lostpets SET status = ? WHERE lostID = ?", [status, postID]);
 
-        //add flyer to found pets table
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-        const result2 = await conn.query("INSERT INTO foundPets (lostID, dateFound, status) VALUES (?, ?, ?)", [postID, currentDate, status]);
+        const currentDate = new Date().toISOString().split('T')[0];
+        const result2 = await conn.query(
+            "INSERT INTO foundPets (lostID, dateFound, status) VALUES (?, ?, ?)",
+            [postID, currentDate, status]
+        );
 
         conn.release();
 
-        if (result.affectedRows === 0) {
-            return res.status(400).json({ error: "No changes made to the flyer" });
+        if (result.affectedRows === 0 || result2.affectedRows === 0) {
+            return res.status(400).json({ error: "No changes made or flyer not added" });
         }
 
-        if (result2.affectedRows === 0) {
-            return res.status(400).json({ error: "Flyer not added to found pets table" });
-        }
-
-        console.log(`Status updated for flyer`);
-        res.json({ message: 'Flyer updated successfully!', success: true });
+        console.log(`Flyer updated successfully. FoundID: ${result2.insertId}`);
+        return res.json({
+            success: true,
+            message: "Flyer updated successfully!",
+            foundID: Number(result2.insertId)
+        });
 
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).json({ error: 'Database error when updating flyer' });
     }
 };
+
+
 
 
 //Route to delete missing pet posts
@@ -851,6 +849,92 @@ exports.searchBarFound = async (req, res) => {
         res.status(500).json({ error: 'Database error. Unable to grab specific foundID information from foundPets table.' });
     }
 };
+
+
+// Route for donation filtering (SHOULD WORK AS IS, MAY REQUIRE SLIGHT DEBUGGING)
+exports.filterDonations = async (req, res) => {
+    const { category, condition, sortBy } = req.query; // Access query params from req.query
+
+    let query = 'SELECT * FROM donations';
+    const params = [];
+    const conditions = [];
+  
+    if (category) {
+      conditions.push('itemCategory = ?');
+      params.push(category);
+    }
+  
+    if (condition) {
+      conditions.push('itemCondition = ?');
+      params.push(condition);
+    }
+  
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+  
+    if (sortBy === 'oldest') {
+      query += ' ORDER BY dateCreated ASC';
+    } else if (sortBy === 'newest') {
+      query += ' ORDER BY dateCreated DESC';
+    }
+
+    try {
+        const results = await pool.query(query, params);
+        console.log(results);
+        res.json(results); // Send back the results as JSON
+    } catch (error) {
+        res.status(500).json({ error: 'Database query failed' });
+    }
+};
+
+
+//Get user information
+exports.getUserInfo = async (req, res) => {
+    try {
+        const userID = req.session.userID;
+        const conn = await pool.getConnection();
+        const rows = await conn.query("SELECT * FROM usersInfo WHERE userID = ?", [userID]);
+        res.json(rows);
+        conn.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error when getting user information.' });
+    }
+};
+
+exports.reunitedFilter = async (req, res) => {
+    const {userOption}= req.params;
+    console.log("user selection:", userOption);
+    let filter='';
+    
+    if (userOption=="newest"){
+        filter= 'ORDER BY dateCreated ASC';
+    }
+    else if (userOption=="oldest"){
+        filter='ORDER BY dateCreated DESC';
+    }
+    
+    const startQuery = "SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID";
+    const finalQuery= startQuery +" " +filter;
+    //console.log(finalQuery);
+    
+    try{
+        const conn = await pool.getConnection();
+        const rows = await conn.query(finalQuery);
+        res.json(rows);
+        conn.release();
+    }
+    catch(error){
+        console.error(err);
+        res.status(500).json({error: 'Database error when getting found posts using filter'});
+    }
+};
+
+
+
+
+
 
 
 

@@ -50,43 +50,51 @@
             </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
-    </div>
-	<h1 id="UserHeading"> Welcome to your page! </h1>
+    </div >
 	
-    <section>
-        <h3> Account Information </h3>
-        <div class="UserInformation">
+	
+    <section id="account-info">
+        <div id="UserHeading">
+        </div>
+        <div id="userInformation" class="userInformation">
+            <h3>
+                My Profile
+            </h3>
+        </div>
+        
+        <div class="userInformation-Form">
+            <h3> Update Your Current Account Information </h3>
 
             <form id="editUsername" action="/editUsername" method="POST">
-                <label for="Username">Username:</label>
+                <label for="Username">Change Your Username:</label>
                 <input type="text" id="Username" name="userName" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
             <form id="editPassword" action="/editPassword" method="POST">
-                <label for="Password">Password:</label>
+                <label for="Password">Change Your Password:</label>
                 <input type="text" id="Password" name="userPassword" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
             <form id="editEmail" action='/editEmail' method="POST">
-                <label for="Email">Email Address:</label>
+                <label for="Email">Change Your Email Address:</label>
                 <input type="text" id="Email" name="emailAddress" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
             <form id="editZip" action="/editZip" method="POST">
-                <label for="Zip">Zip Code:</label>
+                <label for="Zip">Change Your Zip Code:</label>
                 <input type="text" id="Zip" name="zipcode" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
             <form id="editCity" action="/editCity" method="POST">
-                <label for="City">City:</label>
+                <label for="City">Change Your City:</label>
                 <input type="text" id="City" name="city" />
                 <input type="submit" value="Edit" />
             </form>
-            
+            <br>
         </div>
     </section>
 
@@ -94,12 +102,21 @@
 		<h3> Related Posts: </h3>
         <!--Add section to pull posts based on the userID associated with current account-->
         <div class="relatedPosts">
-            <div id="post-container">
+            <div id="relatedHeading">
+
+            </div>
+                <div id="post-container">
                 
                 </div>
+            <div id="relatedHeading-Missing">
+
+            </div>
                 <div id="post-container-missing">
                 
                 </div>
+            <div id="relatedHeading-Found">
+
+            </div>
 
 
                 <div id="post-container-found">
@@ -142,34 +159,117 @@
     </section>
 
     <script>
-        // Function to handle form submission for updating fields
-        async function updateAccount(event) {
-        event.preventDefault();
+        //load current user info
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/getUserInfo')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user information');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.length > 0) {
+                        const user = data[0];
 
-        const form = event.target;
-        const submitButton = form.querySelector('input[type="submit"]');
-        submitButton.disabled = true;  // Disable submit button
+                    //create welcome page headear
+                    const headerDiv= document.getElementById("UserHeading");
+                    
+                    const welcomeHeader = document.createElement('h1');
+                    welcomeHeader.textContent = `Welcome to your page, ${user.firstName}!`;
+                    welcomeHeader.classList.add('UserHeading');
+                    headerDiv.appendChild(welcomeHeader);
 
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
+                    // Display current user info from database
 
-        const response = await fetch(form.action, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
+                    const infoDiv= document.getElementById("userInformation");
+
+                    const imgAvatar= document.createElement("img");
+                    imgAvatar.src= 'serverImages/userAvatar.png';
+                    //imgAvatar.classList.add('user-avatar');
+                    infoDiv.appendChild(imgAvatar);
+                    
+
+                    //creating username text
+                    const textUsername = document.createElement('strong');
+                    textUsername.textContent = `Current Username: `;
+                    
+                    //Adding userName
+                    const infoUsername = document.createElement('p');
+                    infoUsername.textContent = `${user.userName}`;
+                    infoDiv.appendChild(textUsername);
+                    infoDiv.appendChild(infoUsername);
+
+
+                    //creating email text
+                    const textEmail = document.createElement('strong');
+                    textEmail.textContent = `Current Email: `;
+                    infoDiv.appendChild(textEmail);
+
+                    //Adding email
+                    const infoEmail = document.createElement('p');
+                    infoEmail.textContent = `${user.emailAddress}`;
+                    infoDiv.appendChild(infoEmail);
+
+                    //creating zipcode text
+                    const textZipcode = document.createElement('strong');
+                    textZipcode.textContent = `Current Zipcode: `;
+                    infoDiv.appendChild(textZipcode);
+
+                    //Adding zipcode
+                    const infoZipcode = document.createElement('p');
+                    infoZipcode.textContent = `${user.zipcode}`;
+                    infoDiv.appendChild(infoZipcode);
+
+                    //creating city text
+                    const textCity = document.createElement('strong');
+                    textCity.textContent = `Current City: `;
+                    infoDiv.appendChild(textCity);
+
+                    //Adding City 
+                    const infoCity = document.createElement('p');
+                    infoCity.textContent = `${user.city}`;
+                    infoDiv.appendChild(infoCity);
+
+
+                        } else {
+                        console.error('No user data found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
 
-        const result = await response.json();
+        // Function to handle form submission for updating fields
+        async function updateAccount(event) {
+            event.preventDefault();
 
-        submitButton.disabled = false;  // Re-enable the submit button
+            const form = event.target;
+            const submitButton = form.querySelector('input[type="submit"]');
+            submitButton.disabled = true;  // Disable submit button
 
-        if (result.success) {
-            alert(result.message);  // Or update the DOM with the message
-            form.reset(); 
-        } else {
-            alert(result.message || 'Error updating account.');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            submitButton.disabled = false;  // Re-enable the submit button
+
+            if (result.success) {
+                alert(result.message); 
+                window.location.reload(); //refresh page 
+                form.reset();
+            } else {
+                alert(result.message || 'Error updating account.');
+            }
         }
-    }
 
     document.getElementById("editUsername").addEventListener("submit", updateAccount);
     document.getElementById("editPassword").addEventListener("submit", updateAccount);
@@ -262,9 +362,10 @@
                     document.getElementById('post-container').appendChild(textDisplay);*/
                     console.log('No related donations posts for this user');
                 } else {
-                    /*const donationTitle= document.createElement('H3');
+
+                    const donationTitle= document.createElement('h3');
                     donationTitle.textContent= 'Your Current Donation Posts';
-                    document.getElementById('post-container').appendChild(donationTitle);*/
+                    document.getElementById('relatedHeading').appendChild(donationTitle);
 
                     donationPosts.forEach(post => {
                         //new div for post 
@@ -336,26 +437,33 @@
                         postElement.appendChild(innerPostElement);
             
                         
-                        postElement.classList.add('post-container'); 
+                        postElement.classList.add('post-container-donations'); 
                         innerPostElement.classList.add('post');
                         postInfoElement.classList.add('post-info');
         
                         document.getElementById('post-container').appendChild(innerPostElement);
 
+                        //div for buttons
+                        const buttonDiv=  document.createElement('div');
+                        buttonDiv.classList.add('btnDiv');
 
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'Delete Donation';
+                        deleteButton.classList.add('deleteButton');
                         deleteButton.onclick = () => deleteDonation(post.donationID);
-
+                        
+                        const currentStatus= `${post.itemStatus}`;
+                        buttonDiv.appendChild(deleteButton);
+                        
+                        if( currentStatus== 'Available'){
                         const markUnavailableButton = document.createElement('button');
                         markUnavailableButton.textContent = 'Mark as Unavailable';
+                        markUnavailableButton.classList.add('updateButton');
                         markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
+                        buttonDiv.appendChild(markUnavailableButton);
+                    }
+                        innerPostElement.appendChild(buttonDiv);
 
-                        innerPostElement.appendChild(deleteButton);
-                        innerPostElement.appendChild(markUnavailableButton);
-
-                    
-            
                     });
                 }
                 }
@@ -393,10 +501,9 @@
                         document.getElementById('post-container-missing').appendChild(textDisplay);*/
                         console.log('No related missing pet posts for this user');
                     } else {
-                        console.log("progress");
-                        /*const missingTitle= document.createElement('H3');
+                        const missingTitle= document.createElement('h3');
                         missingTitle.textContent= 'Your Current Missing Posts';
-                        document.getElementById('post-container-missing').appendChild(missingTitle);*/
+                        document.getElementById('relatedHeading-Missing').appendChild(missingTitle);
                     
                         missingPosts.forEach(post => {
                     
@@ -531,9 +638,9 @@
                         document.getElementById('post-container-found').appendChild(textDisplay);*/
                         console.log('No related found pet posts for this user');
                     } else {
-                        /*const missingTitle= document.createElement('H3');
-                        missingTitle.textContent= 'Your Found Posts';
-                        document.getElementById('post-container-found').appendChild(missingTitle);*/
+                        const foundTitle= document.createElement('h3');
+                        foundTitle.textContent= 'Your Found Posts';
+                        document.getElementById('relatedHeading-Found').appendChild(foundTitle);
 
                         foundPosts.forEach(post => {
                         //new div for post 
@@ -621,7 +728,7 @@
 
                 if (response.ok) {
                     alert("Post deleted successfully.");
-                    //window.location.href = "userpage.html"; // Redirect after deletion
+                    window.location.reload(); //refresh page 
                 } else {
                     alert("Failed to delete post.");
                 }
@@ -643,7 +750,7 @@
 
                 if (response.ok) {
                     alert("Post updated successfully.");
-                    //window.location.href = "userpage.html";
+                    window.location.reload(); //refresh page 
                 } else {
                     alert("Failed to update post.");
                 }
