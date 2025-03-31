@@ -252,7 +252,8 @@ h5 {
     */
     text-align: center;
     font-size: 2.5em;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .login {
@@ -528,6 +529,21 @@ h5 {
     object-fit: contain; /* Ensures the image fills the space without stretching */
     
     border-radius: 8px; /* Optional: Round image corners */
+}
+
+.postSignup{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 500px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    margin: auto;
 }
 
 /* Movie info section */
