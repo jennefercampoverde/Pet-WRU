@@ -538,7 +538,7 @@ h5 {
     justify-content: center;
     align-items: center;
     width: 30%;
-    height: 500px;
+    height: auto;
     border-radius: 8px;
     background-color: #f9f9f9;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -627,6 +627,7 @@ button {
     transition: background-color 0.3s ease;
     font-size: 1em;
     width: auto; /* Ensures the button only takes up necessary space */
+    margin-bottom: 20px;
     }
 
 button:hover {
