@@ -541,7 +541,8 @@ textarea {
     padding: 30px;
     width: auto;
     height: auto;
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
 }
 
 /* footer */
