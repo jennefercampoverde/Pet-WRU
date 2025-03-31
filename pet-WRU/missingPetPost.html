@@ -503,6 +503,10 @@
                     const postSmall = document.createElement('small');
                     postSmall.textContent = `Date Posted: ${dateCreated}`;
                     console.log(postSmall);
+
+                    //creating a breakline
+                    const emptySpace = document.createElement('br');
+                    
                     
                     // Adding all elements to front end by nesting the divs
 
@@ -511,15 +515,23 @@
                     postInfoElement.appendChild(postHeader); // then header and within post-info
                     innerPostElement.appendChild(postInfoElement);
 
-                    postInfoElement.appendChild(lostIdHeader); // lostid
+                    
                     postInfoElement.appendChild(postParagraph); // last dates and within post-info
                     innerPostElement.appendChild(postInfoElement);
 
                     postInfoElement.appendChild(postSmall);
                     innerPostElement.appendChild(postInfoElement);
 
+                    postInfoElement.appendChild(emptySpace);
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postInfoElement.appendChild(lostIdHeader); // lostid
+                    innerPostElement.appendChild(postInfoElement);
+                    
                     postElement.appendChild(innerPostElement);
-        
+
+                    
+                    
                     //have to confirm these css ids/classes
                     postElement.classList.add('post-container'); 
                     innerPostElement.classList.add('post');
