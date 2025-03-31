@@ -503,6 +503,47 @@ textarea {
     background: #e65c00;
 }
 
+
+/* Buttons */
+
+.deleteButton {
+    
+    font-size: 16px;
+    padding: 10px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    width: auto; /* Ensures the button only takes up necessary space */
+}
+
+.updateButton {
+    font-size: 16px;
+    padding: 10px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    width: auto; /* Ensures the button only takes up necessary space */
+}
+
+.btnDiv{
+    padding: 30px;
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+
 /* footer */
 .footer-container {
     background-color:  #ffffff;;

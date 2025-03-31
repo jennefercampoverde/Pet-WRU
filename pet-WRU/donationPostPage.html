@@ -391,21 +391,24 @@
 
                     // Create action buttons (initially visible if the user created the post)
                     if (post.userID === userID) {
-                        const actionButtons = document.createElement('div');
-                        actionButtons.classList.add('post-actions');
+                        //div for buttons
+                        const buttonDiv=  document.createElement('div');
+                        buttonDiv.classList.add('btnDiv');
 
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'Delete Donation';
+                        deleteButton.classList.add('deleteButton');
                         deleteButton.onclick = () => deleteDonation(post.donationID);
 
                         const markUnavailableButton = document.createElement('button');
                         markUnavailableButton.textContent = 'Mark as Claimed';
+                        markUnavailableButton.classList.add('updateButton');
                         markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
 
-                        actionButtons.appendChild(deleteButton);
-                        actionButtons.appendChild(markUnavailableButton);
+                        buttonDiv.appendChild(deleteButton);
+                        buttonDiv.appendChild(markUnavailableButton);
 
-                        postElement.appendChild(actionButtons); // Append action buttons to post container
+                        innerPostElement.appendChild(buttonDiv); // Append action buttons to post container
                     }
 
                     donationPostsList.appendChild(postElement); // Append postElement instead of innerPostElement
