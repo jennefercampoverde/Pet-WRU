@@ -597,7 +597,7 @@ exports.createDonation = async (req, res) => {
         conn.release();
 
         console.log(`Donation listed successfully.`);
-        res.json({ message: "Donation listed successfully!" });
+        res.json({ success: true, message: "Donation listed successfully!" });
 
     } catch (err) {
         console.error(err);
