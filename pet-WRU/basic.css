@@ -550,6 +550,22 @@ h5 {
     margin-bottom: 40px;
 }
 
+.postLogin{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: auto;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    margin: auto;
+    margin-bottom: 40px;
+}
+
 /* Movie info section */
 .post-info {
     text-align: center;
