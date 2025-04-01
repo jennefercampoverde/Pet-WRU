@@ -370,7 +370,7 @@
                     const postZipcode = document.createElement('p');
                     postZipcode.textContent = `${post.zipcode}`;
 
-                    // Paragraph with zipcode
+                    // Paragraph with description
                     const descriptionText= document.createElement('strong');
                     descriptionText.textContent=` Description:`
                     const postDescription = document.createElement('p');
@@ -385,12 +385,31 @@
                     const postSmall = document.createElement('small');
                     postSmall.textContent = ` ${dateCreated}`;
 
+                    //text for contact 
+                    const contactText= document.createElement('strong');
+                    contactText.textContent=`Contact: `
+                    const postContact = document.createElement('p');
+                    postContact.textContent =` ${post.emailAddress}`;
+
+                    //text for quantity
+                    const quantityText= document.createElement('strong');
+                    quantityText.textContent=`Quantity: `
+                    const postQuantity = document.createElement('p');
+                    postQuantity.textContent =` ${post.quantity}`;
+
                     // Append elements in order
                     postInfoElement.appendChild(postHeader);
                     postInfoElement.appendChild(dateText);
                     postInfoElement.appendChild(postSmall);
+  
+                    postInfoElement.appendChild(contactText);
+                    postInfoElement.appendChild(postContact);
                     postInfoElement.appendChild(statusText);
                     postInfoElement.appendChild(postStatus);
+                    
+                    postInfoElement.appendChild(quantityText);
+                    postInfoElement.appendChild(postQuantity);
+
                     postInfoElement.appendChild(conditionText)
                     postInfoElement.appendChild(postParagraph);
                     postInfoElement.appendChild(zipcodeText);

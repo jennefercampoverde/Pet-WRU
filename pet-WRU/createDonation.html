@@ -187,7 +187,8 @@
                         // Check if post was successful and redirect
                         if (result.success) {
                             alert("Donation listed successfully");
-                            window.location.href = 'donationPostPage.html';
+                            document.location = 'donationPostPage.html';
+
                         } else {
                             alert(result.message || 'Failed to list donation');
                         }

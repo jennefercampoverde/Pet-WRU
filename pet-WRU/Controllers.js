@@ -437,7 +437,7 @@ exports.showDonations = async(req, res) => {
 
     try{
         const conn= await pool.getConnection();
-        const rows= await conn.query("SELECT * FROM donations");
+        const rows= await conn.query("SELECT donations.donationID, donations.userID,usersInfo.emailAddress, donations.dateCreated,donations.zipcode,donations.itemStatus, donations.itemCategory, donations.itemName,donations.quantity,donations.itemCondition,donations.itemDescription,donations.item_image_path From donations INNER JOIN usersInfo ON usersInfo.userID=donations.userID");
         res.json(rows);
         conn.release();
     }
@@ -597,7 +597,7 @@ exports.createDonation = async (req, res) => {
         conn.release();
 
         console.log(`Donation listed successfully.`);
-        res.json({ message: "Donation listed successfully!" });
+        res.json({ success: true, message: "Donation listed successfully!" });
 
     } catch (err) {
         console.error(err);
