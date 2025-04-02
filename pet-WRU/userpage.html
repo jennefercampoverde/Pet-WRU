@@ -188,16 +188,22 @@
                     imgAvatar.src= 'serverImages/userAvatar.png';
                     //imgAvatar.classList.add('user-avatar');
                     infoDiv.appendChild(imgAvatar);
-                    
+
+
+                    //creating Name text
+                    const name = document.createElement('h3');
+                    name.textContent = `${user.firstName} ${user.lastName} `;
+                    infoDiv.appendChild(name);
 
                     //creating username text
                     const textUsername = document.createElement('strong');
                     textUsername.textContent = `Current Username: `;
-                    
+                    infoDiv.appendChild(textUsername);
+
                     //Adding userName
                     const infoUsername = document.createElement('p');
                     infoUsername.textContent = `${user.userName}`;
-                    infoDiv.appendChild(textUsername);
+                    
                     infoDiv.appendChild(infoUsername);
 
 
@@ -431,9 +437,6 @@
     
                         postInfoElement.appendChild(postSmall);
                         innerPostElement.appendChild(postInfoElement);
-
-                        
-    
                         postElement.appendChild(innerPostElement);
             
                         
