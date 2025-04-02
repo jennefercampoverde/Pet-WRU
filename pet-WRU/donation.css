@@ -551,9 +551,12 @@ textarea {
     cursor: pointer;
     transition: background-color 0.3s ease;
     position: absolute; 
-    top: 15px;  
+    top: 10px;  
     left: 10px; 
     width: auto; /* Ensures the button only takes up necessary space */
+}
+.updateButton:hover {
+    color: #5396fb;
 }
 
 .post-text {

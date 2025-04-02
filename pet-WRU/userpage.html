@@ -450,11 +450,19 @@
                         const buttonDiv=  document.createElement('div');
                         buttonDiv.classList.add('btnDiv');
 
+                        //creating delete button 
                         const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Delete Donation';
+
+                        // Create the trash icon element
+                        const icon = document.createElement('i');
+                        icon.classList.add('fas', 'fa-trash-alt');  // Add the icon classes
+
+                        // Append the icon to the delete button
+                        deleteButton.appendChild(icon);
                         deleteButton.classList.add('deleteButton');
                         deleteButton.onclick = () => deleteDonation(post.donationID);
-                        
+
+                        // Adding status from db
                         const currentStatus= `${post.itemStatus}`;
                         buttonDiv.appendChild(deleteButton);
                         
