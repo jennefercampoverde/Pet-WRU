@@ -358,49 +358,49 @@ span:active {
 /* Adjust image size */
 .post img {
     width: 100%; /* Make image fill the width of the card */
-    height: auto; /* Set a fixed height */
-    max-height: 300px; /* Adjust based on design */
+    height: auto;
+   
+    max-height: 220px; /* Set a fixed height */
+/* Adjust based on designmax-height: 300px;  */
     object-fit: contain; /* Ensures the image fills the space without stretching */
+    object-position: center;    
     border-radius: 8px; /* Optional: Round image corners */
 }
 
 /* Post info section */
 .post-info {
-    text-align: center;
     color: #333;
     margin-top: 5px; 
 }
 
 /* Title styling */
 .post-info h3 {
-    font-size: 1.4em; /* Smaller title */
+    font-size: 1.em; /* Smaller title */
     color: rgb(0, 0, 0);
-    margin-bottom: 5px;
-    padding-bottom: 8px;
+    text-align: center;
 }
 
 /* General text styling */
 .post-info p {
     font-size: 0.7em; /* Adjust text size for info */
-    margin: 3px 0;
-    display:flex;
-    text-align: left;
+
+ 
     padding-bottom: 5px; 
 }
 
 .post-info small{
     font-size: 0.7em; /* Adjust text size for info */
-    margin: 3px 0;
-    display:flex;
-    padding-bottom: 5px;
+
+
+
 }
 
 
 .post-info strong{
     font-size: 0.8em; /* Adjust text size for info */
-    margin: 3px 0;
-    display:flex;
-    text-align: center;
+
+
+
 }
 .container {
     background: white;
@@ -524,23 +524,24 @@ textarea {
 
 .deleteButton {
     
-    font-size: 15px;
-    padding: 10px 10px;
-    margin-top: 5px;
-    cursor: pointer;
-    background-color: #0d6efd;
-    color: white;
+    background: whitesmoke;
     border: none;
-    border-radius: 4px;
+    color: #FF0000;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1em;
-    width: auto; /* Ensures the button only takes up necessary space */
+    position: absolute; 
+    top: 15px;  
+    right: 10px; 
+    display: inline-block; 
 }
+.deleteButton:hover {
+    color: #D50000;
+}
+
 
 .updateButton {
-    font-size: 15px;
-    padding: 10px 10px;
+    font-size: 12px;
+    padding: 6px 6px;
     margin-top: 5px;
     cursor: pointer;
     background-color: #0d6efd;
@@ -549,17 +550,61 @@ textarea {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 1em;
+    position: absolute; 
+    top: 15px;  
+    left: 10px; 
     width: auto; /* Ensures the button only takes up necessary space */
 }
 
-.btnDiv{
-    padding: 30px;
-    width: auto;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
+.post-text {
+    font-size: 1.0em; /* Adjust text size for info */
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 80px;
+    padding: 3px;
+    max-width: 100%;
+    border-bottom: 1px solid #eaeaea;
+
 }
+.post-text p, small {
+
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+    display: block;
+    text-align: right;
+    flex: 1; /* Allows text to take up remaining space */
+    min-width: 100px; /* Prevents it from disappearing completely */
+    margin-left: 20px;
+    
+}
+.post-text strong {
+
+    color: #2c3e50;
+
+    font-weight: bold;
+    display: block;
+    margin-right: 10px;
+    text-align: left;
+    flex-shrink: 0; /* Prevents label from shrinking too much */
+    width: 150px; /* Ensures labels have consistent width */
+
+}
+.post-description{
+    padding: 1px;
+}
+
+.post-description p{
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+    display: block;
+    text-align: left;
+
+    min-width: 100px; /* Prevents it from disappearing completely */
+
+}
+
 
 /* footer */
 .footer-container {

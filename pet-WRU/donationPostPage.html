@@ -347,77 +347,114 @@
                     // Creating div to hold post details
                     const postInfoElement = document.createElement('div');
                     postInfoElement.classList.add('post-info');
-
+                    
                     // Header with item name
                     const postHeader = document.createElement('h3');
                     postHeader.textContent = post.itemName;
 
-                    // Paragraph with item condition
-                    const conditionText= document.createElement('strong');
-                    conditionText.textContent=`Condition:`
-                    const postParagraph = document.createElement('p');
-                    postParagraph.textContent = `${post.itemCondition}`;
-
-                    // Paragraph with status
-                    const statusText= document.createElement('strong');
-                    statusText.textContent=`Status:`
-                    const postStatus = document.createElement('p');
-                    postStatus.textContent = `${post.itemStatus}`;
-
-                    // Paragraph with zipcode
-                    const zipcodeText= document.createElement('strong');
-                    zipcodeText.textContent=` Zipcode:`
-                    const postZipcode = document.createElement('p');
-                    postZipcode.textContent = `${post.zipcode}`;
-
-                    // Paragraph with description
-                    const descriptionText= document.createElement('strong');
-                    descriptionText.textContent=` Description:`
-                    const postDescription = document.createElement('p');
-                    postDescription.textContent = ` ${post.itemDescription}`;
+                    //div,text & info for contact 
+                    const contactDiv= document.createElement('div');
+                    const contactText= document.createElement('strong');
+                    contactText.classList.add('contact-text');
+                    contactText.textContent=`Contact: `
+                    const postContact = document.createElement('p');
+                    postContact.classList.add('contact-text');
+                    postContact.textContent =` ${post.emailAddress}`;
+                    contactDiv.appendChild(contactText);
+                    contactDiv.appendChild(postContact);
+                    contactDiv.classList.add('post-text');
 
                     // Format date
                     const dateText= document.createElement('strong');
                     dateText.textContent=`Date Posted: `
                     const dateCreated = new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat);
 
-                    // Small tag for date
-                    const postSmall = document.createElement('small');
-                    postSmall.textContent = ` ${dateCreated}`;
 
-                    //text for contact 
-                    const contactText= document.createElement('strong');
-                    contactText.textContent=`Contact: `
-                    const postContact = document.createElement('p');
-                    postContact.textContent =` ${post.emailAddress}`;
+                    // div,text & info date
+                    const dateDiv=document.createElement('div');
+                    const postDate = document.createElement('small');
+                    postDate.textContent = ` ${dateCreated}`;
+                    dateDiv.appendChild(dateText);
+                    dateDiv.appendChild(postDate);
+                    dateDiv.classList.add('post-text');
 
-                    //text for quantity
+                    // div,text & info status
+                    const statusDiv=document.createElement('div');
+                    const statusText= document.createElement('strong');
+                    statusText.textContent=`Status:`
+                    const postStatus = document.createElement('p');
+                    postStatus.textContent = `${post.itemStatus}`;
+                    statusDiv.appendChild(statusText);      
+                    statusDiv.appendChild(postStatus);  
+                    statusDiv.classList.add('post-text');
+
+                    //  div,text & info quantity
+                    const quantityDiv=document.createElement('div');
                     const quantityText= document.createElement('strong');
                     quantityText.textContent=`Quantity: `
                     const postQuantity = document.createElement('p');
                     postQuantity.textContent =` ${post.quantity}`;
+                    quantityDiv.appendChild(quantityText);      
+                    quantityDiv.appendChild(postQuantity);  
+                    quantityDiv.classList.add('post-text');
+
+                    //div,text & info item condition
+                    const divCondition= document.createElement('div');
+                    const conditionText= document.createElement('strong');
+                    conditionText.textContent=`Condition:`
+                    const postCondition = document.createElement('p');
+                    postCondition .textContent = `${post.itemCondition}`;
+                    divCondition.appendChild(conditionText);      
+                    divCondition.appendChild(postCondition );  
+                    divCondition.classList.add('post-text');
+
+
+                    // div,text & info zipcode
+                    const zipcodeDiv= document.createElement('div');
+                    const zipcodeText= document.createElement('strong');
+                    zipcodeText.textContent=` Zipcode:`
+                    const postZipcode = document.createElement('p');
+                    postZipcode.textContent = `${post.zipcode}`;
+                    zipcodeDiv.appendChild(zipcodeText);      
+                    zipcodeDiv.appendChild(postZipcode);  
+                    zipcodeDiv.classList.add('post-text');
+
+                    // div,text & info description
+                    const descriptionDiv =document.createElement('div');
+                    const descriptionText= document.createElement('strong');
+                    descriptionText.textContent=` Description:`
+                    const postDescription = document.createElement('p');
+                    postDescription.textContent = ` ${post.itemDescription}`;
+                    descriptionDiv.appendChild(descriptionText);      
+                    descriptionDiv.appendChild(postDescription);  
+                    descriptionDiv.classList.add('post-description');
+                   
+                
 
                     // Append elements in order
                     postInfoElement.appendChild(postHeader);
-                    postInfoElement.appendChild(dateText);
-                    postInfoElement.appendChild(postSmall);
-  
-                    postInfoElement.appendChild(contactText);
-                    postInfoElement.appendChild(postContact);
-                    postInfoElement.appendChild(statusText);
-                    postInfoElement.appendChild(postStatus);
-                    
-                    postInfoElement.appendChild(quantityText);
-                    postInfoElement.appendChild(postQuantity);
 
-                    postInfoElement.appendChild(conditionText)
-                    postInfoElement.appendChild(postParagraph);
-                    postInfoElement.appendChild(zipcodeText);
-                    postInfoElement.appendChild(postZipcode);
-                    postInfoElement.appendChild(postZipcode);
-                    postInfoElement.appendChild(descriptionText);
-                    postInfoElement.appendChild(postDescription);
+                    //Adding date Text
+                    postInfoElement.appendChild(dateDiv);
+
+                    // Adding email
+                    postInfoElement.appendChild(contactDiv);
+                  
+                    // Adding status text
                     
+                    postInfoElement.appendChild(statusDiv);
+                          
+                    // Adding quantity
+                    postInfoElement.appendChild(quantityDiv);
+                    
+                    //adding condition 
+                    postInfoElement.appendChild(divCondition)
+                    
+                    //Adding zipcode
+                    postInfoElement.appendChild(zipcodeDiv);
+                    
+                    //Adding description
+                    postInfoElement.appendChild(descriptionDiv);
                     
 
                     innerPostElement.appendChild(postImg);
@@ -431,17 +468,25 @@
                         const buttonDiv=  document.createElement('div');
                         buttonDiv.classList.add('btnDiv');
 
+                        //creatign delete button 
                         const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Delete Donation';
+
+                        // Create the trash icon element
+                        const icon = document.createElement('i');
+                        icon.classList.add('fas', 'fa-trash-alt');  // Add the icon classes
+
+                        // Append the icon to the delete button
+                        deleteButton.appendChild(icon);
                         deleteButton.classList.add('deleteButton');
                         deleteButton.onclick = () => deleteDonation(post.donationID);
 
+                        // Adding status from db
                         const currentStatus= `${post.itemStatus}`;
                         buttonDiv.appendChild(deleteButton);
 
                         if( currentStatus== 'Available'){
                         const markUnavailableButton = document.createElement('button');
-                        markUnavailableButton.textContent = 'Mark as Unavailable';
+                        markUnavailableButton.textContent = 'Mark as Claimed';
                         markUnavailableButton.classList.add('updateButton');
                         markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
                         buttonDiv.appendChild(markUnavailableButton);
