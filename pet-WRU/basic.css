@@ -546,7 +546,7 @@ h5 {
     margin-bottom: 50px;
 }
 
-#post-container-missing, #post-container-found, #post-container-donations{
+#post-container-missing, #post-container-found{
     display: flex;
     flex-wrap: wrap; /* Allow wrapping of rows */
     gap: 20px; /* Add spacing between items */
@@ -556,8 +556,16 @@ h5 {
     margin-bottom: 50px;
 
 }
-#post-container-missing, #post-container-found, #post-container-donations h4 {
+#post-container-missing, #post-container-found h4 {
     text-align:center;
+}
+
+#post-container-donations{
+    display: grid; /* Change to grid */
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px; /* Add spacing */
+    justify-content: center; /* Center the grid */
+    margin: 20px;
 }
 
 
