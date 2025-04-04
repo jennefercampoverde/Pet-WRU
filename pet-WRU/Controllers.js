@@ -700,7 +700,7 @@ exports.showRelatedMissingPosts = async(req, res) => {
         }
 
         const conn = await pool.getConnection();
-        const rows= await conn.query("SELECT * FROM lostPets WHERE userID = ?",[userID]);
+        const rows= await conn.query("SELECT * FROM lostPets WHERE status = 'Lost' AND userID = ?",[userID]);
         res.json(rows);
         conn.release();
     } 
@@ -826,7 +826,7 @@ exports.searchBarMissing = async (req, res) => {
     const {lostID}= req.params;
     try {
         const conn = await pool.getConnection();
-        const rows = await conn.query("SELECT * FROM lostPets WHERE lostID=?", [lostID]);
+        const rows = await conn.query("SELECT * FROM lostPets WHERE status = 'Lost' AND lostID=?", [lostID]);
         res.json(rows);
         conn.release();
     } catch (err) {

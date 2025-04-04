@@ -383,23 +383,17 @@ span:active {
 /* General text styling */
 .post-info p {
     font-size: 0.7em; /* Adjust text size for info */
-
- 
     padding-bottom: 5px; 
 }
 
 .post-info small{
     font-size: 0.7em; /* Adjust text size for info */
 
-
-
 }
 
 
 .post-info strong{
     font-size: 0.8em; /* Adjust text size for info */
-
-
 
 }
 .container {
