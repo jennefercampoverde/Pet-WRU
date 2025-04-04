@@ -486,11 +486,12 @@
                         
                         document.getElementById('post-container').appendChild(innerPostElement);
 
+                        //Adding date Text
+                        postInfoElement.appendChild(dateDiv);
+                        
                         // Adding email
                         postInfoElement.appendChild(contactDiv);
 
-                        //Adding date Text
-                        postInfoElement.appendChild(dateDiv);
 
                         // Adding status text
                     
@@ -558,7 +559,7 @@
                     }
 
                     const missingPosts= await response.json();
-                    console.log("Missing Pet Posts data:", missingPosts);
+                    //console.log("Missing Pet Posts data:", missingPosts);
                     
                     //creating GUI
                     const missingPostsList = document.getElementById('post-container-missing');
