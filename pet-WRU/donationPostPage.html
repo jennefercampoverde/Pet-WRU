@@ -64,17 +64,17 @@
     <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
-    <form method="GET" action="#" class="filters-form">
+    <form id="filterForm" method="GET" action="#" class="filters-form">
         <div class="filter-group">
             <label for="category">Category</label>
             <select name="category" id="category">
                 <option value="">Choose an item category</option>
                 <option value="Bedding">Bedding</option> 
                 <option value="Clothing">Clothing</option> 
-                <option value="GroomingSupplies">Grooming Supplies</option> 
-                <option value="Leashes&Collars">Leashes & Collars</option> 
-                <option value="Litter&Waste Supplies">Litter & Waste Supplies</option> 
-                <option value="MedicalSupplies">Medical Supplies</option> 
+                <option value="Grooming Supplies">Grooming Supplies</option> 
+                <option value="Leashes & Collars">Leashes & Collars</option> 
+                <option value="Litter & Waste Supplies">Litter & Waste Supplies</option> 
+                <option value="Medical Supplies">Medical Supplies</option> 
                 <option value="Toys"> Toys</option> 
                 <option value="Transport Supplies">Transport Supplies</option> 
             </select>
@@ -84,10 +84,10 @@
             <label for="condition">Condition</label>
             <select name="condition" id="condition">
                 <option value="">Choose a condition</option>
-                <option value="new">New</option>
-                <option value="likeNew">Like New</option>
-                <option value="gentlyUsed">Gently Used</option>
-                <option value="used">Used</option>
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Gently Used">Gently Used</option>
+                <option value="Used">Used</option>
                 <option value="worn">Worn</option>
             </select>
         </div>
@@ -101,7 +101,7 @@
         </div>
         <div class="filter-buttons">
             <button type="submit" class="filter-apply-btn">Apply Filters</button>
-            <button type="reset" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
+            <button type="button" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
         </div>
     </form>
 </div>
@@ -232,12 +232,13 @@
 
         // clears any filters that were applied
         function clearFilters() {
-            document.getElementById("species").value = "";
-            document.getElementById("zip-code").value = "";
-            document.getElementById("gender").value = "";
-            document.getElementById("size").value = "";
-            document.getElementById("sort-by-time").value = "";
-            document.forms[0].submit(); // Automatically submit the cleared form
+            // Reset just the relevant filter fields
+            document.getElementById("category").value = "";
+            document.getElementById("condition").value = "";
+            document.getElementById("dateOrder").value = "";
+
+            // Optionally re-trigger full donation list after clearing
+            showDonations();
         }
 
          // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
@@ -542,6 +543,164 @@
             }
         }
 
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("filterForm");
+            const postContainer = document.getElementById("post-container");
+
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const category = document.getElementById("category").value;
+                const condition = document.getElementById("condition").value;
+                const sortBy = document.getElementById("dateOrder").value;
+
+                const queryParams = new URLSearchParams();
+                if (category) queryParams.append("category", category);
+                if (condition) queryParams.append("condition", condition);
+                if (sortBy) queryParams.append("sortBy", sortBy);
+
+                try {
+                    const userID = await getUserID();
+                    const res = await fetch(`/filterDonations?${queryParams.toString()}`);
+                    const donations = await res.json();
+
+                    postContainer.innerHTML = "";
+
+                    if (donations.length === 0) {
+                        postContainer.textContent = 'No donations match the selected filters.';
+                        return;
+                    }
+
+                    const pathFolder = "donationsImages/";
+
+                    donations.forEach(post => {
+                        const postElement = document.createElement('div');
+                        postElement.classList.add('post-container');
+                        postElement.dataset.postId = post.donationID;
+                        postElement.dataset.postUserId = post.userID;
+
+                        const innerPostElement = document.createElement('div');
+                        innerPostElement.classList.add('post');
+
+                        const postImg = document.createElement('img');
+                        postImg.src = pathFolder + post.item_image_path;
+
+                        const postInfoElement = document.createElement('div');
+                        postInfoElement.classList.add('post-info');
+
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = post.itemName;
+
+                        const contactDiv = document.createElement('div');
+                        const contactText = document.createElement('strong');
+                        contactText.classList.add('contact-text');
+                        contactText.textContent = `Contact: `;
+                        const postContact = document.createElement('p');
+                        postContact.classList.add('contact-text');
+                        postContact.textContent = ` ${post.emailAddress}`;
+                        contactDiv.appendChild(contactText);
+                        contactDiv.appendChild(postContact);
+                        contactDiv.classList.add('post-text');
+
+                        const dateDiv = document.createElement('div');
+                        const dateText = document.createElement('strong');
+                        dateText.textContent = `Date Posted: `;
+                        const postDate = document.createElement('small');
+                        postDate.textContent = ` ${new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat)}`;
+                        dateDiv.appendChild(dateText);
+                        dateDiv.appendChild(postDate);
+                        dateDiv.classList.add('post-text');
+
+                        const statusDiv = document.createElement('div');
+                        const statusText = document.createElement('strong');
+                        statusText.textContent = `Status: `;
+                        const postStatus = document.createElement('p');
+                        postStatus.textContent = `${post.itemStatus}`;
+                        statusDiv.appendChild(statusText);
+                        statusDiv.appendChild(postStatus);
+                        statusDiv.classList.add('post-text');
+
+                        const quantityDiv = document.createElement('div');
+                        const quantityText = document.createElement('strong');
+                        quantityText.textContent = `Quantity: `;
+                        const postQuantity = document.createElement('p');
+                        postQuantity.textContent = ` ${post.quantity}`;
+                        quantityDiv.appendChild(quantityText);
+                        quantityDiv.appendChild(postQuantity);
+                        quantityDiv.classList.add('post-text');
+
+                        const divCondition = document.createElement('div');
+                        const conditionText = document.createElement('strong');
+                        conditionText.textContent = `Condition: `;
+                        const postCondition = document.createElement('p');
+                        postCondition.textContent = `${post.itemCondition}`;
+                        divCondition.appendChild(conditionText);
+                        divCondition.appendChild(postCondition);
+                        divCondition.classList.add('post-text');
+
+                        const zipcodeDiv = document.createElement('div');
+                        const zipcodeText = document.createElement('strong');
+                        zipcodeText.textContent = ` Zipcode: `;
+                        const postZipcode = document.createElement('p');
+                        postZipcode.textContent = `${post.zipcode}`;
+                        zipcodeDiv.appendChild(zipcodeText);
+                        zipcodeDiv.appendChild(postZipcode);
+                        zipcodeDiv.classList.add('post-text');
+
+                        const descriptionDiv = document.createElement('div');
+                        const descriptionText = document.createElement('strong');
+                        descriptionText.textContent = ` Description: `;
+                        const postDescription = document.createElement('p');
+                        postDescription.textContent = ` ${post.itemDescription}`;
+                        descriptionDiv.appendChild(descriptionText);
+                        descriptionDiv.appendChild(postDescription);
+                        descriptionDiv.classList.add('post-description');
+
+                        postInfoElement.appendChild(postHeader);
+                        postInfoElement.appendChild(dateDiv);
+                        postInfoElement.appendChild(contactDiv);
+                        postInfoElement.appendChild(statusDiv);
+                        postInfoElement.appendChild(quantityDiv);
+                        postInfoElement.appendChild(divCondition);
+                        postInfoElement.appendChild(zipcodeDiv);
+                        postInfoElement.appendChild(descriptionDiv);
+
+                        innerPostElement.appendChild(postImg);
+                        innerPostElement.appendChild(postInfoElement);
+
+                        if (post.userID === userID) {
+                            const buttonDiv = document.createElement('div');
+                            buttonDiv.classList.add('btnDiv');
+
+                            const deleteButton = document.createElement('button');
+                            const icon = document.createElement('i');
+                            icon.classList.add('fas', 'fa-trash-alt');
+                            deleteButton.appendChild(icon);
+                            deleteButton.classList.add('deleteButton');
+                            deleteButton.onclick = () => deleteDonation(post.donationID);
+                            buttonDiv.appendChild(deleteButton);
+
+                            if (post.itemStatus === 'Available') {
+                                const markUnavailableButton = document.createElement('button');
+                                markUnavailableButton.textContent = 'Mark as Claimed';
+                                markUnavailableButton.classList.add('updateButton');
+                                markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
+                                buttonDiv.appendChild(markUnavailableButton);
+                            }
+
+                            innerPostElement.appendChild(buttonDiv);
+                        }
+
+                        postElement.appendChild(innerPostElement);
+                        postContainer.appendChild(postElement);
+                    });
+
+                } catch (err) {
+                    console.error("Error fetching filtered donations:", err);
+                    postContainer.innerHTML = "<p>Something went wrong while loading donations.</p>";
+                }
+            });
+        });
     </script>
 </body>
 </html>
