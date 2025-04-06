@@ -519,12 +519,7 @@ h5 {
     color: #5396fb;
 }
 
-.btnDiv{
-    padding: 30px;
-    width: auto;
-    height: auto;
-    display: inline-block;
-}
+
 /* End of userpage */
 
 /* Start of Donation Post */
@@ -555,12 +550,49 @@ h5 {
     text-align:center;
 }
 
-#post-container-donations{
+
+.post-container-donations{
+    position: relative; /* Ensures child elements can be absolutely positioned */
+    box-sizing: border-box;
+    background-color: rgb(255, 255, 255); /* Optional: Add background color to cards */
+    padding: 10px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    min-height: 300px; /* Adjust based on content length */
+    overflow: hidden;
+
+}
+
+.post-container-donations:hover {
+    transform: scale(1.012); /* Slightly scale up the card on hover */
+}
+.post-container-donations img {
     display: grid; /* Change to grid */
     grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
     gap: 20px; /* Add spacing */
     justify-content: center; /* Center the grid */
     margin: 20px;
+}
+.post-container-donations p{
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+    display: block;
+    text-align: right;
+    flex: 1; /* Allows text to take up remaining space */
+    min-width: 100px; /* Prevents it from disappearing completely */
+    margin-left: 20px;
+}
+.post-container-donations strong {
+    color: #2c3e50;
+
+    font-weight: bold;
+    display: block;
+    margin-right: 10px;
+    text-align: left;
+    flex-shrink: 0; /* Prevents label from shrinking too much */
+    width: 150px; /* Ensures labels have consistent width */
+
 }
 
 .post-text{
@@ -608,7 +640,6 @@ h5 {
     line-height: 1.5;
     display: block;
     text-align: left;
-
     min-width: 100px; /* Prevents it from disappearing completely */
 
 }
@@ -636,6 +667,15 @@ h5 {
     height: auto; /* Set a fixed height */
     object-fit: contain; /* Ensures the image fills the space without stretching */
     
+    border-radius: 8px; /* Optional: Round image corners */
+}
+.user-donations-img{
+    width: 100%; /* Make image fill the width of the card */
+    height: auto;
+    max-height: 220px; /* Set a fixed height */
+/* Adjust based on designmax-height: 300px;  */
+    object-fit: contain; /* Ensures the image fills the space without stretching */
+    object-position: center;    
     border-radius: 8px; /* Optional: Round image corners */
 }
 
@@ -670,14 +710,12 @@ h5 {
     margin: auto;
     margin-bottom: 40px;
 }
-
-/* Movie info section */
+/* Detail info section */
 .post-info {
     text-align: center;
     color: #333;
     margin-top: 10px;
 }
-
 /* Title styling */
 .post-info h4 {
     position: absolute;
@@ -687,8 +725,6 @@ h5 {
     bottom: -5px; /* Pin to the bottom */
     left: 10px; /* Pin to the left */
 }
-
-
 /* Title styling */
 .post-info h3 {
     font-size: 1.2em; /* Smaller title */

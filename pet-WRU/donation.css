@@ -359,7 +359,6 @@ span:active {
 .post img {
     width: 100%; /* Make image fill the width of the card */
     height: auto;
-   
     max-height: 220px; /* Set a fixed height */
 /* Adjust based on designmax-height: 300px;  */
     object-fit: contain; /* Ensures the image fills the space without stretching */
