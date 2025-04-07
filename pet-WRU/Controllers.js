@@ -860,23 +860,23 @@ exports.filterDonations = async (req, res) => {
     const conditions = [];
   
     if (category) {
-      conditions.push('itemCategory = ?');
-      params.push(category);
+        conditions.push('itemCategory = ?');
+        params.push(category);
     }
   
     if (condition) {
-      conditions.push('itemCondition = ?');
-      params.push(condition);
+        conditions.push('itemCondition = ?');
+        params.push(condition);
     }
   
     if (conditions.length > 0) {
-      query += ' WHERE ' + conditions.join(' AND ');
+        query += ' WHERE ' + conditions.join(' AND ');
     }
   
     if (sortBy === 'oldest') {
-      query += ' ORDER BY dateCreated ASC';
+        query += ' ORDER BY dateCreated ASC';
     } else if (sortBy === 'newest') {
-      query += ' ORDER BY dateCreated DESC';
+        query += ' ORDER BY dateCreated DESC';
     }
 
     try {
@@ -932,7 +932,51 @@ exports.reunitedFilter = async (req, res) => {
 };
 
 
+// Route for missing pet filtering
+exports.filterMissing = async (req, res) => {
+    const { species, gender, size, sortBy, zipcode  } = req.query; 
 
+    let query = 'SELECT * FROM lostPets';
+    const params = [];
+    const conditions = [];
+  
+    if (species) {
+        conditions.push('animalType = ?');
+        params.push(species);
+    }
+  
+    if (gender) {
+        conditions.push('animalGender = ?');
+        params.push(gender);
+    }
+    if (size) {
+        conditions.push('animalSize = ?');
+        params.push(size);
+    }
+    
+    if (zipcode) {
+        conditions.push('lastZipcode = ?');
+        params.push(zipcode);
+    }
+  
+    if (conditions.length > 0) {
+        query += ' WHERE ' + conditions.join(' AND ');
+    }
+  
+    if (sortBy === 'oldest') {
+        query += ' ORDER BY dateCreated ASC';
+    } else if (sortBy === 'newest') {
+        query += ' ORDER BY dateCreated DESC';
+    }
+
+    try {
+        const results = await pool.query(query, params);
+        console.log(results);
+        res.json(results); 
+    } catch (error) {
+        res.status(500).json({ error: 'Database query failed' });
+    }
+};
 
 
 

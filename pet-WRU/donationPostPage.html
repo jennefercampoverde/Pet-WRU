@@ -236,9 +236,7 @@
             document.getElementById("category").value = "";
             document.getElementById("condition").value = "";
             document.getElementById("dateOrder").value = "";
-
-            // Optionally re-trigger full donation list after clearing
-            showDonations();
+            document.forms[0].submit(); // Automatically submit the cleared form
         }
 
          // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;

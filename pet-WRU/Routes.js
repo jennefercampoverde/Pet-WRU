@@ -57,7 +57,7 @@ router.get("/getUserInfo", Controller.getUserInfo);
 router.get("/searchBarMissing/:lostID",Controller.searchBarMissing);
 router.get("/searchBarFound/:foundID",Controller.searchBarFound);
 router.get("/reunitedFilter/:userOption", Controller.reunitedFilter);
-
+router.get("/filterMissing/",Controller.filterMissing); 
 router.get("/filterDonations/",Controller.filterDonations);  // when calling use the format: /filterDonations?category=XXX&condition=YYY&sortBy=ZZZ
                                                             // XXX , YYY, and ZZZ should be replaced with an actual value (e.g., Bedding, New, oldest, etc.)
 /*
