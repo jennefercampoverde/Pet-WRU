@@ -938,7 +938,8 @@ exports.filterMissing = async (req, res) => {
 
     let query = 'SELECT * FROM lostPets';
     const params = [];
-    const conditions = [];
+    const conditions = ['status = ?'];
+    params.push('Lost');
   
     if (species) {
         conditions.push('animalType = ?');
