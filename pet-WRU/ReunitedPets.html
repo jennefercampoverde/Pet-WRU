@@ -61,6 +61,7 @@
             <button id='submit-search-bar' type="submit">
                 <i class="fa fa-search"></i>
             </button>
+            <button id="clear-filters" type="reset" class="clear-search" onclick="clearFilters()">Clear Search Bar</button>
         </form>
     </div>
 
@@ -436,20 +437,17 @@
                 try {
                     await searchBar(SearchBarEntry);
                     if (SearchBarEntry){
-                        
-                        
+                                  
                         console.log('Search Bar has been triggered in the back-end.');
                 }
             }
                 catch(error){
                     console.error("Search failed", error);
                 }
-            
+        
             }
             });
-
         }
-
         //filters
         const filterButton= document.getElementById("the-filter-button");
         const selectOption=document.getElementById("sort-by-time-selection");
