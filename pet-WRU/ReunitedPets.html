@@ -423,6 +423,12 @@
             {
                 event.preventDefault();
                 const SearchBarEntry=document.getElementById('search').value.trim();
+
+                // Checking to see if user input is of int type
+                if (isNaN(SearchBarEntry)){
+                    alert("The Pet ID that you have entered is not valid. Please re-enter a valid Pet ID.")
+                }
+                else{
                 
                 console.log('FoundID entered:', SearchBarEntry);
                 console.log('Search Bar was clicked');
@@ -439,7 +445,7 @@
                     console.error("Search failed", error);
                 }
             
-
+            }
             });
 
         }
