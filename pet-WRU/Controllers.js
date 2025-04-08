@@ -554,7 +554,7 @@ exports.showComments = async (req,res)=>{
     
     try{
         const conn= await pool.getConnection();
-        const rows= await conn.query("SELECT usersInfo.userName, postComments.commentID, postComments.lostID, postComments.dateCreated, postComments.commentText, postComments.userID FROM postComments INNER JOIN usersInfo ON usersInfo.userID=postComments.userID WHERE postComments.lostID = ? ",[postID]);        
+        const rows= await conn.query("SELECT usersInfo.userName, postComments.commentID, postComments.lostID, postComments.dateCreated, postComments.commentText, postComments.userID FROM postComments INNER JOIN usersInfo ON usersInfo.userID=postComments.userID WHERE postComments.lostID = ? ORDER BY dateCreated DESC",[postID]);        
         res.json(rows);
         conn.release();
     }
