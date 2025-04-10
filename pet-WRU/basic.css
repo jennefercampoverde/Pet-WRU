@@ -441,7 +441,7 @@ h5 {
 }
 
 .userInformation-Form  input[type="text"], 
-.userInformation-Form textarea {
+.userInformation-Form textarea,.email-input {
     font-size: 15px;
     padding: 5px 10px;
     display: block;
