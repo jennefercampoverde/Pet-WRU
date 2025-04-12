@@ -2,7 +2,7 @@
 
 ## Project Overview, Objectives, and Goals
 
-## Installation
+## Installation & Usage
 ### This project uses NodeJs and MariaDb.
 - Links to download them (download the version that correlates with your OS):
   - NodeJs - https://nodejs.org/en/download
@@ -43,8 +43,5 @@
       plugin-dir=C:\Program Files\MariaDB 11.5/lib/plugin
   - Don't forget to save the changes.  
 
-## Usage
-
-  
 ## Credits and Acknowledgements
 
