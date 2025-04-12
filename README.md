@@ -29,6 +29,7 @@
   - Once opened, type the command: node App.js
   - This will launch the backend server, and give you the link to the locally hosted website (port 300)
   - Simply ctrl+click the link to be automatically redirected to the website
+  - Congradulations, you may now use this (locally hosted) website :D
 
 ### Database Connection Troubleshooting:
   - If you have problems connecting to the database, go to your MariaDb files and find the config file called "my.ini" or "my" (same file, name scheme depends on OS)
