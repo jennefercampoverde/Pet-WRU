@@ -8,8 +8,7 @@
   - NodeJs - https://nodejs.org/en/download
   - MariaDb - https://mariadb.org/download
 
-
-- To set up the backend database:
+- To set up the database:
   - MariaDb will download with a frontend interface called HeidiSQL
   - Open HeidiSQL, and click "New" to create a new connection.
   - Network Type: MariaDb or MySQL (TCP/IP)
@@ -22,21 +21,21 @@
     - Click "File" --> Click "Run SQL file" --> and select database.sql located in Pet-WRU/pet-WRU.
     - Click "Yes" on the confirmation popup, and the database now setup
 
-
 - Database Connection Troubleshooting:
- - If you have problems connecting to the database, go to your MariaDb files and find the config file called "my.ini" or "my" (same file, name scheme depends on OS)
- - Once in that file, copy/paste this to ensure the client and database ports are correct:
-      [mysqld]
+  - If you have problems connecting to the database, go to your MariaDb files and find the config file called "my.ini" or "my" (same file, name scheme depends on OS)
+  - Once in that file, copy/paste this to ensure the client and database ports are correct:
+|      [mysqld]
       datadir=C:/Program Files/MariaDB 11.5/data
       port=3306
       innodb_buffer_pool_size=1004M
       [client]
       port=3000
       plugin-dir=C:\Program Files\MariaDB 11.5/lib/plugin
- - Don't forget to save the changes.  
+  - Don't forget to save the changes.  
 
 ## Usage
 - To run this project (Pet WRU):
+  - Download NodeJs & MariaDb (setup database)
   - Download it as a ZIP file (click the green button on the repository that says "< > Code")
   - Unzip the file, and go to the pet-WRU folder (not to be confused with the Pet-WRU folder)
   - Open this folder in terminal
