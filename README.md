@@ -24,13 +24,13 @@
 - Database Connection Troubleshooting:
   - If you have problems connecting to the database, go to your MariaDb files and find the config file called "my.ini" or "my" (same file, name scheme depends on OS)
   - Once in that file, copy/paste this to ensure the client and database ports are correct:
-|      [mysqld]
-      datadir=C:/Program Files/MariaDB 11.5/data
-      port=3306
-      innodb_buffer_pool_size=1004M
-      [client]
-      port=3000
-      plugin-dir=C:\Program Files\MariaDB 11.5/lib/plugin
+-      [mysqld]
+-      datadir=C:/Program Files/MariaDB 11.5/data
+-      port=3306
+-      innodb_buffer_pool_size=1004M
+-      [client]
+-      port=3000
+-      plugin-dir=C:\Program Files\MariaDB 11.5/lib/plugin
   - Don't forget to save the changes.  
 
 ## Usage
