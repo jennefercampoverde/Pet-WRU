@@ -415,10 +415,7 @@
                     };
                     //postContainer.appendChild(deleteButton);
                     buttonContainerDiv.appendChild(deleteButton);
-                }
-
-                
-                
+                }                
                 postContainer.appendChild(postHeader);
                 postContainer.appendChild(detailsSection);
 
@@ -427,7 +424,6 @@
                 const createCommentsSection = document.getElementById('comments-section');
                 createCommentsSection.classList.add('post-feedback');
             
-
                 //creating section heading for comments form 
                 const commentsHeader= document.createElement('h2');
                 commentsHeader.textContent = 'Comment';
@@ -562,7 +558,6 @@
                 }
             }
 
-
         //function to create a comment 
         async function createComments(button){
 
@@ -576,19 +571,22 @@
                     const postID = await getPostID();
 
                     const commentTextFinal = document.getElementById("commentText").value.trim();
-                    
-                    
+
+                    if (commentTextFinal.length==0){
+                        
+                        alert("Please enter a comment before posting.");
+                        return;
+                    }
+     
                     console.log("PostID for creating comment:",postID)
-                    
 
                     if (!postID){
                     console.error("PostID is missing");
                     return;
                     }
-                
+                    
                     await sendComment(postID, commentTextFinal);
         
-                
                     commentText.value = ''; //clearing the input textbox
     
                 }
@@ -652,7 +650,7 @@
                     }
                 // Get the first item from the array
 
-                    console.log('Fetched Comments:', commentPosts); 
+                console.log('Fetched Comments:', commentPosts); 
 
         
                 const commentPostsList = document.getElementById('post-comments');
