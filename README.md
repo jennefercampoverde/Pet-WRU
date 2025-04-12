@@ -27,7 +27,7 @@
   - Unzip the file, and go to the pet-WRU folder (not to be confused with the Pet-WRU folder)
   - Open this folder in terminal
   - Once opened, type the command: node App.js
-  - This will launch the backend server, and give you the link to the locally hosted website (port 300)
+  - This will launch the backend server, and give you the link to the website
   - Simply ctrl+click the link to be automatically redirected to the website
   - Congradulations, you may now use this (locally hosted) website :D
 
