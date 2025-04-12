@@ -8,6 +8,7 @@
   - NodeJs - https://nodejs.org/en/download
   - MariaDb - https://mariadb.org/download
 
+
 - To set up the backend database:
   - MariaDb will download with a frontend interface called HeidiSQL
   - Open HeidiSQL, and click "New" to create a new connection.
@@ -20,6 +21,7 @@
   - Once there, follow these steps:
     - Click "File" --> Click "Run SQL file" --> and select database.sql located in Pet-WRU/pet-WRU.
     - Click "Yes" on the confirmation popup, and the database now setup
+
 
 - Database Connection Troubleshooting:
  - If you have problems connecting to the database, go to your MariaDb files and find the config file called "my.ini" or "my" (same file, name scheme depends on OS)
