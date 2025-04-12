@@ -3,7 +3,7 @@
 ## Project Overview, Objectives, and Goals
 
 ## Installation
-- This project uses NodeJs and MariaDb.
+###- This project uses NodeJs and MariaDb.
 - Links to download them (download the version that correlates with your OS):
   - NodeJs - https://nodejs.org/en/download
   - MariaDb - https://mariadb.org/download
@@ -21,6 +21,15 @@
     - Click "File" --> Click "Run SQL file" --> and select database.sql located in Pet-WRU/pet-WRU.
     - Click "Yes" on the confirmation popup, and the database now setup
 
+- To run this project (Pet WRU):
+  - Download NodeJs & MariaDb (and setup database)
+  - Download this repo as a ZIP file (click the green button that says "< > Code", then click "Download ZIP")
+  - Unzip the file, and go to the pet-WRU folder (not to be confused with the Pet-WRU folder)
+  - Open this folder in terminal
+  - Once opened, type the command: node App.js
+  - This will launch the backend server, and give you the link to the locally hosted website (port 300)
+  - Simply ctrl+click the link to be automatically redirected to the website
+
 - Database Connection Troubleshooting:
   - If you have problems connecting to the database, go to your MariaDb files and find the config file called "my.ini" or "my" (same file, name scheme depends on OS)
   - Once in that file, copy/paste this into that file to ensure the client and database ports are correct:
@@ -34,14 +43,7 @@
   - Don't forget to save the changes.  
 
 ## Usage
-- To run this project (Pet WRU):
-  - Download NodeJs & MariaDb (setup database)
-  - Download it as a ZIP file (click the green button on the repository that says "< > Code")
-  - Unzip the file, and go to the pet-WRU folder (not to be confused with the Pet-WRU folder)
-  - Open this folder in terminal
-  - Once opened, type the command: node App.js
-  - This will launch the backend server, and give you the link to the locally hosted website (port 300)
-  - Simply ctrl+click the link to be automatically redirected to the website
+
   
 ## Credits and Acknowledgements
 
