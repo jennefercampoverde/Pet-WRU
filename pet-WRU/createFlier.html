@@ -54,19 +54,20 @@
     <h1>Create a Missing Pet Flier</h1>
     
     <div class="container">
-        <div class="flier-header">
-            <div class="image-upload">
-                <label>Upload Pet <br>Image</label>
-                <input type="file" name="animal_image_path" accept="image/*" class="upload-button" required>
-
-            </div>
-            <div class="flier-title">
-                <h2>Missing Pet</h2>
-                <p>Created by: <span id="username">Current User</span></p>
-            </div>
-        </div>
+        
         
         <form class="flier-details" id="flierForm" enctype="multipart/form-data">            
+            <div class="flier-header">
+                <div class="image-upload">
+                    <label>Upload Pet <br>Image</label>
+                    <input type="file" name="animal_image_path" accept="image/*" class="upload-button" required>
+    
+                </div>
+                <div class="flier-title">
+                    <h2>Missing Pet</h2>
+                    <p>Created by: <span id="username">Current User</span></p>
+                </div>
+            </div>
             <div class="details-grid">
                 <div>
                     <label for="petName">Pet Name:</label>
