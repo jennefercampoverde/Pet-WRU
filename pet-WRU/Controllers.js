@@ -129,6 +129,13 @@ exports.editUsername = async (req, res) => {
             conn.release();
             return res.status(404).json({ error: "User not found" });
         }
+        const existingUser = rows[0]; // Extract the first element
+
+        if (existingUser && existingUser.length > 0) {
+            conn.release();
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
+        else{
 
         // Update the username in the database
         const result = await conn.query("UPDATE usersInfo SET userName = ? WHERE userID = ?", [userName, userID]);
@@ -141,10 +148,11 @@ exports.editUsername = async (req, res) => {
         console.log(`Username updated for userID: ${userID}`);
         res.json({ message: 'Username updated successfully!', success: true });
 
-    } catch (err) {
+    } }catch (err) {
         console.error("Database error:", err);
         res.status(500).json({ error: 'Database error when updating account' });
     }
+    
 };
 
 
