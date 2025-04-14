@@ -1,0 +1,9 @@
+// Send a POST request to the backend login route
+const response = await fetch('/login', {
+	method: 'POST',
+	headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }), 
+});
+
+// Parse the JSON response from the server
+const result = await response.json();

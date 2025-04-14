@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Donation Post</title>
+    <link rel="stylesheet" href="donation.css">
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <!--each icon on navigation bar should take you to respectable page-->
+    <div class="navbar" id="myNavbar" >
+        <!-- Logo -->
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
+        
+        <!-- Navigation Links -->
+        <!--each link references another html page-->
+        <div class="nav-links" id="navLinks">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createFlier.html"><i class="fa-solid fa-file-pen"></i> Report Missing pet</a>
+                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Donations 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-box"></i> Donate Today</a>
+                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    </div>
+    
+    <h1>Create a Donation Form</h1>
+    
+    <div class="container">
+        <div class="flier-header">
+            <div class="image-upload">
+                <label>Upload Item <br>Image</label>
+                <input type="file" name="donation_image_path" accept="image/*" class="upload-button" required>
+            </div>
+            <div class="flier-title">
+                <h2>Donation</h2>
+                <p>Created by: <span id="username">Current User</span></p>
+            </div>
+        </div>
+        
+        <form class="flier-details" id="flierForm" enctype="multipart/form-data">
+            <div class="details-grid">
+                <div>
+                    <label>Donation Name:</label>
+                    <input type="text" id="DonationName" required>
+                </div>
+                <div>
+                    <label for="quantity">Quantity:</label>
+                    <select id="quantity" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="category">Category of Item:</label>
+                    <select id="category" required>
+                        <option value="Bedding"> Bedding</option>
+                        <option value="Clothing"> Clothing</option>
+                        <option value="Grooming Supplies"> Grooming Supplies</option>
+                        <option value="Leashes & Collars"> Leashes & Collars</option>
+                        <option value="Litter & Waste Supplies"> Litter & Waste Supplies</option>
+                        <option value="Medical Supplies"> Medical Supplies</option>
+                        <option value="Toys"> Toys</option>
+                        <option value="Transport Supplies"> Transport Supplies</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="condition">Condition:</label>
+                    <select id="condition" required>
+                        <option value="New"> New</option>
+                        <option value="Like New"> Like New</option>
+                        <option value="Gently Used"> Gently Used</option>
+                        <option value="Used"> Used</option>
+                        <option value="Worn"> Worn</option>
+                    </select>
+                </div>
+            </div>
+            <div class="description-container">
+                <label for="description">Description:</label>
+                <textarea id="description" maxlength="100" required></textarea>
+            </div>
+            <button class="post-button" type="submit">Post</button>
+        </form>
+
+    </div>
+    
+    
+    <footer>
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resources.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+        </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
+    
+    <script>
+
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", async () => {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+        });
+        
+        // Create Flyer form submission
+        document.querySelector(".flier-details").addEventListener("submit", async function(event) { 
+            event.preventDefault(); // Prevent page reload
+                    
+                // Wait for the userID from the server
+                let userID = await getUserID();
+
+                if (userID == null) {  
+                    alert("Please log in to list a donation.");
+                    window.location.href = "loginPage.html"; // Redirect to login page
+                } else {
+                    try {
+                        // Use FormData for file (img) uploads
+                        const formData = new FormData();
+
+                        // Append form fields to FormData
+                        formData.append("DonationName", document.getElementById("DonationName").value);
+                        formData.append("quantity", document.getElementById("quantity").value);
+                        formData.append("category", document.getElementById("category").value);
+                        formData.append("condition", document.getElementById("condition").value);
+                        formData.append("description", document.getElementById("description").value);
+                            
+                        // Get the file input
+                        const fileInput = document.querySelector('input[type="file"]').files[0];
+                        if (fileInput) {
+                            formData.append("donation_image_path", fileInput);
+                        }
+
+                        // Send a POST request to the backend registration route
+                        const response = await fetch("/createDonation", {
+                            method: "POST",
+                            body: formData 
+                        });
+                    
+                        // Parse the JSON response from the server
+                        const result = await response.json();
+                   
+                        // Check if post was successful and redirect
+                        if (result.success) {
+                            alert("Donation listed successfully");
+                            document.location = 'donationPostPage.html';
+
+                        } else {
+                            alert(result.message || 'Failed to list donation');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again later.');
+                    }        
+                }
+            });
+
+
+
+
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
+        // sign out
+        document.addEventListener("DOMContentLoaded", () => {
+            const signOutButton = document.getElementById("signOut");
+
+            if (signOutButton) {
+                signOutButton.addEventListener("click", async (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    try {
+                        await fetch('/logout', { method: 'POST' });
+                        sessionStorage.removeItem("userID"); // Clear cache
+                        window.location.href = 'loginPage.html'; // Redirect to login
+                    } catch (error) {
+                        console.error("Logout failed:", error);
+                    }
+                });
+            }
+        });
+
+        // Dynamic Active Link Highlighting
+        document.querySelectorAll('.nav-links a').forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+        });
+
+    </script>
+</body>
+</html>

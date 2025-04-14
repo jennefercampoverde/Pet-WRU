@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>	</title>
+	<link rel="stylesheet" href="basic.css">
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
+</head>
+<body>
+	<!-- Top Navigation Bar -->
+    <!--each icon on navigation bar should take you to respectable page-->
+    <!-- Top Navigation Bar -->
+    <!--each icon on navigation bar should take you to respectable page-->
+    <div class="navbar" id="myNavbar" >
+        <!-- Logo -->
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
+        
+        <!-- Navigation Links -->
+        <!--each link references another html page-->
+        <div class="nav-links" id="navLinks">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createFlier.html"><i class="fa-solid fa-file-pen"></i> Report Missing pet</a>
+                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Donations 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-box"></i> Donate Today</a>
+                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
+                </div>
+            </div>  
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    </div >
+	
+	
+    <section id="account-info">
+        <div id="UserHeading">
+        </div>
+        <div id="userInformation" class="userInformation">
+            <h3>
+                My Profile
+            </h3>
+        </div>
+        
+        <div class="userInformation-Form">
+            <h3> Update Your Current Account Information </h3>
+
+            <form id="editUsername" action="/editUsername" method="POST">
+                <label for="Username">Change Your Username:</label>
+                <input type="text" id="Username" name="userName" />
+                <input type="submit" value="Edit" />
+            </form>
+            <br>
+            <form id="editPassword" action="/editPassword" method="POST">
+                <label for="Password">Change Your Password:</label>
+                <input type="text" id="Password" name="userPassword" minlength="8"/>
+                <input type="submit" value="Edit" />
+            </form>
+            <br>
+            <form id="editEmail" action='/editEmail' method="POST">
+                <label for="Email">Change Your Email Address:</label>
+                <input class="email-input" type="email" id="Email" name="emailAddress" />
+                <input type="submit" value="Edit" />
+            </form>
+            <br>
+            <form id="editZip" action="/editZip" method="POST">
+                <label for="Zip">Change Your Zip Code:</label>
+                <input type="text" id="Zip" name="zipcode" />
+                <input type="submit" value="Edit" />
+            </form>
+            <br>
+            <form id="editCity" action="/editCity" method="POST">
+                <label for="City">Change Your City:</label>
+                <input type="text" id="City" name="city" />
+                <input type="submit" value="Edit" />
+            </form>
+            <br>
+        </div>
+    </section>
+
+    <section>
+		<h3> Related Posts: </h3>
+        <!--Add section to pull posts based on the userID associated with current account-->
+        <div class="relatedPosts">
+            <div id="relatedHeading">
+
+            </div>
+                <div id="post-container">
+                
+                </div>
+            <div id="relatedHeading-Missing">
+
+            </div>
+                <div id="post-container-missing">
+                
+                </div>
+            <div id="relatedHeading-Found">
+
+            </div>
+
+
+                <div id="post-container-found">
+                
+                </div>
+            </div>
+        </div>        
+	</section>
+    <section>
+        <div class="userLinks">
+            <p>Need to make a new lost pet post?</p>
+            <form action="createFlier.html" method="get">
+                <button type="submit">Post Now!</button>
+            </form>
+            
+            <p>Need to make a Donation?</p>
+            <form action="createDonation.html" method="get">
+                <button type="submit">Donate Now!</button>
+            </form>
+        </div>
+        <footer>
+            <div class="footer-links">
+                <a href="aboutUs.html">About us</a>
+                <a href="resources.html">Resources</a>
+                <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+            </div>
+            <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+        </footer>
+        
+    </section>
+
+    <script>
+
+async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+       
+        
+        //load current user info
+        document.addEventListener('DOMContentLoaded', async function()  {
+
+            // checking to see if user is logged in.
+            let userID = await getUserID(); 
+
+            if (!userID) {
+            alert("Please log in to access this page.");
+            window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+
+            fetch('/getUserInfo')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user information');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.length > 0) {
+                        const user = data[0];
+
+                    //create welcome page header
+                    const headerDiv= document.getElementById("UserHeading");
+                    
+                    const welcomeHeader = document.createElement('h1');
+                    welcomeHeader.textContent = `Welcome to your page, ${user.firstName}!`;
+                    welcomeHeader.classList.add('UserHeading');
+                    headerDiv.appendChild(welcomeHeader);
+
+                    // Display current user info from database
+
+                    const infoDiv= document.getElementById("userInformation");
+
+                    const imgAvatar= document.createElement("img");
+                    imgAvatar.src= 'serverImages/userAvatar.png';
+                    //imgAvatar.classList.add('user-avatar');
+                    infoDiv.appendChild(imgAvatar);
+
+
+                    //creating Name text
+                    const name = document.createElement('h3');
+                    name.textContent = `${user.firstName} ${user.lastName} `;
+                    infoDiv.appendChild(name);
+
+                    //creating username text
+                    const textUsername = document.createElement('strong');
+                    textUsername.textContent = `Current Username: `;
+                    infoDiv.appendChild(textUsername);
+
+                    //Adding userName
+                    const infoUsername = document.createElement('p');
+                    infoUsername.textContent = `${user.userName}`;
+                    
+                    infoDiv.appendChild(infoUsername);
+
+
+                    //creating email text
+                    const textEmail = document.createElement('strong');
+                    textEmail.textContent = `Current Email: `;
+                    infoDiv.appendChild(textEmail);
+
+                    //Adding email
+                    const infoEmail = document.createElement('p');
+                    infoEmail.textContent = `${user.emailAddress}`;
+                    infoDiv.appendChild(infoEmail);
+
+                    //creating zipcode text
+                    const textZipcode = document.createElement('strong');
+                    textZipcode.textContent = `Current Zipcode: `;
+                    infoDiv.appendChild(textZipcode);
+
+                    //Adding zipcode
+                    const infoZipcode = document.createElement('p');
+                    infoZipcode.textContent = `${user.zipcode}`;
+                    infoDiv.appendChild(infoZipcode);
+
+                    //creating city text
+                    const textCity = document.createElement('strong');
+                    textCity.textContent = `Current City: `;
+                    infoDiv.appendChild(textCity);
+
+                    //Adding City 
+                    const infoCity = document.createElement('p');
+                    infoCity.textContent = `${user.city}`;
+                    infoDiv.appendChild(infoCity);
+                        } else {
+                        console.error('No user data found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        // Function to handle form submission for updating fields
+        async function updateAccount(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const submitButton = form.querySelector('input[type="submit"]');
+            submitButton.disabled = true;  // Disable submit button
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            submitButton.disabled = false;  // Re-enable the submit button
+
+            if (result.success) {
+                alert(result.message); 
+                window.location.reload(); //refresh page 
+                form.reset();
+            } else {
+                alert(result.message || 'Error updating account. Please try a different username.');
+            }
+        }
+
+    document.getElementById("editUsername").addEventListener("submit", updateAccount);
+    document.getElementById("editPassword").addEventListener("submit", updateAccount);
+    document.getElementById("editEmail").addEventListener("submit", updateAccount);
+    document.getElementById("editZip").addEventListener("submit", updateAccount);
+    document.getElementById("editCity").addEventListener("submit", updateAccount);
+
+
+
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
+        // sign out
+        document.addEventListener("DOMContentLoaded", () => {
+            const signOutButton = document.getElementById("signOut");
+
+            if (signOutButton) {
+                signOutButton.addEventListener("click", async (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    try {
+                        await fetch('/logout', { method: 'POST' });
+                        sessionStorage.removeItem("userID"); // Clear cache
+                        window.location.href = 'loginPage.html'; // Redirect to login
+                    } catch (error) {
+                        console.error("Logout failed:", error);
+                    }
+                });
+            }
+        });
+
+        // Dynamic Active Link Highlighting
+        document.querySelectorAll('.nav-links a').forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+        });
+
+        //SHOWING USER RELATED DONATIONS POSTS
+        document.addEventListener("DOMContentLoaded", () => {
+        
+            const dateFormat= {month:'short', day:'numeric',year:'numeric'};
+
+            if (document.getElementById('post-container')){
+                console.log('Related post list element found on DOM. Calling showRelatedDonations()...');
+                showRelatedDonations();
+                console.log('Related post list element found on DOM. Calling showRelatedMissingPosts()...');
+                showRelatedMissingPosts();
+                console.log('Related post list element found on DOM. Calling showRelatedFoundPosts...');
+                showRelatedFoundPosts();
+            }
+            else{
+                console.log('Unable to find Related post list element on DOM');
+            }
+            
+
+            async function showRelatedDonations(){
+
+                console.log("Loading user related donations...");
+                try{
+
+                    const response = await fetch('http://localhost:3000/showRelatedDonations');
+                    if(!response.ok){
+                        console.log("Received response:", response.status); // Log the response status
+                        throw new Error( 'Failed to fetch related user donation posts.')
+                    }
+
+                    const donationPosts= await response.json();
+                    console.log("Donation data:", donationPosts);
+                    //creating GUI
+                    const donationPostsList = document.getElementById('post-container');
+                    if (!donationPostsList) {
+                    console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                    return;}
+
+                    donationPostsList.innerHTML = ''; // Clear the list before adding new items
+        
+                if (donationPosts.length === 0) {
+
+                    console.log('No related donations posts for this user');
+                } else {
+
+                    const donationTitle= document.createElement('h3');
+                    donationTitle.textContent= 'Your Current Donation Posts';
+                    document.getElementById('relatedHeading').appendChild(donationTitle);
+
+                    donationPosts.forEach(post => {
+                        //new div for post 
+                        const postElement = document.createElement('div');
+                        postElement.classList.add('post-container-donations'); 
+     
+                        //new div for inner post
+                        const innerPostElement = document.createElement('div');
+                        innerPostElement.classList.add('post');
+    
+                        const pathFolder="donationsImages/"
+                        
+                        //grabbing item image
+                        const postImg= document.createElement('img');
+                        postImg.src=pathFolder + `${post.item_image_path}`;
+                        postImg.classList.add('user-donations-img');
+
+                        //creating div to hold a post details
+                        const postInfoElement = document.createElement('div');
+                        postInfoElement.classList.add('post-info-related-Donations');
+                    
+                        //creating header element that holds item name
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = `${post.itemName}`;
+
+
+                        //div,text & info for contact 
+                        const contactDiv= document.createElement('div');
+                        const contactText= document.createElement('strong');
+                        contactText.classList.add('contact-text');
+                        contactText.textContent=`Contact: `
+                        const postContact = document.createElement('p');
+                        postContact.classList.add('contact-text');
+                        postContact.textContent =` ${post.emailAddress}`;
+                        contactDiv.appendChild(contactText);
+                        contactDiv.appendChild(postContact);
+                        contactDiv.classList.add('post-text');
+
+                        // Format date
+                        const dateText= document.createElement('strong');
+                        dateText.textContent=`Date Posted: `
+                        const dateCreated = new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat);
+
+
+                        // div,text & info date
+                        const dateDiv=document.createElement('div');
+                        const postDate = document.createElement('small');
+                        postDate.textContent = ` ${dateCreated}`;
+                        dateDiv.appendChild(dateText);
+                        dateDiv.appendChild(postDate);
+                        dateDiv.classList.add('post-text');
+
+                        // div,text & info status
+                        const statusDiv=document.createElement('div');
+                        const statusText= document.createElement('strong');
+                        statusText.textContent=`Status:`
+                        const postStatus = document.createElement('p');
+                        postStatus.textContent = `${post.itemStatus}`;
+                        statusDiv.appendChild(statusText);      
+                        statusDiv.appendChild(postStatus);  
+                        statusDiv.classList.add('post-text');
+
+                        //  div,text & info quantity
+                        const quantityDiv=document.createElement('div');
+                        const quantityText= document.createElement('strong');
+                        quantityText.textContent=`Quantity: `
+                        const postQuantity = document.createElement('p');
+                        postQuantity.textContent =` ${post.quantity}`;
+                        quantityDiv.appendChild(quantityText);      
+                        quantityDiv.appendChild(postQuantity);  
+                        quantityDiv.classList.add('post-text');
+
+                        //div,text & info item condition
+                        const divCondition= document.createElement('div');
+                        const conditionText= document.createElement('strong');
+                        conditionText.textContent=`Condition:`
+                        const postCondition = document.createElement('p');
+                        postCondition .textContent = `${post.itemCondition}`;
+                        divCondition.appendChild(conditionText);      
+                        divCondition.appendChild(postCondition );  
+                        divCondition.classList.add('post-text');
+
+
+                        // div,text & info zipcode
+                        const zipcodeDiv= document.createElement('div');
+                        const zipcodeText= document.createElement('strong');
+                        zipcodeText.textContent=` Zipcode:`
+                        const postZipcode = document.createElement('p');
+                        postZipcode.textContent = `${post.zipcode}`;
+                        zipcodeDiv.appendChild(zipcodeText);      
+                        zipcodeDiv.appendChild(postZipcode);  
+                        zipcodeDiv.classList.add('post-text');
+
+                        // div,text & info description
+                        const descriptionDiv =document.createElement('div');
+                        const descriptionText= document.createElement('strong');
+                        descriptionText.textContent=` Description:`
+                        const postDescription = document.createElement('p');
+                        postDescription.textContent = ` ${post.itemDescription}`;
+                        descriptionDiv.appendChild(descriptionText);      
+                        descriptionDiv.appendChild(postDescription);  
+                        descriptionDiv.classList.add('post-info-related-Donations');
+
+                        // Adding all elements to front end by nesting the divs
+    
+                        innerPostElement.appendChild(postImg); // image goes first and within post
+    
+                        postInfoElement.appendChild(postHeader); // then header and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        //postInfoElement.appendChild(postSmall);
+                        postElement.appendChild(innerPostElement);
+                        
+                        document.getElementById('post-container').appendChild(innerPostElement);
+
+                        //Adding date Text
+                        postInfoElement.appendChild(dateDiv);
+                        
+                        // Adding email
+                        postInfoElement.appendChild(contactDiv);
+
+
+                        // Adding status text
+                    
+                        postInfoElement.appendChild(statusDiv);
+
+                        // Adding quantity
+                        postInfoElement.appendChild(quantityDiv);
+
+                        //adding condition 
+                        postInfoElement.appendChild(divCondition)
+
+                        //Adding zipcode
+                        postInfoElement.appendChild(zipcodeDiv);
+
+
+                        //Adding description
+                        postInfoElement.appendChild(descriptionDiv);
+
+                        //div for buttons
+                        const buttonDiv=  document.createElement('div');
+                        buttonDiv.classList.add('btnDiv');
+
+                        //creating delete button 
+                        const deleteButton = document.createElement('button');
+
+                        // Create the trash icon element
+                        const icon = document.createElement('i');
+                        icon.classList.add('fas', 'fa-trash-alt');  // Add the icon classes
+
+                        // Append the icon to the delete button
+                        deleteButton.appendChild(icon);
+                        deleteButton.classList.add('deleteButton');
+                        deleteButton.onclick = () => deleteDonation(post.donationID);
+
+                        // Adding status from db
+                        const currentStatus= `${post.itemStatus}`;
+                        buttonDiv.appendChild(deleteButton);
+                        
+                        if( currentStatus== 'Available'){
+                        const markUnavailableButton = document.createElement('button');
+                        markUnavailableButton.textContent = 'Mark as Unavailable';
+                        markUnavailableButton.classList.add('updateButton');
+                        markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
+                        buttonDiv.appendChild(markUnavailableButton);
+                    }
+                        innerPostElement.appendChild(buttonDiv);
+
+                    });
+                }
+                }
+                catch(error){
+                    console.error('Error loading all donations post entries:', error);
+                }
+            }
+            
+            async function showRelatedMissingPosts(){
+                console.log("Loading user related missing pet posts...");
+                    try{
+                        
+                    const response = await fetch('http://localhost:3000/showRelatedMissingPosts');
+                    
+                    if(!response.ok){
+                        console.log("Received response:", response.status); // Log the response status
+                        throw new Error( 'Failed to fetch related user missing posts.')
+                    }
+
+                    const missingPosts= await response.json();
+                    //console.log("Missing Pet Posts data:", missingPosts);
+                    
+                    //creating GUI
+                    const missingPostsList = document.getElementById('post-container-missing');
+                    if (!missingPostsList) {
+                    console.error("Element with ID 'post-container-missing' not found."); // Log if the element is not found
+                    return;}
+
+                    missingPostsList.innerHTML = ''; // Clear the list before adding new items
+
+                    if (missingPosts.length === 0) {
+                        /*missingPostsList.textContent = 'No missing pet entries.';
+                        const textDisplay= document.createElement('p');
+                        textDisplay.textContent= 'You have no current missing pet posts';
+                        document.getElementById('post-container-missing').appendChild(textDisplay);*/
+                        console.log('No related missing pet posts for this user');
+                    } else {
+                        const missingTitle= document.createElement('h3');
+                        missingTitle.textContent= 'Your Current Missing Posts';
+                        document.getElementById('relatedHeading-Missing').appendChild(missingTitle);
+                    
+                        missingPosts.forEach(post => {
+                    
+                        //new div for post 
+                        const postElement = document.createElement('div');
+
+ 
+                        //new div for post
+                        const innerPostElement = document.createElement('div');
+
+                        const pathFolder="projectImages/"
+                    
+                        //pulling animal image
+                        const postImg= document.createElement('img');
+                        postImg.src=pathFolder + `${post.animal_image_path}`;
+
+                        console.log(postImg)
+                        //creating div to hold a post
+                        const postInfoElement = document.createElement('div');
+                
+                        //creating header element that holds pet name
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = `${post.petName}`;
+                        console.log(postHeader);
+
+                        //creating element for lostID
+                        const lostIdHeader= document.createElement('h4');
+                        lostIdHeader.textContent = `Pet ID: ${post.lostID}`;
+                        console.log(lostIdHeader);
+                    
+                        //cleaning up date lost data from JSON
+                        const dateLost=new Date(post.dateLost).toLocaleDateString("en-US",dateFormat);
+                        console.log(dateLost);
+                    
+                        //creating a paragraph element that holds date of when the pet was lost 
+                        const postParagraph = document.createElement('p');
+                        postParagraph.textContent=`Date Missing: ${dateLost}`;
+                        console.log(postParagraph);
+
+                        //cleaning up date created data from JSON
+                        const dateCreated=new Date(post.dateCreated).toLocaleDateString("en-US",dateFormat);
+                        console.log(dateLost);
+
+                        //creating a small element that holds the date when the post was created
+                        const postSmall = document.createElement('small');
+                        postSmall.textContent = `Date Posted: ${dateCreated}`;
+                        console.log(postSmall);
+                    
+                        // Adding all elements to front end by nesting the divs
+
+                        innerPostElement.appendChild(postImg); // image goes first and within post
+
+                        postInfoElement.appendChild(postHeader); // then header and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+
+                        postInfoElement.appendChild(lostIdHeader); // lostid
+
+                        postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+
+                        postInfoElement.appendChild(postSmall);
+                        innerPostElement.appendChild(postInfoElement);
+
+                        postElement.appendChild(innerPostElement);
+        
+                        //have to confirm these css ids/classes
+                        postElement.classList.add('post-container-missing'); 
+                        innerPostElement.classList.add('post');
+                        postInfoElement.classList.add('post-info');
+
+                        document.getElementById('post-container-missing').appendChild(innerPostElement);
+                        innerPostElement.addEventListener('click',function(){
+                        lostPetID=post.lostID;
+                        console.log(post.lostID);
+                        
+                        
+                        console.log(lostPetID);
+                        sendPostID();
+                        async function sendPostID(lostPetID) {
+                try {
+                    const response = await fetch(`http://localhost:3000/selectedPost/${lostPetID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        
+                    });
+                    const result = await response.json();
+                
+                } catch (error) {
+                    console.error('Error fetching selected post ID to next page:', error);
+                    return null;
+                }
+            }
+            window.location.href = `selectedPost.html?postID=${lostPetID}`;
+
+                    });             
+
+                    }); 
+                }
+                    }
+                    catch(error){
+                        console.error('Error loading all related missing post entries for this user:', error);
+                    }
+      
+            }
+            async function showRelatedFoundPosts(){
+                console.log("Loading user related found pet posts...");
+                try{
+                    console.log('progress 2');
+                    const response = await fetch('http://localhost:3000/showRelatedFoundPosts');
+                    
+                    if(!response.ok){
+                       console.log("Received response:", response.status); // Log the response status
+                       throw new Error( 'Failed to fetch related user found posts.');
+                    }
+
+                    const foundPosts= await response.json();
+                    console.log("Found Pet Posts data:", foundPosts);
+                    
+                    //creating GUI
+                    const foundPostsList = document.getElementById('post-container-found');
+                    if (!foundPostsList) {
+                        console.error("Element with ID 'post-container-found' not found."); // Log if the element is not found
+                        return;}
+
+                    foundPostsList.innerHTML = ''; // Clear the list before adding new items
+
+
+                    if (foundPosts.length === 0) {
+                        /*foundPostsList.textContent = 'No found pet entries.';
+                        const textDisplay= document.createElement('p');
+                        textDisplay.textContent= 'You have no current found pet posts';
+                        document.getElementById('post-container-found').appendChild(textDisplay);*/
+                        console.log('No related found pet posts for this user');
+                    } else {
+                        const foundTitle= document.createElement('h3');
+                        foundTitle.textContent= 'Your Found Posts';
+                        document.getElementById('relatedHeading-Found').appendChild(foundTitle);
+
+                        foundPosts.forEach(post => {
+                        //new div for post 
+                        const postElement = document.createElement('div');
+     
+                        //new div for post
+                        const innerPostElement = document.createElement('div');
+
+                        const pathFolder="projectImages/"
+                        
+                        //take in image
+                        const postImg= document.createElement('img');
+                        postImg.src=pathFolder + `${post.animal_image_path}`;
+    
+                        console.log(postImg)
+                        //creating div to hold a post
+                        const postInfoElement = document.createElement('div');
+                    
+                        //creating header element that holds pet name
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = `${post.petName}`;
+                        console.log(postHeader);
+
+
+                        //creating element for FoundID
+                        const foundIdHeader= document.createElement('h4');
+                        foundIdHeader.textContent = `Found Pet ID: ${post.foundID}`;
+                        console.log(foundIdHeader);
+                        
+                        //cleaning up date lost data from JSON
+                        const dateFound=new Date(post.dateFound).toLocaleDateString("en-US",dateFormat);
+                        console.log(dateFound);
+                        
+                        //creating a paragraph element that holds date of when the pet was lost 
+                        const postParagraph = document.createElement('p');
+                        postParagraph.textContent=`Date Found: ${dateFound}`;
+                        console.log(postParagraph);
+  
+    
+                        //creating a small element that holds the status when the post was created
+                        const postSmall = document.createElement('small');
+                        postSmall.textContent = `Status: ${post.status}`;
+                        console.log(postSmall);
+                        
+                        // Adding all elements to front end by nesting the divs
+    
+                        innerPostElement.appendChild(postImg); // image goes first and within post
+    
+                        postInfoElement.appendChild(postHeader); // then header and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+                        postInfoElement.appendChild(foundIdHeader); // then header and within post-info
+    
+                        postInfoElement.appendChild(postParagraph); // last dates and within post-info
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postInfoElement.appendChild(postSmall);
+                        innerPostElement.appendChild(postInfoElement);
+    
+                        postElement.appendChild(innerPostElement);
+            
+                        postElement.classList.add('post-container-found'); 
+                        innerPostElement.classList.add('post');
+                        postInfoElement.classList.add('post-info');
+        
+                        document.getElementById('post-container-found').appendChild(innerPostElement);
+                    })
+                }; 
+
+                }
+                catch(error){
+                    console.error('Error loading all related Found post entries for this user:', error);
+
+                    
+                }
+            }
+        }
+        );
+
+        // Function to delete a donation
+        async function deleteDonation(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/deleteDonation/${postID}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("Post deleted successfully.");
+                    window.location.reload(); //refresh page 
+                } else {
+                    alert("Failed to delete post.");
+                }
+            } catch (error) {
+                console.error("Error deleting post:", error);
+            }
+        }
+
+        // Function to mark a donation as unavailable
+        async function markDonationUnavailable(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/updateDonation/${postID}`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: 'Claimed' }),
+            });
+
+                if (response.ok) {
+                    alert("Post updated successfully.");
+                    window.location.reload(); //refresh page 
+                } else {
+                    alert("Failed to update post.");
+                }
+            } catch (error) {
+                console.error("Error updating post:", error);
+            }
+        }
+
+
+    </script>
+</body>
+</html>

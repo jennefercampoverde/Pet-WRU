@@ -1,0 +1,653 @@
+html,body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: rgb(248, 224, 180);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.navbar {
+    display: flex;
+     /* space-between makes the most sense-everything is spaced out*/
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(94, 199, 231);
+    padding: 10px 20px;
+    /*width: 100vw;  Stretch across the entire viewport width */
+    width: 100%;
+    position: relative;
+    color: white;
+    font-weight: bold;
+    /*margin-bottom: 150px;*/
+    border-bottom: 4px solid #ffffff; /* Adjust thickness and color */
+    border-radius: 0; /* Ensure no rounded corners */
+}
+
+.navbar a {
+    color: whitesmoke;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 18px;
+    font-style: bold;
+    float: left;
+    display: block;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: #ddd;
+    color: black;
+}
+
+.navbar a.active {
+    background-color: rgb(0, 98, 255);
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center; /* Center navigation links */
+    gap: 30px; /* Space evenly between links */
+    flex-grow: 1; /* Ensure links take the available space */
+    margin-right: 100px;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+    display: flex;
+  }
+
+
+.dropdown .dropbtn {  
+    border: none;
+    outline: none;
+    color: whitesmoke;
+    padding: 20px 20px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: -16px;
+    font-size: 18px;
+    font-weight: bold;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 88px;
+}
+  
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.navbar .icon {
+    display: none;
+  }
+
+/* Responsive Styles */
+@media screen and (max-width: 1021px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: rgb(160, 219, 236);
+        position: absolute;
+        top: 124px; /* Adjust based on logo height */
+        left: 0;
+        align-items: center; /* Centers everything */
+        text-align: center;
+        z-index: 1000; /* Ensure it's above other content */
+    }
+
+    .navbar .icon {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 30px;
+    }
+
+    .nav-links.responsive {
+        display: block;
+    }
+    
+    /* When menu is toggled */
+    .nav-links.responsive {
+        display: flex; /* Show when active */
+    }
+
+    /* Ensure links are block-level for vertical stacking */
+    .nav-links a {
+        display: block;
+        padding: 15px;
+        margin-top: 10px;
+    }
+
+    /* Dropdown inside mobile menu */
+    .nav-links .dropdown {
+        display: block;
+        
+    }
+    
+    .nav-links .dropdown-content {
+        position: relative; /* Make dropdown content inline */
+        display: none; /* Hide initially */
+        width: 100%;
+        background: #f9f9f9;
+        z-index: 1001; /* Ensure it's above everything */
+        top: 8px;
+
+    }
+
+    .nav-links .dropdown:hover .dropdown-content {
+        display: block; /* Show dropdown content */
+    }
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.search-container button {
+    padding: 10px;
+    background-color: goldenrod;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Adjust size for the icon */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition effect */
+}
+
+.search-container button i {
+    color: white; /* Initial icon color */
+}
+
+.search-container button:hover {
+    background-color: #ffd966; /* Lighter golden color on hover */
+    color: black; /* Optional: Change text/icon color on hover */
+}
+
+.search-container button:hover i {
+    color: black; /* Change icon color to match hover style */
+}
+
+.search-container button:active {
+    opacity: 0.6; /* Lower opacity */
+}
+
+/* Filter Button */
+span {
+    font-size: 18px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    margin-left: 20px;
+    width: 100px;
+}
+
+span i {
+    margin-right: 8px; /* Space between icon and text */
+    transition: transform 0.2s ease;
+}
+
+span:hover {
+    background-color: goldenrod;
+    color: #fff;
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+span:hover i {
+    transform: rotate(90deg); /* Rotate icon slightly when hovered */
+}
+
+span:active {
+    background-color: #ffd966; /* Lighter golden color when clicked */
+    color: black; /* Change text color to black when clicked */
+    transform: scale(1); /* Remove scaling effect when clicked */
+}
+
+/* Filter Side Navigation */
+.sidenav {
+    position: fixed;
+    top: -250px;
+    left: 0;
+    width: 300px; 
+    height: 0;
+    overflow-y: auto;
+    background-color:rgb(94, 199, 231);  
+    transition: 0.5s;
+    z-index: 1000;
+    padding: 10px; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.822); 
+    border-right: 2px solid rgb(255, 255, 255);
+}
+
+.sidenav h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: goldenrod;
+    text-align: center;
+}
+
+.sidenav .filter-group {
+    margin-bottom: 15px;
+}
+
+.sidenav .filter-group label {
+    display: block;
+    font-size: 16px;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.sidenav .filter-group select {
+    width: 90%;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.sidenav .filter-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.sidenav .filter-apply-btn,
+.sidenav .filter-clear-btn {
+    width: 45%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.sidenav .filter-apply-btn {
+    background-color: goldenrod;
+    color: black;
+}
+
+.sidenav .filter-clear-btn {
+    background-color: crimson;
+    color: white;
+}
+
+.sidenav .filter-apply-btn:hover {
+    background-color: #ffd966;
+}
+
+.sidenav .filter-clear-btn:hover {
+    background-color: #ff8080;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 36px;
+    cursor: pointer;
+    color: white;
+}
+
+/*Post grid*/
+/* Container for the post grid */
+#post-container {
+    display: grid; /* Change to grid */
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px; /* Add spacing */
+    justify-content: center; /* Center the grid */
+    margin: 20px;
+}
+        
+/* Individual post card */
+.post {
+    position: relative; /* Ensures child elements can be absolutely positioned */
+    box-sizing: border-box;
+    background-color: rgb(255, 255, 255); /* Optional: Add background color to cards */
+    padding: 10px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    min-height: 300px; /* Adjust based on content length */
+    overflow: hidden;
+}
+
+.post:hover {
+    transform: scale(1.012); /* Slightly scale up the card on hover */
+}
+
+/* Adjust image size */
+.post img {
+    width: 100%; /* Make image fill the width of the card */
+    height: auto;
+    max-height: 220px; /* Set a fixed height */
+/* Adjust based on designmax-height: 300px;  */
+    object-fit: contain; /* Ensures the image fills the space without stretching */
+    object-position: center;    
+    border-radius: 8px; /* Optional: Round image corners */
+}
+
+/* Post info section */
+.post-info {
+    color: #333;
+    margin-top: 5px; 
+}
+
+/* Title styling */
+.post-info h3 {
+    font-size: 1.em; /* Smaller title */
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+/* General text styling */
+.post-info p {
+    font-size: 0.7em; /* Adjust text size for info */
+    padding-bottom: 5px; 
+}
+
+.post-info small{
+    font-size: 0.7em; /* Adjust text size for info */
+
+}
+
+
+.post-info strong{
+    font-size: 0.8em; /* Adjust text size for info */
+
+}
+.container {
+    background: white;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 100px 130px 40px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.flier-header {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 10px;
+}
+
+.image-upload {
+    width: 160px;
+    height: 160px;
+    border: 2px dashed #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-left: -15px;
+}
+
+.image-upload label {
+    font-weight: bold;
+    margin-top: 105px;
+    color: #000000;
+    font-size: 19px;
+}
+
+.upload-button {
+    margin-top: 55px;
+    padding-bottom: 10px;
+    margin-left: 95px;
+}
+
+.flier-title {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.flier-title h2 {
+    margin: 0;
+    font-size: 30px;
+    color: #000000;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    margin-bottom: 30px;
+    margin-top: 70px;
+    margin-left: -15px;
+}
+
+.details-grid div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    
+}
+
+input, select, textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Ensure only the 'Description' label is centered vertically */
+.description-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between label and textarea */
+}
+
+.description-container label {
+    white-space: nowrap; /* Prevents label from wrapping */
+    
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+    width: 350px;
+}
+
+.post-button {
+    display: block;
+    width: 110px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: #ff6600;
+    color: white;
+    font-size: 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+.post-button:hover {
+    background: #e65c00;
+}
+
+
+/* Buttons */
+
+.deleteButton {
+    
+    background: whitesmoke;
+    border: none;
+    color: #FF0000;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute; 
+    top: 15px;  
+    right: 10px; 
+    display: inline-block; 
+}
+.deleteButton:hover {
+    color: #D50000;
+}
+
+
+.updateButton {
+    font-size: 12px;
+    padding: 6px 6px;
+    margin-top: 5px;
+    cursor: pointer;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute; 
+    top: 10px;  
+    left: 10px; 
+    width: auto; /* Ensures the button only takes up necessary space */
+}
+.updateButton:hover {
+    color: #5396fb;
+}
+
+.post-text {
+    font-size: 1.0em; /* Adjust text size for info */
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 80px;
+    padding: 3px;
+    max-width: 100%;
+    border-bottom: 1px solid #eaeaea;
+
+}
+.post-text p, small {
+
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+    display: block;
+    text-align: right;
+    flex: 1; /* Allows text to take up remaining space */
+    min-width: 100px; /* Prevents it from disappearing completely */
+    margin-left: 20px;
+    
+}
+.post-text strong {
+
+    color: #2c3e50;
+
+    font-weight: bold;
+    display: block;
+    margin-right: 10px;
+    text-align: left;
+    flex-shrink: 0; /* Prevents label from shrinking too much */
+    width: 150px; /* Ensures labels have consistent width */
+
+}
+.post-description{
+    padding: 1px;
+}
+
+.post-description p{
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+    display: block;
+    text-align: left;
+
+    min-width: 100px; /* Prevents it from disappearing completely */
+
+}
+
+
+/* footer */
+.footer-container {
+    background-color:  #ffffff;;
+    /*padding-bottom: 2rem 0 4rem 0;*/
+    width: 100vw; /* Stretch across the entire viewport width */
+    margin: 0; /* Remove default margin to align with the page */
+    padding: 2rem 0; /* Add padding for spacing */
+    margin-top: 70px;
+}
+
+/* footer */
+footer {
+    background-color: #ffffff; 
+    padding: 20px 0;
+    text-align: center;
+    height: auto;
+    margin-top: auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between links */
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #333; /* Dark text for readability */
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #336eec; /* Green color on hover */
+}
+
+.copyright {
+    font-size: 14px;
+    color: #777; /* Lighter text color */
+}
+
+h1 {
+    color: #0a79e0;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}

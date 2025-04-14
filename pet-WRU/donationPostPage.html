@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Page</title>
+    <link rel="stylesheet" href="donation.css">
+    <script src="https://kit.fontawesome.com/2e1a459034.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <!--each icon on navigation bar should take you to respectable page-->
+    <div class="navbar" id="myNavbar" >
+        <!-- Logo -->
+        <img src="projectImages/logo.png" alt="Logo" title="Logo of Application" height="100px">
+        
+        <!-- Navigation Links -->
+        <!--each link references another html page-->
+        <div class="nav-links" id="navLinks">
+            <a href="mainpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Posts 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createFlier.html"><i class="fa-solid fa-file-pen"></i> Report Missing pet</a>
+                    <a href="missingPetPost.html" class="auth-link"><i class="fa-solid fa-paw"></i> Missing pets</a>
+                    <a href="ReunitedPets.html" class="auth-link"><i class="fa-solid fa-paw"></i> Reunited pets</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Donations 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="createDonation.html" class="auth-link"><i class="fa-solid fa-box"></i> Donate Today</a>
+                    <a href="donationPostPage.html" class="auth-link"><i class="fa-solid fa-box"></i> Donations</a>        
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Account 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="userpage.html"><i class="fa-solid fa-circle-user"></i> Account Profile</a>
+                    <a href="#" id="signOut"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>        
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    </div>
+    
+    <!-- Search Container -->
+    <div class="search-container">
+        <h1> Donations</h1>
+        </form>
+    </div>
+
+    <!-- Side Navigation -->
+    <!--this will display type of filters
+    species, gender, size, time, and location-->
+    <!--format: label, types of filters, value-->
+    <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <h2 style="color: white; text-align: center; margin-bottom: 20px;">Filters</h2>
+    <form id="filterForm" method="GET" action="#" class="filters-form">
+        <div class="filter-group">
+            <label for="category">Category</label>
+            <select name="category" id="category">
+                <option value="">Choose an item category</option>
+                <option value="Bedding">Bedding</option> 
+                <option value="Clothing">Clothing</option> 
+                <option value="Grooming Supplies">Grooming Supplies</option> 
+                <option value="Leashes & Collars">Leashes & Collars</option> 
+                <option value="Litter & Waste Supplies">Litter & Waste Supplies</option> 
+                <option value="Medical Supplies">Medical Supplies</option> 
+                <option value="Toys"> Toys</option> 
+                <option value="Transport Supplies">Transport Supplies</option> 
+            </select>
+                
+        </div>
+        <div class="filter-group">
+            <label for="condition">Condition</label>
+            <select name="condition" id="condition">
+                <option value="">Choose a condition</option>
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Gently Used">Gently Used</option>
+                <option value="Used">Used</option>
+                <option value="worn">Worn</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="dateOrder">Order</label>
+            <select name="dateOrder" id="dateOrder">
+                <option value="">Sort by Time</option>
+                <option value="newest">Newest Post</option>
+                <option value="oldest">Oldest Post</option>
+            </select>
+        </div>
+        <div class="filter-buttons">
+            <button type="submit" class="filter-apply-btn">Apply Filters</button>
+            <button type="button" class="filter-clear-btn" onclick="clearFilters()">Clear Filters</button>
+        </div>
+    </form>
+</div>
+
+
+    <!-- Open Side Navigation Button -->
+     <!--Source: "Learn HTML in 1 hour"
+        Author: Bro Code
+        URL: https://www.youtube.com/watch?v=HD13eq_Pmp8
+        Date Created: Sept 1, 2021
+        Used for: <span> concept-->
+    <span onclick="openNav()" class="filter-button"><i class="fas fa-filter"></i> Filter</span>
+
+    
+
+    <!-- Post grid section: to display the posts in rows of 3 -->
+    <div>
+           <!-- Post Container (Where posts are displayed) -->
+        <div id="post-container">
+            
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="aboutUs.html">About us</a>
+            <a href="resources.html">Resources</a>
+            <a href="https://github.com/jennefercampoverde/Pet-WRU.git">GitHub</a>
+        </div>
+        <p class="copyright">&copy; 2025 Pet WRU. All rights reserved.</p>
+    </footer>
+
+
+    
+    <script>
+        async function getUserID() {
+            try {
+                const response = await fetch('/getUserID');
+                const data = await response.json();
+
+                // Return the userID or null if not found
+                return data.userID;
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+                return null; // Return null in case of an error
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            let userID = await getUserID(); 
+
+            if (!userID) {
+                alert("Please log in to access this page.");
+                window.location.href = "loginPage.html"; // Redirect if no userID
+            }
+        });
+        
+        function myFunction() {
+            var navbar = document.getElementById("navLinks");
+            if (navbar.classList.contains("responsive")) {
+                navbar.classList.remove("responsive");
+            } else {
+                navbar.classList.add("responsive");
+            }
+        }
+
+
+         // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
+       //source: HTML DOM querySelectorAll() method
+       //Author: GeeksforGeeks
+       //URL: https://www.geeksforgeeks.org/html-dom-queryselectorall-method/
+       //Date accessed: 11/30/2024
+       document.querySelectorAll('.navbar a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        // populates the genre filter with options
+        function populateFilters() {
+            const category = ["Bedding","Clothing","Grooming Supplies","Leashes & Collars","Litter & Waste Supplies","Medical Supplies","Toys","Transport Supplies"];
+            const speciesSelect = document.getElementById("species");
+            const yearSelect = document.getElementById("release-year");
+            const currentYear = new Date().getFullYear();
+            const sortByTime = document.getElementById("sort-by-time");
+            const postContainer = document.getElementById("post-container");
+
+            species.forEach(species => {
+                const option = document.createElement("option");
+                option.value = species;
+                option.textContent = species;
+                speciesSelect.appendChild(option);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const sortByTime = document.getElementById("sort-by-time");
+            const postContainer = document.getElementById("post-container");
+
+            sortByTime.addEventListener("change", function () {
+                let posts = Array.from(document.querySelectorAll(".post"));
+
+                posts.sort((a, b) => {
+                    let dateA = new Date(a.getAttribute("data-time"));
+                    let dateB = new Date(b.getAttribute("data-time"));
+
+                    return sortByTime.value === "newest" ? dateB - dateA : dateA - dateB;
+                });
+
+                // Append sorted posts back to the container
+                postContainer.innerHTML = "";
+                posts.forEach(post => postContainer.appendChild(post));
+            });
+        });
+
+        // functions to open and close the navigation bar
+        function openNav() {
+            document.getElementById("mySidenav").style.height = "calc(100% - 110px)";
+            document.getElementById("mySidenav").style.top = "120px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.height = "0";
+            document.getElementById("mySidenav").style.top = "-250px"; // This removes the space at the top after closing
+        }
+
+
+        // clears any filters that were applied
+        function clearFilters() {
+            // Reset just the relevant filter fields
+            document.getElementById("category").value = "";
+            document.getElementById("condition").value = "";
+            document.getElementById("dateOrder").value = "";
+            document.forms[0].submit(); // Automatically submit the cleared form
+        }
+
+         // Dynamic active link setting: this will highlight blue; when it's on the corresponding page;
+       //source: HTML DOM querySelectorAll() method
+       //Author: GeeksforGeeks
+       //URL: https://www.geeksforgeeks.org/html-dom-queryselectorall-method/
+       //Date accessed: 11/30/2024
+        document.querySelectorAll('.navbar a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        window.onload = populateFilters;
+
+        // sign out
+        document.addEventListener("DOMContentLoaded", () => {
+            const signOutButton = document.getElementById("signOut");
+
+            if (signOutButton) {
+                signOutButton.addEventListener("click", async (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    try {
+                        await fetch('/logout', { method: 'POST' });
+                        sessionStorage.removeItem("userID"); // Clear cache
+                        window.location.href = 'loginPage.html'; // Redirect to login
+                    } catch (error) {
+                        console.error("Logout failed:", error);
+                    }
+                });
+            }
+        });
+
+        // Dynamic Active Link Highlighting
+        document.querySelectorAll('.nav-links a').forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+        });
+
+        //Used for Formatting Date
+        const dateFormat= {month:'short', day:'numeric', year:'numeric'};
+
+        //CALLING MISSING PETS LIST FUNCTION
+        if (document.getElementById('post-container')) {
+            console.log("Donations list element found. Calling showDonations()...");
+            showDonations(); // Load users when the page is ready
+        } else {
+            console.error("Donations list element not found in the DOM."); // Log if the donations list is missing
+        }
+         
+        // LOAD DONATIONS LIST FUNCTION
+        async function showDonations() {
+        console.log("Loading donations..."); // Start log
+        const userID = await getUserID();
+        try {
+            const response = await fetch('http://localhost:3000/showDonations');
+            console.log("Received response:", response.status); // Log the response status
+            if (!response.ok) {
+                throw new Error('Failed to fetch all donations data');
+            }
+
+            const donationPosts = await response.json();
+            // Loop through each post and log the details individually
+            donationPosts.forEach(post => {
+                console.log(`Post ID: ${post.donationID}`);
+                console.log(`User ID: ${post.userID}`);
+                console.log(`Item Name: ${post.itemName}`);
+                console.log(`Item Condition: ${post.itemCondition}`);
+                console.log(`Date Created: ${new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat)}`);
+                console.log(`Image Path: ${post.item_image_path}`);
+                console.log('-------------------------------');
+            });
+
+            const donationPostsList = document.getElementById('post-container');
+            if (!donationPostsList) {
+                console.error("Element with ID 'post-container' not found."); // Log if the element is not found
+                return;
+            }
+            donationPostsList.innerHTML = ''; // Clear the list before adding new items
+
+            if (donationPosts.length === 0) {
+                donationPostsList.textContent = 'No donations entries.';
+            } else {
+                donationPosts.forEach(post => {
+                    // Create wrapper div for post
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('post-container'); 
+                    postElement.dataset.postId = post.donationID; 
+                    postElement.dataset.postUserId = post.userID;
+
+                    // Create inner post content div
+                    const innerPostElement = document.createElement('div');
+                    innerPostElement.classList.add('post');
+
+                    const pathFolder = "donationsImages/";
+
+                    // Grab item image
+                    const postImg = document.createElement('img');
+                    postImg.src = pathFolder + post.item_image_path;
+
+                    // Creating div to hold post details
+                    const postInfoElement = document.createElement('div');
+                    postInfoElement.classList.add('post-info');
+                    
+                    // Header with item name
+                    const postHeader = document.createElement('h3');
+                    postHeader.textContent = post.itemName;
+
+                    //div,text & info for contact 
+                    const contactDiv= document.createElement('div');
+                    const contactText= document.createElement('strong');
+                    contactText.classList.add('contact-text');
+                    contactText.textContent=`Contact: `
+                    const postContact = document.createElement('p');
+                    postContact.classList.add('contact-text');
+                    postContact.textContent =` ${post.emailAddress}`;
+                    contactDiv.appendChild(contactText);
+                    contactDiv.appendChild(postContact);
+                    contactDiv.classList.add('post-text');
+
+                    // Format date
+                    const dateText= document.createElement('strong');
+                    dateText.textContent=`Date Posted: `
+                    const dateCreated = new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat);
+
+
+                    // div,text & info date
+                    const dateDiv=document.createElement('div');
+                    const postDate = document.createElement('small');
+                    postDate.textContent = ` ${dateCreated}`;
+                    dateDiv.appendChild(dateText);
+                    dateDiv.appendChild(postDate);
+                    dateDiv.classList.add('post-text');
+
+                    // div,text & info status
+                    const statusDiv=document.createElement('div');
+                    const statusText= document.createElement('strong');
+                    statusText.textContent=`Status:`
+                    const postStatus = document.createElement('p');
+                    postStatus.textContent = `${post.itemStatus}`;
+                    statusDiv.appendChild(statusText);      
+                    statusDiv.appendChild(postStatus);  
+                    statusDiv.classList.add('post-text');
+
+                    //  div,text & info quantity
+                    const quantityDiv=document.createElement('div');
+                    const quantityText= document.createElement('strong');
+                    quantityText.textContent=`Quantity: `
+                    const postQuantity = document.createElement('p');
+                    postQuantity.textContent =` ${post.quantity}`;
+                    quantityDiv.appendChild(quantityText);      
+                    quantityDiv.appendChild(postQuantity);  
+                    quantityDiv.classList.add('post-text');
+
+                    //div,text & info item condition
+                    const divCondition= document.createElement('div');
+                    const conditionText= document.createElement('strong');
+                    conditionText.textContent=`Condition:`
+                    const postCondition = document.createElement('p');
+                    postCondition .textContent = `${post.itemCondition}`;
+                    divCondition.appendChild(conditionText);      
+                    divCondition.appendChild(postCondition );  
+                    divCondition.classList.add('post-text');
+
+
+                    // div,text & info zipcode
+                    const zipcodeDiv= document.createElement('div');
+                    const zipcodeText= document.createElement('strong');
+                    zipcodeText.textContent=` Zipcode:`
+                    const postZipcode = document.createElement('p');
+                    postZipcode.textContent = `${post.zipcode}`;
+                    zipcodeDiv.appendChild(zipcodeText);      
+                    zipcodeDiv.appendChild(postZipcode);  
+                    zipcodeDiv.classList.add('post-text');
+
+                    // div,text & info description
+                    const descriptionDiv =document.createElement('div');
+                    const descriptionText= document.createElement('strong');
+                    descriptionText.textContent=` Description:`
+                    const postDescription = document.createElement('p');
+                    postDescription.textContent = ` ${post.itemDescription}`;
+                    descriptionDiv.appendChild(descriptionText);      
+                    descriptionDiv.appendChild(postDescription);  
+                    descriptionDiv.classList.add('post-description');
+                   
+                    // Append elements in order
+                    postInfoElement.appendChild(postHeader);
+
+                    //Adding date Text
+                    postInfoElement.appendChild(dateDiv);
+
+                    // Adding email
+                    postInfoElement.appendChild(contactDiv);
+                  
+                    // Adding status text
+                    
+                    postInfoElement.appendChild(statusDiv);
+                          
+                    // Adding quantity
+                    postInfoElement.appendChild(quantityDiv);
+                    
+                    //adding condition 
+                    postInfoElement.appendChild(divCondition)
+                    
+                    //Adding zipcode
+                    postInfoElement.appendChild(zipcodeDiv);
+                    
+                    //Adding description
+                    postInfoElement.appendChild(descriptionDiv);
+                    
+                    innerPostElement.appendChild(postImg);
+                    innerPostElement.appendChild(postInfoElement);
+
+                    postElement.appendChild(innerPostElement);
+
+                    // Create action buttons (initially visible if the user created the post)
+                    if (post.userID === userID) {
+                        //div for buttons
+                        const buttonDiv=  document.createElement('div');
+                        buttonDiv.classList.add('btnDiv');
+
+                        //creating delete button 
+                        const deleteButton = document.createElement('button');
+
+                        // Create the trash icon element
+                        const icon = document.createElement('i');
+                        icon.classList.add('fas', 'fa-trash-alt');  // Add the icon classes
+
+                        // Append the icon to the delete button
+                        deleteButton.appendChild(icon);
+                        deleteButton.classList.add('deleteButton');
+                        deleteButton.onclick = () => deleteDonation(post.donationID);
+
+                        // Adding status from db
+                        const currentStatus= `${post.itemStatus}`;
+                        buttonDiv.appendChild(deleteButton);
+
+                        if( currentStatus== 'Available'){
+                        const markUnavailableButton = document.createElement('button');
+                        markUnavailableButton.textContent = 'Mark as Claimed';
+                        markUnavailableButton.classList.add('updateButton');
+                        markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
+                        buttonDiv.appendChild(markUnavailableButton);
+                    }
+
+                        innerPostElement.appendChild(buttonDiv);
+                    }
+
+                    donationPostsList.appendChild(postElement); // Append postElement instead of innerPostElement
+                });
+            }
+
+        } catch (error) {
+            console.error('Error loading all donations post entries:', error);
+        }
+    }
+
+        
+        // Function to delete a donation
+        async function deleteDonation(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/deleteDonation/${postID}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("Post deleted successfully.");
+                    window.location.reload(); //refresh page after update
+                } else {
+                    alert("Failed to delete post.");
+                }
+            } catch (error) {
+                console.error("Error deleting post:", error);
+            }
+        }
+
+        // Function to mark a donation as unavailable
+        async function markDonationUnavailable(postID) {
+            try {
+                const response = await fetch(`http://localhost:3000/updateDonation/${postID}`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: 'Claimed' }),
+            });
+
+                if (response.ok) {
+                    alert("Post updated successfully.");
+                    window.location.reload(); //refresh page after update
+                } else {
+                    alert("Failed to update post.");
+                }
+            } catch (error) {
+                console.error("Error updating post:", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("filterForm");
+            const postContainer = document.getElementById("post-container");
+
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const category = document.getElementById("category").value;
+                const condition = document.getElementById("condition").value;
+                const sortBy = document.getElementById("dateOrder").value;
+
+                const queryParams = new URLSearchParams();
+                if (category) queryParams.append("category", category);
+                if (condition) queryParams.append("condition", condition);
+                if (sortBy) queryParams.append("sortBy", sortBy);
+
+                try {
+                    const userID = await getUserID();
+                    const res = await fetch(`/filterDonations?${queryParams.toString()}`);
+                    const donations = await res.json();
+
+                    postContainer.innerHTML = "";
+
+                    if (donations.length === 0) {
+                        postContainer.textContent = 'No donations match the selected filters.';
+                        return;
+                    }
+
+                    const pathFolder = "donationsImages/";
+
+                    donations.forEach(post => {
+                        const postElement = document.createElement('div');
+                        postElement.classList.add('post-container');
+                        postElement.dataset.postId = post.donationID;
+                        postElement.dataset.postUserId = post.userID;
+
+                        const innerPostElement = document.createElement('div');
+                        innerPostElement.classList.add('post');
+
+                        const postImg = document.createElement('img');
+                        postImg.src = pathFolder + post.item_image_path;
+
+                        const postInfoElement = document.createElement('div');
+                        postInfoElement.classList.add('post-info');
+
+                        const postHeader = document.createElement('h3');
+                        postHeader.textContent = post.itemName;
+
+                        const contactDiv = document.createElement('div');
+                        const contactText = document.createElement('strong');
+                        contactText.classList.add('contact-text');
+                        contactText.textContent = `Contact: `;
+                        const postContact = document.createElement('p');
+                        postContact.classList.add('contact-text');
+                        postContact.textContent = ` ${post.emailAddress}`;
+                        contactDiv.appendChild(contactText);
+                        contactDiv.appendChild(postContact);
+                        contactDiv.classList.add('post-text');
+
+                        const dateDiv = document.createElement('div');
+                        const dateText = document.createElement('strong');
+                        dateText.textContent = `Date Posted: `;
+                        const postDate = document.createElement('small');
+                        postDate.textContent = ` ${new Date(post.dateCreated).toLocaleDateString("en-US", dateFormat)}`;
+                        dateDiv.appendChild(dateText);
+                        dateDiv.appendChild(postDate);
+                        dateDiv.classList.add('post-text');
+
+                        const statusDiv = document.createElement('div');
+                        const statusText = document.createElement('strong');
+                        statusText.textContent = `Status: `;
+                        const postStatus = document.createElement('p');
+                        postStatus.textContent = `${post.itemStatus}`;
+                        statusDiv.appendChild(statusText);
+                        statusDiv.appendChild(postStatus);
+                        statusDiv.classList.add('post-text');
+
+                        const quantityDiv = document.createElement('div');
+                        const quantityText = document.createElement('strong');
+                        quantityText.textContent = `Quantity: `;
+                        const postQuantity = document.createElement('p');
+                        postQuantity.textContent = ` ${post.quantity}`;
+                        quantityDiv.appendChild(quantityText);
+                        quantityDiv.appendChild(postQuantity);
+                        quantityDiv.classList.add('post-text');
+
+                        const divCondition = document.createElement('div');
+                        const conditionText = document.createElement('strong');
+                        conditionText.textContent = `Condition: `;
+                        const postCondition = document.createElement('p');
+                        postCondition.textContent = `${post.itemCondition}`;
+                        divCondition.appendChild(conditionText);
+                        divCondition.appendChild(postCondition);
+                        divCondition.classList.add('post-text');
+
+                        const zipcodeDiv = document.createElement('div');
+                        const zipcodeText = document.createElement('strong');
+                        zipcodeText.textContent = ` Zipcode: `;
+                        const postZipcode = document.createElement('p');
+                        postZipcode.textContent = `${post.zipcode}`;
+                        zipcodeDiv.appendChild(zipcodeText);
+                        zipcodeDiv.appendChild(postZipcode);
+                        zipcodeDiv.classList.add('post-text');
+
+                        const descriptionDiv = document.createElement('div');
+                        const descriptionText = document.createElement('strong');
+                        descriptionText.textContent = ` Description: `;
+                        const postDescription = document.createElement('p');
+                        postDescription.textContent = ` ${post.itemDescription}`;
+                        descriptionDiv.appendChild(descriptionText);
+                        descriptionDiv.appendChild(postDescription);
+                        descriptionDiv.classList.add('post-description');
+
+                        postInfoElement.appendChild(postHeader);
+                        postInfoElement.appendChild(dateDiv);
+                        postInfoElement.appendChild(contactDiv);
+                        postInfoElement.appendChild(statusDiv);
+                        postInfoElement.appendChild(quantityDiv);
+                        postInfoElement.appendChild(divCondition);
+                        postInfoElement.appendChild(zipcodeDiv);
+                        postInfoElement.appendChild(descriptionDiv);
+
+                        innerPostElement.appendChild(postImg);
+                        innerPostElement.appendChild(postInfoElement);
+
+                        if (post.userID === userID) {
+                            const buttonDiv = document.createElement('div');
+                            buttonDiv.classList.add('btnDiv');
+
+                            const deleteButton = document.createElement('button');
+                            const icon = document.createElement('i');
+                            icon.classList.add('fas', 'fa-trash-alt');
+                            deleteButton.appendChild(icon);
+                            deleteButton.classList.add('deleteButton');
+                            deleteButton.onclick = () => deleteDonation(post.donationID);
+                            buttonDiv.appendChild(deleteButton);
+
+                            if (post.itemStatus === 'Available') {
+                                const markUnavailableButton = document.createElement('button');
+                                markUnavailableButton.textContent = 'Mark as Claimed';
+                                markUnavailableButton.classList.add('updateButton');
+                                markUnavailableButton.onclick = () => markDonationUnavailable(post.donationID);
+                                buttonDiv.appendChild(markUnavailableButton);
+                            }
+
+                            innerPostElement.appendChild(buttonDiv);
+                        }
+
+                        postElement.appendChild(innerPostElement);
+                        postContainer.appendChild(postElement);
+                    });
+
+                } catch (err) {
+                    console.error("Error fetching filtered donations:", err);
+                    postContainer.innerHTML = "<p>Something went wrong while loading donations.</p>";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
