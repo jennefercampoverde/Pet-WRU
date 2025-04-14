@@ -44,4 +44,6 @@
   - Don't forget to save the changes.  
 
 ## Credits and Acknowledgements
+Authored by [Jennefer Campoverde](https://github.com/jennefercampoverde), [Evan Hamou](https://github.com/EvanHamou), [Sheila Montecino](https://github.com/0-monty-0), [Ethan Portelli](https://github.com/EthanPortelli)
+
 
