@@ -122,16 +122,6 @@
                 <div id="post-container-found">
                 
                 </div>
-                <!--
-                <div class="post" data-time="2025-01-30T12:00:00">
-                    <img src="ProjectPictures2/DogCollar.jpg" alt="Dog Collar">
-                    <div class="post-info">
-                        <h3>Dog Collar</h3>
-                        <p> Condition: Like New</p>
-                        <small>Posted on: Jan 30, 2025</small>
-                    </div>
-                </div>
-                -->
             </div>
         </div>        
 	</section>
@@ -385,10 +375,7 @@ async function getUserID() {
                     donationPostsList.innerHTML = ''; // Clear the list before adding new items
         
                 if (donationPosts.length === 0) {
-                    /*donationPostsList.textContent = 'No donations entries.';
-                    const textDisplay= document.createElement('p');
-                    textDisplay.textContent= 'You have no current donation posts';
-                    document.getElementById('post-container').appendChild(textDisplay);*/
+
                     console.log('No related donations posts for this user');
                 } else {
 
