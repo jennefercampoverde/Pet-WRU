@@ -221,6 +221,10 @@ html,body {
     opacity: 0.6; /* Lower opacity */
 }
 
+.search-container .clear-search {
+    color: white;
+}
+
 /* Filter Button */
 span {
     font-size: 18px;
