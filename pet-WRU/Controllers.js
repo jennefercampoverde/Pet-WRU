@@ -917,14 +917,14 @@ exports.reunitedFilter = async (req, res) => {
     let filter='';
     
     if (userOption=="newest"){
-        filter= 'ORDER BY dateCreated ASC';
+        filter = 'ORDER BY foundPets.dateFound DESC';
     }
-    else if (userOption=="oldest"){
-        filter='ORDER BY dateCreated DESC';
+    if (userOption=="oldest"){
+        filter = 'ORDER BY foundPets.dateFound ASC';
     }
     
     const startQuery = "SELECT foundPets.foundID, foundPets.dateFound, lostPets.petName, lostPets.status, lostPets.animal_image_path From foundPets INNER JOIN lostPets ON lostPets.lostID=foundPets.lostID";
-    const finalQuery= startQuery +" " +filter;
+    const finalQuery= startQuery +" " + filter;
     //console.log(finalQuery);
     
     try{
@@ -933,7 +933,7 @@ exports.reunitedFilter = async (req, res) => {
         res.json(rows);
         conn.release();
     }
-    catch(error){
+    catch(err){
         console.error(err);
         res.status(500).json({error: 'Database error when getting found posts using filter'});
     }
