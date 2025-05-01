@@ -596,7 +596,7 @@
                 ? `He's a <strong>${petType}</strong> who went missing around <strong>${petLoc}</strong>.`
                 : `She's a <strong>${petType}</strong> who went missing around <strong>${petLoc}</strong>.`;
 
-            const currentURL = `${window.location.origin}/missingPetPost.html`;
+            const currentURL = `${window.location.origin}/missingPet?petID=${encodeURIComponent(petID)}&name=${encodeURIComponent(petName)}`;
             
             // const popupContent = `
             //     <h3>Share Missing Pet!!!</h3>
@@ -646,8 +646,6 @@
 
             shareButtonDiv.appendChild(shareButton);
             shareButtonDiv.appendChild(popupDiv);
-
-
         }
 
         //function to create a comment 
