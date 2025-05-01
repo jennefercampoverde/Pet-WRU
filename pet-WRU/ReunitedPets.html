@@ -75,6 +75,7 @@
         <div class="filter-group">
             <label for="sort-by-time">Sort by Date</label>
             <select id="sort-by-time-selection">
+                <option value="">Choose a Time</option>
                 <option id="newest" value="newest">Newest First</option>
                 <option id="oldest" value="oldest">Oldest First</option>
             </select>
@@ -242,7 +243,7 @@
 
                         //creating element for FoundID
                         const foundIdHeader= document.createElement('h4');
-                        foundIdHeader.textContent = `Found Pet ID: ${post.foundID}`;//foundIdHeader.textContent = `Found ID: ${post.foundID}`;
+                        foundIdHeader.textContent = `Found Pet ID: ${post.foundID}`;//foundIdHeader.textContent = `Found Pet ID: ${post.foundID}`;
                         console.log(foundIdHeader);
                         
                         //cleaning up date lost data from JSON
@@ -343,7 +344,7 @@
 
                         //creating element for FoundID
                         const foundIdHeader= document.createElement('h4');
-                        foundIdHeader.textContent = `Found ID: ${post.foundID}`;
+                        foundIdHeader.textContent = `Found Pet ID: ${post.foundID}`;
                         console.log(foundIdHeader);
                         
                         //cleaning up date lost data from JSON
