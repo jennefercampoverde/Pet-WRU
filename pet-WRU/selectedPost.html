@@ -596,7 +596,7 @@
                 ? `He's a <strong>${petType}</strong> who went missing around <strong>${petLoc}</strong>.`
                 : `She's a <strong>${petType}</strong> who went missing around <strong>${petLoc}</strong>.`;
 
-            const currentURL = `${window.location.origin}/missingPet?petID=${encodeURIComponent(petID)}`;
+            const currentURL = `${window.location.origin}/selectedPost.html?postID=${encodeURIComponent(petID)}`;
             
             // const popupContent = `
             //     <h3>Share Missing Pet!!!</h3>
@@ -612,7 +612,7 @@
                     <h3>Share Missing Pet!!!</h3>
                     <p>Please help find <strong>${petName}</strong>.
                     ${genderText}</p>
-                    <p>For more information, visit PetWRU's Missing Pet Page: ${currentURL}</p>
+                    <p>For more information, visit PetWRU's Selected Post Page: ${currentURL}</p>
                     <p><strong>Pet ID:</strong> ${petID}</strong></p>
                 </div>
                 <button class="copy"><i class="fa-solid fa-copy"></i> Copy</button>
