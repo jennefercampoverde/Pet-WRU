@@ -44,11 +44,17 @@
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 
+    <div id = "share-button">
+
+    </div>
+
      <!-- The selected Post-->
     <div id="post-container">
         <!-- <div id="button-Container"></div> -->
     </div>
 
+
+    
     <!-- Creating comments textbox-->
     <section id="comments-section">      
         
@@ -120,9 +126,9 @@
                 }
             }
         
-            async function closePopup() {
-                popup.classList.remove("open-popup");
-            }
+        async function closePopup() {
+            popup.classList.remove("open-popup");
+        }
 
         //get postID
         async function getPostID() {
@@ -455,6 +461,14 @@
                 createComments(commentButton)
 
                 postContainer.appendChild(createCommentsSection);
+                
+                shareInfo(
+                    selectedPost.petName,
+                    selectedPost.animalType,
+                    selectedPost.lastCityID,
+                    selectedPost.lostID,
+                    selectedPost.animalGender
+                );
 
             } catch (error) {
                 console.error("Error loading missing pet post:", error);
@@ -557,6 +571,84 @@
                     return null;
                 }
             }
+
+        // sharing button function
+        function shareInfo(petName, petType, petLoc, petID, petGender) {
+            const shareButtonDiv = document.getElementById("share-button");
+            if (!shareButtonDiv) return;
+
+            // Create button
+            const shareButton = document.createElement('button');
+            shareButton.innerHTML = '<i class="fa-solid fa-share"></i> Share'
+            shareButton.classList.add('share-btn');
+            shareButton.onclick = () => {
+                popupDiv.style.display = 'flex';
+            };
+
+            // Create popup
+            const popupDiv = document.createElement('div');
+            popupDiv.classList.add('popup2');
+            popupDiv.style.display = 'none'; // hidden initially
+
+            // Add share content
+            // Create the content dynamically
+            const genderText = petGender === "Male"
+                ? `He's a <strong>${petType}</strong> who went missing around <strong>${petLoc}</strong>.`
+                : `She's a <strong>${petType}</strong> who went missing around <strong>${petLoc}</strong>.`;
+
+            const currentURL = `${window.location.origin}/missingPetPost.html`;
+            
+            // const popupContent = `
+            //     <h3>Share Missing Pet!!!</h3>
+            //     <p>Please help find <strong>${petName}</strong>.
+            //     ${genderText}</p>
+            //     <p>For more information, visit PetWRU's Missing Pet Page: ${currentURL}</p>
+            //     <p><strong>Pet ID:</strong> ${petID}</p>
+            //     <button class="copy"><i class="fa-solid fa-copy"></i> Copy</button>
+            //     <button class="close-popup-btn">Close</button>
+            // `;
+            const popupContent = `
+                <div id="share-text">
+                    <h3>Share Missing Pet!!!</h3>
+                    <p>Please help find <strong>${petName}</strong>.
+                    ${genderText}</p>
+                    <p>For more information, visit PetWRU's Missing Pet Page: ${currentURL}</p>
+                    <p><strong>Pet ID:</strong> ${petID}</strong></p>
+                </div>
+                <button class="copy"><i class="fa-solid fa-copy"></i> Copy</button>
+                <button class="close-popup-btn">Close</button>
+            `;
+
+
+            popupDiv.innerHTML = popupContent;
+
+            // Close button logic
+            popupDiv.querySelector('.close-popup-btn').onclick = () => {
+                popupDiv.style.display = 'none';
+            };
+
+            popupDiv.querySelector('.copy').onclick = () => {
+                const shareTextDiv = popupDiv.querySelector('#share-text');
+                if (!shareTextDiv) return;
+
+                const plainText = shareTextDiv.innerText; // Gets only the visible, readable text
+
+                navigator.clipboard.writeText(plainText)
+                    .then(() => {
+                    alert("Share message copied to clipboard!");
+                    })
+                    .catch(err => {
+                    console.error("Copy failed:", err);
+                    alert("Failed to copy text.");
+                    });
+                };
+            
+
+            shareButtonDiv.appendChild(shareButton);
+            shareButtonDiv.appendChild(popupDiv);
+
+
+        }
 
         //function to create a comment 
         async function createComments(button){
@@ -763,6 +855,7 @@
                 }
             });
         }
+
     });
 
     </script>
